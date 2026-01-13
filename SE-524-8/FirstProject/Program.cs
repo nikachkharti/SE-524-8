@@ -24,29 +24,84 @@
 
 
 
-Console.WriteLine("First number :");
-int firstNumber = int.Parse(Console.ReadLine()); // Prompt
+//Console.WriteLine("First number :");
+//int firstNumber = int.Parse(Console.ReadLine()); // Prompt
 
-Console.WriteLine("Second number :");
-int secondNumber = Convert.ToInt32(Console.ReadLine()); // Prompt
+//Console.WriteLine("Second number :");
+//int secondNumber = Convert.ToInt32(Console.ReadLine()); // Prompt
 
-int result = firstNumber + secondNumber;
+//int result = firstNumber + secondNumber;
 
-Console.WriteLine(result);
+//Console.WriteLine(result);
 
-
-Console.ReadKey();
 
 
 /*
- 
-დავალება 1 
-1.კონსოლის ფანჯრიდან შემოიყვანეთ ციფრი, და Convert.ToDouble ფუნქციით გადააკონვერტირეთ double-ში 
+Console.WriteLine("NUMBER:1");
+int number = int.Parse(Console.ReadLine());
 
-და შეინახეთ ცვლადში სახელად number1. 
-2.კონსოლის ფანჯრიდან შემოიყვანეთ მეორე ციფრი, ესეც დააკონვერტირეთ double-ში და შეინახეთ 
-ცვლადში სახელად number2. 
+Console.WriteLine("[+ - * /]");
+char operation = char.Parse(Console.ReadLine());
 
-3.შექმენით ცვლადი sum  და შეინახეთ მასში  number1 მიმატებული number2 ანუ მათი ჯამი და დაბეჭდეთ.
- 
- */
+Console.WriteLine("NUMBER:2");
+int number2 = int.Parse(Console.ReadLine());
+
+
+
+if (operation == '+')
+{
+    Console.WriteLine(number + number2);
+}
+else if (operation == '-')
+{
+    Console.WriteLine(number - number2);
+}
+else if (operation == '*')
+{
+    Console.WriteLine(number * number2);
+}
+else if (operation == '/')
+{
+    Console.WriteLine(number / number2);
+}
+else
+{
+    Console.WriteLine("Invalid operation");
+}
+
+
+
+switch (operation)
+{
+    case '+':
+        Console.WriteLine(number + number2);
+        break;
+    case '-':
+        Console.WriteLine(number - number2);
+        break;
+    case '*':
+        Console.WriteLine(number * number2);
+        break;
+    case '/':
+        Console.WriteLine(number / number2);
+        break;
+    default:
+        Console.WriteLine("Invalid operation");
+        break;
+}
+*/
+
+
+//არითმეტიკული გადავსება
+
+//IMPLICT - არაცხადი
+//EXPLICIT - ცხადი
+
+//int x = 258;
+//byte y = checked((byte)x);
+
+
+//double yy = 10.5;
+//float xx = (float)yy;
+
+//Console.ReadLine();
