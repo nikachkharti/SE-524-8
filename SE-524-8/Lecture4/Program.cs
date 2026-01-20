@@ -112,10 +112,77 @@
             //}
 
 
-            Random random = new Random(); // შემთხვევითი რიცხვის გენერატორი
-            var randomNumber = random.Next(1, 7); // 1-დან 6-მდე შემთხვევითი რიცხვი
+            //Random random = new Random(); // შემთხვევითი რიცხვის გენერატორი
+            //var randomNumber = random.Next(1, 7); // 1-დან 6-მდე შემთხვევითი რიცხვი
 
 
+
+
+
+            #region DICE GAME
+
+            const int rollsCount = 10;
+
+            int[] player1Rolls = new int[rollsCount];
+            int[] player2Rolls = new int[rollsCount];
+
+            int player1Score = 0;
+            int player2Score = 0;
+
+            Random random = new Random();
+
+            // კამათლების აგორება
+            for (int i = 0; i < rollsCount; i++)
+            {
+                // Player 1
+                int roll1 = random.Next(1, 7); // 1-დან 6-მდე
+                player1Rolls[i] = roll1;
+                player1Score += roll1;
+
+                // Player 2
+                int roll2 = random.Next(1, 7);
+                player2Rolls[i] = roll2;
+                player2Score += roll2;
+            }
+
+            // შედეგების დაბეჭდვა
+            Console.WriteLine("Player 1 rolls:");
+            for (int i = 0; i < rollsCount; i++)
+            {
+                Console.Write(player1Rolls[i] + " ");
+            }
+
+            Console.WriteLine("\n");
+
+            Console.WriteLine("Player 2 rolls:");
+            for (int i = 0; i < rollsCount; i++)
+            {
+                Console.Write(player2Rolls[i] + " ");
+            }
+
+            Console.WriteLine("\n");
+
+            Console.WriteLine($"Player 1 total score: {player1Score}");
+            Console.WriteLine($"Player 2 total score: {player2Score}");
+
+            // გამარჯვებული / დამარცხებული
+            if (player1Score > player2Score)
+            {
+                Console.WriteLine("\nWinner: Player 1");
+                Console.WriteLine("Loser: Player 2");
+            }
+            else if (player2Score > player1Score)
+            {
+                Console.WriteLine("\nWinner: Player 2");
+                Console.WriteLine("Loser: Player 1");
+            }
+            else
+            {
+                Console.WriteLine("\nResult: Draw");
+            }
+
+
+            #endregion
 
 
         }
