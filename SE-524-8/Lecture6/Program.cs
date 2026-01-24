@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Text;
 
 namespace Lecture6
 {
@@ -6,6 +7,20 @@ namespace Lecture6
     {
         static void Main(string[] args)
         {
+            #region STRINGBUILDER
+            //StringBuilder sb = new StringBuilder();
+            //sb.Append("Hello");
+            //sb.Append(" ");
+            //sb.Append("World");
+            //sb.AppendLine();
+            //sb.Insert(0, "Start");
+            ////sb.Remove();
+            //sb.Replace("Wo", "Mo");
+            ////sb.Clear();
+
+
+            //string content = sb.ToString();
+            #endregion
 
             /*
              
@@ -73,9 +88,13 @@ namespace Lecture6
             //char firstLetter = name[0];
             //char lastLetter = name[name.Length - 1];
 
+            string x = 12.ToString();
 
              */
 
+
+            string text = "Hello World !";  //l --> მომიძებნეთ ამ ასოს პირველივე ინდექსი
+            var firstIdx = text.IndexOf('l');
 
 
         }
