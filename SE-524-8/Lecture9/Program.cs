@@ -8,9 +8,18 @@
 
             try
             {
-                string personToRegister = $"{GetFirstName()} | {GetLastName()} | {GetPersonalNumber()} | {GetAge()} | {GetPhoneNumber()} | {GetBalance()}";
+                Client personToRegister = new()
+                {
+                    firstName = "Nika" /*GetFirstName()*/,
+                    lastName = "Chkhartishvili" /*GetLastName()*/,
+                    personalNumber = "01258965741" /*GetPersonalNumber()*/,
+                    age = 30 /*GetAge()*/,
+                    phoneNumber = "555777444" /*GetPhoneNumber()*/,
+                    balance = 30.5m /*GetBalance()*/,
+                    registerDate = DateTime.Now
+                };
 
-                File.WriteAllText(filePath, personToRegister);
+                File.WriteAllText(filePath, personToRegister.SayHello());
             }
             catch (Exception ex)
             {
