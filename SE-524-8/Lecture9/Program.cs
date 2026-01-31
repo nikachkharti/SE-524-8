@@ -4,28 +4,19 @@
     {
         static void Main(string[] args)
         {
-            const string filePath = @"../../../Data.txt";
+            Client client = new();
+            client.FirstName = "Nika";
+            client.LastName = "Gvazava";
+            client.PersonalNumber = "12345678901";
+            client.Age = 25;
 
-            try
-            {
-                Client personToRegister = new()
-                {
-                    firstName = "Nika" /*GetFirstName()*/,
-                    lastName = "Chkhartishvili" /*GetLastName()*/,
-                    personalNumber = "01258965741" /*GetPersonalNumber()*/,
-                    age = 30 /*GetAge()*/,
-                    phoneNumber = "555777444" /*GetPhoneNumber()*/,
-                    balance = 30.5m /*GetBalance()*/,
-                    registerDate = DateTime.Now
-                };
 
-                File.WriteAllText(filePath, personToRegister.SayHello());
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"[ERROR]: {ex.Message}");
-            }
+            Console.WriteLine($"Hello {client.FirstName} {client.LastName} you are {client.Age} years old {client.PersonalNumber}");
+
         }
+
+
+
 
 
         static string GetFirstName()
