@@ -1,0 +1,15 @@
+1 | Lion | Mammal | 14 | FC Barcelona | Spain | 1899
+2 | Elephant | Mammal | 60 | Manchester United | England | 1878
+3 | Eagle | Bird | 20 | Bayern Munich | Germany | 1900
+4 | Shark | Fish | 30 | Juventus | Italy | 1897
+5 | Dog | Mammal | 13 | Real Madrid | Spain | 1902
+6 | Cat | Mammal | 15 | AC Milan | Italy | 1899
+7 | Horse | Mammal | 25 | Liverpool | England | 1892
+8 | Dolphin | Mammal | 40 | Ajax | Netherlands | 1900
+9 | Wolf | Mammal | 12 | Borussia Dortmund | Germany | 1909
+10 | Penguin | Bird | 20 | Benfica | Portugal | 1904
+11 | Tiger | Mammal | 16 | Galatasaray | Turkey | 1905
+12 | Bear | Mammal | 25 | Celtic | Scotland | 1887
+13 | Fox | Mammal | 14 | Arsenal | England | 1886
+14 | Owl | Bird | 18 | Atletico Madrid | Spain | 1903
+15 | Kangaroo | Mammal | 23 | Sydney FC | Australia | 2004
