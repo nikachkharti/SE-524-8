@@ -25,6 +25,7 @@ internal class Program
         Client giorgisObj = new Client("Giorgi", "Ninikashvili", 28); // კონსტრუქტორი
 
 
+
         #region ობიექტის შექმნის მაგალითი
         //Client nikasObj = new Client(); // შევქმენი კლიენტის ობიექტი
         //nikasObj.FirstName = "Nika";

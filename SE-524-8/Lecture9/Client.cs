@@ -2,9 +2,13 @@
 {
     public class Client
     {
-        //ენკაფსულაცია - encapsulation
-        //FULL property - თვისება
+        public DateTime RegistrationDate { get; set; }
         private string personalNumber;
+        private int age;
+        private string firstName;
+        private string lastName;
+        private string phoneNumber;
+
         public string PersonalNumber
         {
             get { return this.personalNumber; }
@@ -14,11 +18,6 @@
                     this.personalNumber = value;
             }
         }
-
-
-        //ენკაფსულაცია - encapsulation
-        //FULL property - თვისება
-        private int age;
         public int Age
         {
             get { return this.age; }
@@ -28,39 +27,37 @@
                     this.age = value;
             }
         }
+        public string FirstName
+        {
+            get { return firstName; }
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                    firstName = value;
+            }
+        }
+        public string LastName
+        {
+            get { return lastName; }
+            set
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                    lastName = value;
+            }
+        }
+        public string PhoneNumber
+        {
+            get { return phoneNumber; }
+            set
+            {
+                if (value.Length == 9)
+                {
+                    phoneNumber = value;
+                }
+            }
+        }
 
+        public Account Account { get; set; }
 
-        //AUTO property - თვისება
-        public string FirstName { get; set; }
-
-        //AUTO property - თვისება
-        public string LastName { get; set; }
-
-
-
-
-
-
-
-
-
-
-        //public string phoneNumber;
-        //public decimal balance;
-        //public DateTime registerDate;
-
-
-
-
-
-
-        //public void TransferAmount(decimal amount, Client receiver)
-        //{
-        //    if (this.balance < amount)
-        //        throw new InvalidOperationException("Not enough balance to perform the transfer.");
-
-        //    this.balance -= amount;
-        //    receiver.balance += amount;
-        //}
     }
 }
