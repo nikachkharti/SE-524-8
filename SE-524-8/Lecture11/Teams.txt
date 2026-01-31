@@ -1,0 +1,15 @@
+1 | FC Barcelona | Spain | Barcelona | 1899 | Camp Nou | 27
+2 | Real Madrid | Spain | Madrid | 1902 | Santiago Bernabeu | 35
+3 | Manchester United | England | Manchester | 1878 | Old Trafford | 20
+4 | Liverpool | England | Liverpool | 1892 | Anfield | 19
+5 | Bayern Munich | Germany | Munich | 1900 | Allianz Arena | 33
+6 | Borussia Dortmund | Germany | Dortmund | 1909 | Signal Iduna Park | 8
+7 | Juventus | Italy | Turin | 1897 | Allianz Stadium | 36
+8 | AC Milan | Italy | Milan | 1899 | San Siro | 19
+9 | Inter Milan | Italy | Milan | 1908 | San Siro | 19
+10 | Paris Saint-Germain | France | Paris | 1970 | Parc des Princes | 11
+11 | Ajax | Netherlands | Amsterdam | 1900 | Johan Cruyff Arena | 36
+12 | Benfica | Portugal | Lisbon | 1904 | Estadio da Luz | 38
+13 | Porto | Portugal | Porto | 1893 | Estadio do Dragao | 30
+14 | Celtic | Scotland | Glasgow | 1887 | Celtic Park | 53
+15 | Galatasaray | Turkey | Istanbul | 1905 | Rams Park | 23
