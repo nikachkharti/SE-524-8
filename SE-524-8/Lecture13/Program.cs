@@ -43,17 +43,60 @@
     }
 
 
+    public abstract class Bird
+    {
+        public string Name { get; set; }
+    }
+
+    public interface IFlyer
+    {
+        public string TestPropery { get; set; }
+
+        public void Fly();
+    }
+
+    public interface IFlyer2
+    {
+        public int TestProperty2 { get; set; }
+        public void Fly();
+    }
+
+    public interface IFlyer3 : IFlyer2, IFlyer
+    {
+
+    }
+
+    public class Eagle : Bird, IFlyer, IFlyer2
+    {
+        public string TestPropery { get; set; }
+        public int TestProperty2 { get; set; }
+
+        void IFlyer.Fly() // ცხადი სახით იმპლემენტაცია
+        {
+            throw new NotImplementedException();
+        }
+
+        void IFlyer2.Fly() // ცხადი სახით იმპლემენტაცია
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+    public class Penguin : Bird
+    {
+    }
+
+
+
     internal class Program
     {
         static void Main(string[] args)
         {
 
-            //Team baracaObj = Team.Parse("1 | FC Barcelona | Spain | Barcelona | 1899 | Camp Nou | 27");
-            //baracaObj.GetWinsCount();
+            //Bird a = new Eagle();
+            IFlyer a = new Penguin();
 
-            //Team realObj = Team.Parse("2 | Real Madrid | Spain | Madrid | 1902 | Santiago Bernabeu | 35");
-
-            //realObj.GetWinsCount();
 
         }
 
