@@ -2,6 +2,41 @@
 {
     public class Algorithms
     {
+        public static int Count(List<int> list, int elementToCount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static List<T> Sort<T>(List<T> allCars) where T : IComparable<T>
+        {
+            for (int i = 0; i < allCars.Count - 1; i++)
+            {
+                for (int j = i + 1; j < allCars.Count; j++)
+                {
+                    if (allCars[j].CompareTo(allCars[i]) == -1)
+                    {
+                        var temp = allCars[j];
+                        allCars[j] = allCars[i];
+                        allCars[i] = temp;
+                    }
+                }
+            }
+
+            return allCars;
+        }
+
+        public static List<T> Take<T>(List<T> allSortedCars, int max)
+        {
+            List<T> result = new();
+
+            for (int i = 0; i < max; i++)
+            {
+                result.Add(allSortedCars[i]);
+            }
+
+            return result;
+        }
+
         public static List<T> FindAllMatchingElements<T>(List<T> intList, T elementToFind)
         {
             List<T> result = new();

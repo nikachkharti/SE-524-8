@@ -95,7 +95,7 @@
         {
 
             //Bird a = new Eagle();
-            IFlyer a = new Penguin();
+            //IFlyer a = new Penguin();
 
 
         }
