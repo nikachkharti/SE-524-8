@@ -25,52 +25,77 @@
             return allCars;
         }
 
-        public static List<T> Take<T>(List<T> allSortedCars, int max)
+        //public static List<T> Take<T>(ICollection<T> allSortedCars, int max)
+        //{
+        //    List<T> result = new();
+
+        //    for (int i = 0; i < max; i++)
+        //    {
+        //        result.Add(allSortedCars[i]);
+        //    }
+
+        //    return result;
+        //}
+
+        public static IEnumerable<T> NikasFindAll<T>(IEnumerable<T> source, Func<T, bool> predicate)    /*<-- დელეგატი*/
         {
             List<T> result = new();
 
-            for (int i = 0; i < max; i++)
+            foreach (var item in source)
             {
-                result.Add(allSortedCars[i]);
+                if (predicate(item))
+                    result.Add(item);
             }
 
             return result;
         }
 
-        public static List<T> FindAllMatchingElements<T>(List<T> intList, T elementToFind)
-        {
-            List<T> result = new();
 
-            for (int i = 0; i < intList.Count; i++)
+        public static T NikasFirstOrDefault<T>(IEnumerable<T> source, T elementToFind)
+        {
+            foreach (var v in source)
             {
-                if (intList[i].Equals(elementToFind))
-                    result.Add(intList[i]);
+                if (v.Equals(elementToFind))
+                    return v;
+            }
+
+            return default;
+        }
+        public static void NikasForeach<T>(IEnumerable<T> source)
+        {
+            var sourceEnumerator = source.GetEnumerator();
+
+            while (sourceEnumerator.MoveNext())
+            {
+                Console.WriteLine(sourceEnumerator.Current);
+            }
+        }
+        public static T NikasLastOrDefault<T>(IEnumerable<T> source, Predicate<T> predicate)
+        {
+            T lastElement = default;
+
+            foreach (var item in source)
+            {
+                if (predicate(item))
+                    lastElement = item;
+            }
+
+            return lastElement;
+
+        }
+        public static IEnumerable<TDestination> NikasSelect<TSource, TDestination>(IEnumerable<TSource> source, Func<TSource, TDestination> selector)
+        {
+            List<TDestination> result = new();
+
+            foreach (var item in source)
+            {
+                result.Add(selector(item));
             }
 
             return result;
         }
 
-        public static T FindFirstElement<T>(List<T> intList, T elementToFind)
-        {
-            for (int i = 0; i < intList.Count; i++)
-            {
-                if (intList[i].Equals(elementToFind))
-                    return intList[i];
-            }
 
-            return default;
-        }
-
-        public static T FindLastElement<T>(List<T> intList, T elementToFind)
-        {
-            for (int i = intList.Count - 1; i >= 0; i--)
-            {
-                if (intList[i].Equals(elementToFind))
-                    return intList[i];
-            }
-
-            return default;
-        }
 
         public static int FindFirstIndex<T>(List<T> intList, T elementToFind)
         {
@@ -116,17 +141,8 @@
             return true;
         }
 
-        //public static List<TDestination> TransformNumbers<TSource, TDestination>(List<TSource> stringData)
-        //{
-        //    List<TDestination> result = new();
 
-        //    for (int i = 0; i < stringData.Count; i++)
-        //    {
-        //        result.Add(int.Parse(stringData[i]));
-        //    }
 
-        //    return result;
-        //}
 
 
 
