@@ -7,6 +7,6 @@
         public string IdentityNumber { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public int CustomerType { get; set; }
+        public CustomerType CustomerType { get; set; }
     }
 }

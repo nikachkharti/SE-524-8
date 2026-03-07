@@ -1,4 +1,5 @@
 ﻿using MiniBank.Repository;
+using MiniBank.Repository.Models;
 
 namespace MiniBank.ConsoleUI
 {
@@ -10,25 +11,25 @@ namespace MiniBank.ConsoleUI
             var singleCustomer = customerRepository.GetCustomer(9);
             var allCustomers = customerRepository.GetCustomers();
 
-            //var addResult = customerRepository.AddCustomer(new Repository.Models.Customer()
-            //{
-            //    Id = 0,
-            //    Name = "Nika Chkhartishvili",
-            //    Email = "nika@gmail.com",
-            //    IdentityNumber = "12345678945",
-            //    PhoneNumber = "558774499",
-            //    CustomerType = 0 //PHYISICAL PERSON
-            //});
+            var addResult = customerRepository.AddCustomer(new Customer()
+            {
+                Id = 0,
+                Name = "Nika Chkhartishvili",
+                Email = "nika@gmail.com",
+                IdentityNumber = "12345678945",
+                PhoneNumber = "558774499",
+                CustomerType = CustomerType.Phyisical
+            });
 
 
-            var updateResult = customerRepository.UpdateCustomer(new Repository.Models.Customer()
+            var updateResult = customerRepository.UpdateCustomer(new Customer()
             {
                 Id = 11,
                 Name = "Giorgi Chkhartishvili",
                 Email = "nika@gmail.com",
                 IdentityNumber = "12345678945",
                 PhoneNumber = "558774499",
-                CustomerType = 0 //PHYISICAL PERSON
+                CustomerType = CustomerType.Phyisical
             });
 
 

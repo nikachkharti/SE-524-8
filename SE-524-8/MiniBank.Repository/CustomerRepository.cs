@@ -129,7 +129,7 @@ namespace MiniBank.Repository
                 IdentityNumber = parts[2],
                 PhoneNumber = parts[3],
                 Email = parts[4],
-                CustomerType = int.Parse(parts[5])
+                CustomerType = Enum.Parse<CustomerType>(parts[5])
             };
 
         }
