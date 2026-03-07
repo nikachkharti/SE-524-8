@@ -1,4 +1,5 @@
 ﻿using MiniBank.Repository.Models;
+using System.Text;
 
 namespace MiniBank.Repository
 {
@@ -9,7 +10,7 @@ namespace MiniBank.Repository
 
         public CustomerRepository()
         {
-            _customers = LoadData(_filePath);
+            _customers = LoadData().ToList();
         }
 
         public int AddCustomer(Customer newCustomer)
@@ -55,32 +56,63 @@ namespace MiniBank.Repository
 
 
         #region HELPERS
-        private static List<Customer> LoadData(string filePath)
+        private static IEnumerable<Customer> LoadData()
         {
-            var customers = new List<Customer>();
+            if (!File.Exists(_filePath))
+                yield break;
 
-            if (!File.Exists(filePath))
-                return customers;
+            using var fs = new FileStream(
+                _filePath,
+                FileMode.Open,
+                FileAccess.Read,
+                FileShare.Read,
+                bufferSize: 4096,    // 4KB
+                useAsync: false
+            );
 
-            var lines = File.ReadAllLines(filePath);
+            using var reader = new StreamReader(fs);
 
-            foreach (var line in lines.Skip(1))
+            bool headerSkipped = false;
+
+            while (!reader.EndOfStream)
             {
+                var line = reader.ReadLine();
+
+                if (!headerSkipped)
+                {
+                    headerSkipped = true;
+                    continue;
+                }
+
                 if (string.IsNullOrWhiteSpace(line))
                     continue;
 
                 var customer = FromCsv(line);
                 if (customer != null)
-                    customers.Add(customer);
+                    yield return customer;
             }
-
-            return customers;
         }
         private void SaveData()
         {
-            var lines = new List<string>() { "Id,Name,IdentityNumber,PhoneNumber,Email,CustomerType" };
-            lines.AddRange(_customers.Select(ToCsv));
-            File.WriteAllLines(_filePath, lines);
+            using var fs = new FileStream(
+                _filePath,
+                FileMode.Create,
+                FileAccess.Write,
+                FileShare.Write,
+                bufferSize: 4096,    // 4KB
+                useAsync: false
+            );
+
+            using var writer = new StreamWriter(fs, Encoding.UTF8);
+
+            //header
+            writer.WriteLine("Id,Name,IdentityNumber,PhoneNumber,Email,CustomerType");
+
+            //write rows
+            foreach (var customer in _customers)
+                writer.WriteLine(ToCsv(customer));
+
+            writer.Flush();
         }
 
         private static Customer FromCsv(string line)

@@ -1,4 +1,4 @@
-Id,Name,IdentityNumber,PhoneNumber,Email,CustomerType
+﻿Id,Name,IdentityNumber,PhoneNumber,Email,CustomerType
 1,Iakob Qobalia,31024852345,555337681,Iakob.Qobalia@gmail.com,0
 2,Beso Gurgenidze,56007853214,551447788,Beso.Gurgenidze@gmail.com,0
 3,Zaal Khurtsilava,12358795143,551447851,Zaal.Khurtsilava@gmail.com,0

@@ -21,18 +21,19 @@ namespace MiniBank.ConsoleUI
             //});
 
 
-            //var updateResult = customerRepository.UpdateCustomer(new Repository.Models.Customer()
-            //{
-            //    Id = 11,
-            //    Name = "Giorgi Chkhartishvili",
-            //    Email = "nika@gmail.com",
-            //    IdentityNumber = "12345678945",
-            //    PhoneNumber = "558774499",
-            //    CustomerType = 0 //PHYISICAL PERSON
-            //});
+            var updateResult = customerRepository.UpdateCustomer(new Repository.Models.Customer()
+            {
+                Id = 11,
+                Name = "Giorgi Chkhartishvili",
+                Email = "nika@gmail.com",
+                IdentityNumber = "12345678945",
+                PhoneNumber = "558774499",
+                CustomerType = 0 //PHYISICAL PERSON
+            });
 
 
             _ = customerRepository.DeleteCustomer(11);
+
 
         }
     }
