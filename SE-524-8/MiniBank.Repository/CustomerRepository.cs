@@ -1,4 +1,5 @@
 ﻿using MiniBank.Repository.Models;
+using MiniBank.Repository.Models.Enums;
 using System.Text;
 
 namespace MiniBank.Repository
