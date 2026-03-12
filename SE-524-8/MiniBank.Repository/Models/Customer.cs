@@ -1,4 +1,6 @@
-﻿namespace MiniBank.Repository.Models
+﻿using MiniBank.Repository.Models.Enums;
+
+namespace MiniBank.Repository.Models
 {
     public class Customer
     {

@@ -1,5 +1,6 @@
 ﻿using MiniBank.Repository;
 using MiniBank.Repository.Models;
+using MiniBank.Repository.Models.Enums;
 
 namespace MiniBank.ConsoleUI
 {

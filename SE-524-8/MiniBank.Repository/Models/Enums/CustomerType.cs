@@ -1,4 +1,4 @@
-﻿namespace MiniBank.Repository.Models
+﻿namespace MiniBank.Repository.Models.Enums
 {
     public enum CustomerType
     {
