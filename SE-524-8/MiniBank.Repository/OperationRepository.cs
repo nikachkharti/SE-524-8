@@ -11,7 +11,7 @@ namespace MiniBank.Repository
             throw new NotImplementedException();
         }
 
-        List<Operation> GetOperationsOfAccount(int accountId)
+        public List<Operation> GetOperationsOfAccount(int accountId)
         {
             throw new NotImplementedException();
         }
