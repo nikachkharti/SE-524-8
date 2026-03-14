@@ -1,10 +1,11 @@
-﻿using MiniBank.Repository.Models;
+﻿using MiniBank.Repository.Interfaces;
+using MiniBank.Repository.Models;
 using MiniBank.Repository.Models.Enums;
 using System.Text;
 
 namespace MiniBank.Repository
 {
-    public class CustomerRepository
+    public class CustomerRepository : ICustomerRepository
     {
         private const string _filePath = @"../../../../MiniBank.Data/Customers.csv";
         private readonly List<Customer> _customers;

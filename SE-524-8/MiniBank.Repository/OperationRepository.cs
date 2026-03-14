@@ -1,12 +1,13 @@
-﻿using MiniBank.Repository.Models;
+﻿using MiniBank.Repository.Interfaces;
+using MiniBank.Repository.Models;
 
 namespace MiniBank.Repository
 {
-    public class OperationRepository
+    public class OperationRepository : IOperationRepository
     {
         //1. გადარიცხვა, შეტანა, გამოტანა
 
-        Operation GetSingleOperation(int operationId)
+        public Operation GetSingleOperation(int operationId)
         {
             throw new NotImplementedException();
         }

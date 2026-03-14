@@ -1,10 +1,11 @@
-﻿using MiniBank.Repository.Models;
+﻿using MiniBank.Repository.Interfaces;
+using MiniBank.Repository.Models;
 using System.Text;
 using System.Text.Json;
 
 namespace MiniBank.Repository
 {
-    public class AccountRepository
+    public class AccountRepository : IAccountRepository
     {
         private readonly string _filePath;
         private readonly List<Account> _accounts;
