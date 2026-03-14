@@ -1,1 +1,17 @@
-﻿
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations>
+  <Operation>
+    <Id>1</Id>
+    <OperationType>Debit</OperationType>
+    <AccountId>1</AccountId>
+    <Amount>500</Amount>
+    <HappendAt>2026-03-14T21:39:55.4145795+04:00</HappendAt>
+  </Operation>
+  <Operation>
+    <Id>2</Id>
+    <OperationType>Debit</OperationType>
+    <AccountId>1</AccountId>
+    <Amount>500</Amount>
+    <HappendAt>2026-03-14T21:41:03.4115618+04:00</HappendAt>
+  </Operation>
+</Operations>
