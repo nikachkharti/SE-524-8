@@ -7,28 +7,12 @@ namespace MiniBank.Repository
 {
     public class AccountRepository : IAccountRepository
     {
-        private readonly string _filePath;
+        private const string _filePath = @"../../../../MiniBank.Data/Accounts.json";
         private readonly List<Account> _accounts;
 
-        private AccountRepository(string filePath, List<Account> accounts)
+        public AccountRepository()
         {
-            _filePath = filePath;
-            _accounts = accounts;
-        }
-
-        /// <summary>
-        /// Factory method
-        /// </summary>
-        public static AccountRepository Create(string filePath)
-        {
-            var accounts = new List<Account>();
-
-            foreach (var acc in LoadData(filePath))
-            {
-                accounts.Add(acc);
-            }
-
-            return new AccountRepository(filePath, accounts);
+            _accounts = LoadData(_filePath).ToList();
         }
 
         public List<Account> GetAccounts() => _accounts;
