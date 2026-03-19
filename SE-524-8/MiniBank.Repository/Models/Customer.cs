@@ -1,27 +1,28 @@
-﻿using MiniBank.Repository.Models.Enums;
+﻿using MiniBank.Repository.Attributes;
+using MiniBank.Repository.Models.Enums;
 
 namespace MiniBank.Repository.Models
 {
     public class Customer
     {
-        //სავალდებულო
-        //დადებითი
+        [CustomRequired]
+        [CustomPositive]
         public int Id { get; set; }
 
-        //სავალდებულო
-        //მაქს ზომა 50
+        [CustomRequired]
+        [CustomMaxLength(50)]
         public string Name { get; set; }
 
-        //სავალდებულო
-        //ზუტად ზომაში 11
+        [CustomRequired]
+        [CustomExactLength(11)]
         public string IdentityNumber { get; set; }
 
-        //სავალდებულო
-        //ზუტად ზომაში 9
+        [CustomRequired]
+        [CustomExactLength(9)]
         public string PhoneNumber { get; set; }
 
-        //სავალდებულო
-        //ჯდებოდეს E-mail ფორმატში
+        [CustomRequired]
+        [CustomEmail]
         public string Email { get; set; }
         public CustomerType CustomerType { get; set; }
     }

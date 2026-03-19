@@ -1,7 +1,6 @@
-﻿using MiniBank.Repository;
-using MiniBank.Repository.Interfaces;
-using MiniBank.Repository.Models;
+﻿using MiniBank.Repository.Models;
 using MiniBank.Repository.Models.Enums;
+using MiniBank.Repository.Validators;
 
 namespace MiniBank.ConsoleUI
 {
@@ -9,17 +8,17 @@ namespace MiniBank.ConsoleUI
     {
         static void Main(string[] args)
         {
-            IOperationRepository opeRepo = new OperationRepository();
-            var newOpResult = opeRepo.AddOperation(new Operation()
-            {
-                Id = 0,
-                AccountId = 1,
-                Amount = 500,
-                HappendAt = DateTime.Now,
-                OperationType = OperationType.Debit
-            });
+            Customer newCustomer = new();
+            newCustomer.Id = -1;
+            newCustomer.Name = string.Empty;
+            newCustomer.Email = "invalid-email";
+            newCustomer.IdentityNumber = "123";
+            newCustomer.PhoneNumber = "123";
+            newCustomer.CustomerType = CustomerType.Phyisical;
 
-            var singleOp = opeRepo.GetSingleOperation(1);
+
+
+            Validator.Validate(newCustomer);
         }
     }
 }

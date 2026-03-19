@@ -1,22 +1,24 @@
-﻿namespace MiniBank.Repository.Models
+﻿using MiniBank.Repository.Attributes;
+
+namespace MiniBank.Repository.Models
 {
     public class Account
     {
-        //სავალდებულო
-        //დადებითი
+        [CustomRequired]
+        [CustomPositive]
         public int Id { get; set; }
 
-        //სავალდებულო
-        //ზუტად ზომაში 22
+        [CustomRequired]
+        [CustomExactLength(11)]
         public string Iban { get; set; }
 
-        //სავალდებულო
-        //ზუტად ზომაში 3
-        //თუ შემოიყვანეს gel --> GEL
+        [CustomRequired]
+        [CustomExactLength(3)]
+        [CustomToUpper]
         public string Currency { get; set; }
         public decimal Balance { get; set; }
 
-        //სავალდებულო
+        [CustomRequired]
         public int CustomerId { get; set; }
         public string Destination { get; set; }
     }
