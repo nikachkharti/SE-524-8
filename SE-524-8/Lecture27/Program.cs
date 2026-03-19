@@ -37,42 +37,43 @@ namespace Lecture27
 
             // LINQ --> To XML
 
-        //    const string _filePath = @"../../../FileForTest.xml";
+            //    const string _filePath = @"../../../FileForTest.xml";
 
-        //    XDocument doc = LoadOrCreate(_filePath, "People");
+            //    XDocument doc = LoadOrCreate(_filePath, "People");
 
-        //    IEnumerable<Person> people = doc.Descendants("Person")
-        //        .Select(x => new Person()
-        //        {
-        //            PersonId = int.Parse(x.Element("Id").Value),
-        //            PersonName = x.Element("Name").Value,
-        //            PersonAge = int.Parse(x.Element("Age").Value)
-        //        });
-
-
-        //    doc.Root.Add(
-        //            new XElement("Person",
-        //                new XElement("Id", 4),
-        //                new XElement("Name", "Akaki"),
-        //                new XElement("Age", 22)
-        //            )
-        //        );
-        //    doc.Save(_filePath);
-        //}
+            //    IEnumerable<Person> people = doc.Descendants("Person")
+            //        .Select(x => new Person()
+            //        {
+            //            PersonId = int.Parse(x.Element("Id").Value),
+            //            PersonName = x.Element("Name").Value,
+            //            PersonAge = int.Parse(x.Element("Age").Value)
+            //        });
 
 
-        //public static XDocument LoadOrCreate(string path, string rootTag)
-        //{
-        //    if (!File.Exists(path))
-        //    {
-        //        using (File.Create(path)) { }
-        //    }
+            //    doc.Root.Add(
+            //            new XElement("Person",
+            //                new XElement("Id", 4),
+            //                new XElement("Name", "Akaki"),
+            //                new XElement("Age", 22)
+            //            )
+            //        );
+            //    doc.Save(_filePath);
+            //}
 
-        //    var doc = new XDocument(new XElement(rootTag));
-        //    doc.Save(path);
 
-        //    return doc;
-        //}
+            //public static XDocument LoadOrCreate(string path, string rootTag)
+            //{
+            //    if (!File.Exists(path))
+            //    {
+            //        using (File.Create(path)) { }
+            //    }
 
+            //    var doc = new XDocument(new XElement(rootTag));
+            //    doc.Save(path);
+
+            //    return doc;
+            //}
+
+        }
     }
 }
