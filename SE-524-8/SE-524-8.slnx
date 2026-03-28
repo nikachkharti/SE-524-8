@@ -18,6 +18,8 @@
   <Project Path="Lecture29/Lecture29.csproj" Id="613878ae-261d-4e78-ab80-dd891891a17d" />
   <Project Path="Lecture30/Lecture30.csproj" Id="ad568868-6b55-4b71-9966-2ee1cf1e4ee9" />
   <Project Path="Lecture32/Lecture32.csproj" Id="e80ed5d1-fc57-4d8f-84dc-5fdec43ea665" />
+  <Project Path="Lecture33/Lecture33.csproj" Id="863f5c06-c5ef-4f70-ba0a-b6e56e41c291" />
+  <Project Path="Lecture33Console/Lecture33Console.csproj" Id="8017eac6-15e2-470b-b1cf-5e463cbdc130" />
   <Project Path="Lecture4/Lecture4.csproj" Id="d8b1d0ce-3e79-4611-a815-1f925cc55370" />
   <Project Path="Lecture6/Lecture6.csproj" Id="84769670-f8bf-40b2-803f-08d8dd141d22" />
   <Project Path="Lecture7/Lecture7.csproj" Id="7136c8cb-d903-455e-a65f-ce46e9bff4f0" />

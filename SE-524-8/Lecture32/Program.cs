@@ -4,11 +4,8 @@ namespace Lecture32
 {
     internal class Program
     {
-
-
         static void Main(string[] args)
         {
-
         }
 
         #region Race Condition
