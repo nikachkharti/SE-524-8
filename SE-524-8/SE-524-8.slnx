@@ -1,9 +1,9 @@
 <Solution>
   <Folder Name="/MiniBank/">
-    <Project Path="MiniBank.ConsoleUI/MiniBank.ConsoleUI.csproj" Id="9c4191b1-c91d-4e96-ae77-714f6fd5e895" />
     <Project Path="MiniBank.Data/MiniBank.Data.csproj" Id="9dfa82cc-1ae4-47cd-aa53-f26f62c739b9" />
     <Project Path="MiniBank.Repository/MiniBank.Repository.csproj" Id="db07cb01-ab40-4cd5-80c0-6ff0afa8d17f" />
     <Project Path="MiniBank.Service/MiniBank.Service.csproj" Id="8f5b8de2-4a17-454d-8480-6c1fbc838aad" />
+    <Project Path="MiniBank.UI/MiniBank.UI.csproj" Id="f1425eaf-bf54-403f-8349-356225201ed6" />
   </Folder>
   <Project Path="FirstProject/FirstProject.csproj" />
   <Project Path="Lecture11/Lecture11.csproj" Id="5152dd94-d01c-4c74-a599-9ef85a66dc6b" />
