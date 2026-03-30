@@ -4,7 +4,7 @@ namespace MiniBank.Repository.Interfaces
 {
     public interface IOperationRepository
     {
-        int AddOperation(Operation operation);
+        Task<int> AddOperationAsync(Operation operation);
         Operation GetSingleOperation(int operationId);
         List<Operation> GetOperationsOfAccount(int accountId);
     }

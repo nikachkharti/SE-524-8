@@ -4,10 +4,10 @@ namespace MiniBank.Repository.Interfaces
 {
     public interface ICustomerRepository
     {
-        int AddCustomer(Customer newCustomer);
-        Customer GetCustomer(int id);
         List<Customer> GetCustomers();
-        int UpdateCustomer(Customer customer);
-        int DeleteCustomer(int id);
+        Customer GetSingleCustomer(int id);
+        Task<int> AddCustomerAsync(Customer newCustomer);
+        Task<int> UpdateCustomerAsync(Customer customer);
+        Task<int> DeleteCustomerAsync(int id);
     }
 }

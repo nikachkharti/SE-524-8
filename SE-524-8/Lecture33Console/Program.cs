@@ -2,27 +2,31 @@
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Console.WriteLine("MAIN START");
+            int result = await Task.Run(() => Sum(10, 10));
+            Console.WriteLine(result);
+            Test();
 
-            Task<int> workResult = Task.Run(() => DoWork(10, 10));
 
             //int finalResult = workResult.Result; // !!!!!!!!!!! არასდორს არ დაწეროთ ესე კოდი !!!!!!!!!!!
             //workResult.Wait(); // !!!!!!!!!!! არასდორს არ დაწეროთ ესე კოდი !!!!!!!!!!!
             //Task.WaitAll(workResult); // !!!!!!!!!!! არასდორს არ დაწეროთ ესე კოდი !!!!!!!!!!!
             //Task.WaitAny(workResult); // !!!!!!!!!!! არასდორს არ დაწეროთ ესე კოდი !!!!!!!!!!!
-            
 
 
-            Console.WriteLine("MAIN END");
-
-            //Thread t1 = new(() => DoWork());
+            //Thread t1 = new(() => Sum());
         }
 
-        private static int DoWork(int x, int y)
+
+        private static void Test()
         {
-            Task.Delay(8000);
+            Console.WriteLine("Hello World");
+        }
+
+        private static int Sum(int x, int y)
+        {
+            Thread.Sleep(10000);
             return x + y;
         }
 

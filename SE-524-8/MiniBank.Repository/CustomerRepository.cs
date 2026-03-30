@@ -5,72 +5,80 @@ using System.Text;
 
 namespace MiniBank.Repository
 {
+    //private const string _filePath = @"../../../../MiniBank.Data/Customers.csv";
+
     public class CustomerRepository : ICustomerRepository
     {
-        private const string _filePath = @"../../../../MiniBank.Data/Customers.csv";
+        private readonly string _filePath;
         private readonly List<Customer> _customers;
 
-        public CustomerRepository()
+        private CustomerRepository(string filePath, List<Customer> customers)
         {
-            _customers = LoadData().ToList();
+            _filePath = filePath;
+            _customers = customers;
         }
 
-        public int AddCustomer(Customer newCustomer)
+        /// <summary>
+        /// Factory Method async constructor
+        /// </summary>
+        public static async Task<CustomerRepository> CreateAsync(string filePath)
         {
-            newCustomer.Id = _customers.
-                Any()
-                ? _customers.Max(c => c.Id) + 1
-                : 1;
+            var customers = new List<Customer>();
 
+            await foreach (var customer in LoadDataAsync(filePath))
+                customers.Add(customer);
+
+            return new CustomerRepository(filePath, customers);
+        }
+        public List<Customer> GetCustomers() => _customers;
+        public Customer GetSingleCustomer(int id) => _customers.FirstOrDefault(c => c.Id == id);
+        public async Task<int> AddCustomerAsync(Customer newCustomer)
+        {
+            newCustomer.Id = _customers.Any() ? _customers.Max(c => c.Id) + 1 : 1;
             _customers.Add(newCustomer);
-            SaveData();
+            await SaveDataAsync();
 
             return newCustomer.Id;
         }
-        public Customer GetCustomer(int id) => _customers.FirstOrDefault(c => c.Id == id);
-        public List<Customer> GetCustomers() => _customers;
-        public int UpdateCustomer(Customer customer)
+        public async Task<int> DeleteCustomerAsync(int id)
+        {
+            var customer = _customers.FirstOrDefault(c => c.Id == id);
+
+            _customers.Remove(customer);
+            await SaveDataAsync();
+
+            return customer.Id;
+        }
+        public async Task<int> UpdateCustomerAsync(Customer customer)
         {
             var index = _customers.FindIndex(c => c.Id == customer.Id);
 
             if (index >= 0)
             {
                 _customers[index] = customer;
-                SaveData();
+                await SaveDataAsync();
             }
 
             return customer.Id;
         }
-        public int DeleteCustomer(int id)
-        {
-            var customer = _customers.FirstOrDefault(c => c.Id == id);
-
-            if (customer != null)
-            {
-                _customers.Remove(customer);
-                SaveData();
-
-                return customer.Id;
-            }
-
-            return -1;
-        }
 
 
         #region HELPERS
-        private static IEnumerable<Customer> LoadData()
+
+        //წაკითხვა
+        private static async IAsyncEnumerable<Customer> LoadDataAsync(string filePath)
         {
-            if (!File.Exists(_filePath))
+            if (!File.Exists(filePath))
                 yield break;
 
+            //FileStream კითხულობს მონაცემებს buffer - ებად, ანუ ნაწილ-ნაწილ
             using var fs = new FileStream(
-                _filePath,
+                filePath,
                 FileMode.Open,
                 FileAccess.Read,
                 FileShare.Read,
-                bufferSize: 4096,    // 4KB
-                useAsync: false
-            );
+                bufferSize: 4096, //4096 (4 KB) buffer - ის default ზომა
+                useAsync: true);
 
             using var reader = new StreamReader(fs);
 
@@ -78,12 +86,12 @@ namespace MiniBank.Repository
 
             while (!reader.EndOfStream)
             {
-                var line = reader.ReadLine();
+                var line = await reader.ReadLineAsync();
 
                 if (!headerSkipped)
                 {
                     headerSkipped = true;
-                    continue;
+                    continue; // skip header
                 }
 
                 if (string.IsNullOrWhiteSpace(line))
@@ -94,29 +102,6 @@ namespace MiniBank.Repository
                     yield return customer;
             }
         }
-        private void SaveData()
-        {
-            using var fs = new FileStream(
-                _filePath,
-                FileMode.Create,
-                FileAccess.Write,
-                FileShare.Write,
-                bufferSize: 4096,    // 4KB
-                useAsync: false
-            );
-
-            using var writer = new StreamWriter(fs, Encoding.UTF8);
-
-            //header
-            writer.WriteLine("Id,Name,IdentityNumber,PhoneNumber,Email,CustomerType");
-
-            //write rows
-            foreach (var customer in _customers)
-                writer.WriteLine(ToCsv(customer));
-
-            writer.Flush();
-        }
-
         private static Customer FromCsv(string line)
         {
             var parts = line.Split(',', StringSplitOptions.RemoveEmptyEntries);
@@ -124,7 +109,7 @@ namespace MiniBank.Repository
             if (parts.Length != 6)
                 throw new FormatException("Customer format is invalid");
 
-            return new Customer()
+            return new Customer
             {
                 Id = int.Parse(parts[0]),
                 Name = parts[1],
@@ -133,10 +118,33 @@ namespace MiniBank.Repository
                 Email = parts[4],
                 CustomerType = Enum.Parse<CustomerType>(parts[5])
             };
+        }
 
+        //ჩაწერა
+        private async Task SaveDataAsync()
+        {
+            //FileStream წერს მონაცემებს buffer - ებად, ანუ ნაწილ-ნაწილ
+            using var fs = new FileStream(
+                _filePath,
+                FileMode.Create,
+                FileAccess.Write,
+                FileShare.None,
+                bufferSize: 4096, //4096 (4 KB) buffer - ის default ზომა
+                useAsync: true);
+
+            using var writer = new StreamWriter(fs, Encoding.UTF8);
+
+            // header
+            await writer.WriteLineAsync("Id,Name,IdentityNumber,PhoneNumber,Email,CustomerType");
+
+            // write rows
+            foreach (var customer in _customers)
+                await writer.WriteLineAsync(ToCsv(customer));
+
+            await writer.FlushAsync(); //„მეხსიერების ბუფერებში ამჟამად შენახული ნებისმიერი მონაცემის იძულებით ჩაწერა ძირითად მოწყობილობაზე (დისკზე).“
         }
         private static string ToCsv(Customer customer) => $"{customer.Id},{customer.Name},{customer.IdentityNumber},{customer.PhoneNumber},{customer.Email},{customer.CustomerType}";
-
         #endregion
+
     }
 }

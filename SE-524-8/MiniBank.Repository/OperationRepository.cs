@@ -5,42 +5,58 @@ using System.Xml.Linq;
 
 namespace MiniBank.Repository
 {
+    //private const string _filePath = @"../../../../MiniBank.Data/Operations.xml";
+
     public class OperationRepository : IOperationRepository
     {
-        private const string _filePath = @"../../../../MiniBank.Data/Operations.xml";
+        private readonly string _filePath;
         private readonly List<Operation> _operations;
 
-        public OperationRepository()
+        private OperationRepository(string filePath, List<Operation> operations)
         {
-            _operations = LoadData(_filePath).ToList();
+            _filePath = filePath;
+            _operations = operations;
         }
 
-        public List<Operation> GetOperationsOfAccount(int accountId) =>
-            _operations
-                .Where(o => o.AccountId == accountId)
-            .ToList();
+        /// <summary>
+        /// Factory Method async constructor
+        /// </summary>
+        public static async Task<OperationRepository> CreateAsync(string filePath)
+        {
+            var operations = new List<Operation>();
 
-        public Operation GetSingleOperation(int operationId) =>
-            _operations.FirstOrDefault(o => o.Id == operationId);
+            await foreach (var op in LoadDataAsync(filePath))
+            {
+                operations.Add(op);
+            }
 
-        public int AddOperation(Operation operation)
+            return new OperationRepository(filePath, operations);
+        }
+
+        public List<Operation> GetOperationsOfAccount(int accountId) => _operations.Where(o => o.AccountId == accountId).ToList();
+        public Operation GetSingleOperation(int operationId) => _operations.FirstOrDefault(o => o.Id == operationId);
+        public async Task<int> AddOperationAsync(Operation operation)
         {
             operation.Id = _operations.Any() ? _operations.Max(o => o.Id) + 1 : 1;
             _operations.Add(operation);
-            SaveData();
+            await SaveDataAsync();
             return operation.Id;
         }
 
 
         #region HELPERS
-        private IEnumerable<Operation> LoadData(string filePath)
+
+        /// <summary>
+        /// Streams operations from XML using IAsyncEnumerable.
+        /// </summary>
+        private static async IAsyncEnumerable<Operation> LoadDataAsync(string filePath)
         {
             if (!File.Exists(filePath))
                 yield break;
 
             using var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, 8192, useAsync: true);
             using var ms = new MemoryStream();
-            fs.CopyTo(ms);
+            await fs.CopyToAsync(ms);
             ms.Position = 0;
 
             XDocument xdoc;
@@ -67,7 +83,11 @@ namespace MiniBank.Repository
                 yield return operation;
             }
         }
-        private void SaveData()
+
+        /// <summary>
+        /// Saves the in-memory list of operations to XML.
+        /// </summary>
+        private async Task SaveDataAsync()
         {
             var xdoc = new XDocument(
                 new XElement("Operations",
@@ -87,8 +107,8 @@ namespace MiniBank.Repository
             ms.Position = 0;
 
             using var fs = new FileStream(_filePath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, useAsync: true);
-            ms.CopyTo(fs);
-            fs.Flush();
+            await ms.CopyToAsync(fs);
+            await fs.FlushAsync();
         }
 
         #endregion
