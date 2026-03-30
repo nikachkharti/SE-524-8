@@ -11,6 +11,8 @@ namespace MiniBank.Repository
     {
         private readonly string _filePath;
         private readonly List<Operation> _operations;
+        private readonly object _lock = new();
+        private readonly SemaphoreSlim _semaphore = new(1, 1);
 
         private OperationRepository(string filePath, List<Operation> operations)
         {
@@ -33,16 +35,33 @@ namespace MiniBank.Repository
             return new OperationRepository(filePath, operations);
         }
 
-        public List<Operation> GetOperationsOfAccount(int accountId) => _operations.Where(o => o.AccountId == accountId).ToList();
-        public Operation GetSingleOperation(int operationId) => _operations.FirstOrDefault(o => o.Id == operationId);
+        public List<Operation> GetOperationsOfAccount(int accountId)
+        {
+            lock (_lock)
+            {
+                return _operations
+                    .Where(o => o.AccountId == accountId)
+                    .ToList();
+            }
+        }
+        public Operation GetSingleOperation(int operationId)
+        {
+            lock (_lock)
+            {
+                return _operations.FirstOrDefault(o => o.Id == operationId);
+            }
+        }
         public async Task<int> AddOperationAsync(Operation operation)
         {
-            operation.Id = _operations.Any() ? _operations.Max(o => o.Id) + 1 : 1;
-            _operations.Add(operation);
+            lock (_lock)
+            {
+                operation.Id = _operations.Any() ? _operations.Max(o => o.Id) + 1 : 1;
+                _operations.Add(operation);
+            }
+
             await SaveDataAsync();
             return operation.Id;
         }
-
 
         #region HELPERS
 
@@ -89,26 +108,48 @@ namespace MiniBank.Repository
         /// </summary>
         private async Task SaveDataAsync()
         {
-            var xdoc = new XDocument(
-                new XElement("Operations",
-                    _operations.Select(o =>
-                        new XElement("Operation",
-                            new XElement("Id", o.Id),
-                            new XElement("OperationType", o.OperationType),
-                            new XElement("AccountId", o.AccountId),
-                            new XElement("Amount", o.Amount),
-                            new XElement("HappendAt", o.HappendAt)
-                        ))
-                )
-            );
+            await _semaphore.WaitAsync();
+            try
+            {
+                List<Operation> snapshot;
 
-            using var ms = new MemoryStream();
-            xdoc.Save(ms);
-            ms.Position = 0;
+                lock (_lock)
+                {
+                    snapshot = _operations.ToList(); // avoid long lock
+                }
 
-            using var fs = new FileStream(_filePath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, useAsync: true);
-            await ms.CopyToAsync(fs);
-            await fs.FlushAsync();
+                var xdoc = new XDocument(
+                    new XElement("Operations",
+                        snapshot.Select(o =>
+                            new XElement("Operation",
+                                new XElement("Id", o.Id),
+                                new XElement("OperationType", o.OperationType),
+                                new XElement("AccountId", o.AccountId),
+                                new XElement("Amount", o.Amount),
+                                new XElement("HappendAt", o.HappendAt)
+                            ))
+                    )
+                );
+
+                using var ms = new MemoryStream();
+                xdoc.Save(ms);
+                ms.Position = 0;
+
+                using var fs = new FileStream(
+                    _filePath,
+                    FileMode.Create,
+                    FileAccess.Write,
+                    FileShare.None,
+                    8192,
+                    useAsync: true);
+
+                await ms.CopyToAsync(fs);
+                await fs.FlushAsync();
+            }
+            finally
+            {
+                _semaphore.Release();
+            }
         }
 
         #endregion

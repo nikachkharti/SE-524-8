@@ -10,7 +10,8 @@ namespace MiniBank.Repository
     {
         private readonly string _filePath;
         private readonly List<Account> _accounts;
-
+        private readonly object _lock = new();
+        private readonly SemaphoreSlim _semaphore = new(1, 1);
         private AccountRepository(string filePath, List<Account> accounts)
         {
             _filePath = filePath;
@@ -31,43 +32,79 @@ namespace MiniBank.Repository
 
             return new AccountRepository(filePath, accounts);
         }
-
-
-        public List<Account> GetAccounts() => _accounts;
+        public List<Account> GetAccounts()
+        {
+            lock (_lock)
+            {
+                return _accounts.ToList();
+            }
+        }
         public Account GetSingleAccount(int id)
-            => _accounts.FirstOrDefault(a => a.Id == id);
+        {
+            lock (_lock)
+            {
+                return _accounts.FirstOrDefault(a => a.Id == id);
+            }
+        }
         public List<Account> GetAccountsOfCustomer(int customerId)
-            => _accounts.Where(a => a.CustomerId == customerId).ToList();
+        {
+            lock (_lock)
+            {
+                return _accounts
+                    .Where(a => a.CustomerId == customerId)
+                    .ToList();
+            }
+        }
         public async Task<int> AddAccountAsync(Account newAccount)
         {
-            newAccount.Id = _accounts.Any() ? _accounts.Max(a => a.Id) + 1 : 1;
-            _accounts.Add(newAccount);
+            lock (_lock)
+            {
+                newAccount.Id = _accounts.Any() ? _accounts.Max(a => a.Id) + 1 : 1;
+                _accounts.Add(newAccount);
+            }
+
             await SaveDataAsync();
             return newAccount.Id;
         }
         public async Task<int> DeleteAccountAsync(int id)
         {
-            var account = _accounts.FirstOrDefault(a => a.Id == id);
-            if (account == null) return -1;
+            Account account;
 
-            _accounts.Remove(account);
+            lock (_lock)
+            {
+                account = _accounts.FirstOrDefault(a => a.Id == id);
+                if (account == null)
+                    return -1;
+
+                _accounts.Remove(account);
+            }
+
             await SaveDataAsync();
             return account.Id;
         }
         public async Task<int> UpdateAccountAsync(Account account)
         {
-            var index = _accounts.FindIndex(a => a.Id == account.Id);
-            if (index >= 0)
+            bool updated = false;
+
+            lock (_lock)
             {
-                _accounts[index] = account;
-                await SaveDataAsync();
+                var index = _accounts.FindIndex(a => a.Id == account.Id);
+                if (index >= 0)
+                {
+                    _accounts[index] = account;
+                    updated = true;
+                }
             }
+
+            if (updated)
+                await SaveDataAsync();
+
             return account.Id;
         }
 
 
-
         #region HELPERS
+
         public static async IAsyncEnumerable<Account> LoadDataAsync(string filePath)
         {
             if (!File.Exists(filePath))
@@ -102,13 +139,39 @@ namespace MiniBank.Repository
         }
         private async Task SaveDataAsync()
         {
-            var jsonPayload = JsonSerializer.Serialize(_accounts, new JsonSerializerOptions { WriteIndented = true });
+            await _semaphore.WaitAsync();
+            try
+            {
+                List<Account> snapshot;
 
-            using var fs = new FileStream(_filePath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, useAsync: true);
-            var bytes = Encoding.UTF8.GetBytes(jsonPayload);
-            await fs.WriteAsync(bytes, 0, bytes.Length);
-            await fs.FlushAsync();
+                lock (_lock)
+                {
+                    snapshot = _accounts.ToList(); // avoid long lock
+                }
+
+                var jsonPayload = JsonSerializer.Serialize(snapshot, new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                });
+
+                using var fs = new FileStream(
+                    _filePath,
+                    FileMode.Create,
+                    FileAccess.Write,
+                    FileShare.None,
+                    8192,
+                    useAsync: true);
+
+                var bytes = Encoding.UTF8.GetBytes(jsonPayload);
+                await fs.WriteAsync(bytes, 0, bytes.Length);
+                await fs.FlushAsync();
+            }
+            finally
+            {
+                _semaphore.Release();
+            }
         }
+
         #endregion
     }
 }

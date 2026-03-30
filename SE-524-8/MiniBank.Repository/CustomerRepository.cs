@@ -11,6 +11,8 @@ namespace MiniBank.Repository
     {
         private readonly string _filePath;
         private readonly List<Customer> _customers;
+        private readonly object _lock = new();
+        private readonly SemaphoreSlim _semaphore = new(1, 1);
 
         private CustomerRepository(string filePath, List<Customer> customers)
         {
@@ -30,38 +32,66 @@ namespace MiniBank.Repository
 
             return new CustomerRepository(filePath, customers);
         }
-        public List<Customer> GetCustomers() => _customers;
-        public Customer GetSingleCustomer(int id) => _customers.FirstOrDefault(c => c.Id == id);
+        public List<Customer> GetCustomers()
+        {
+            lock (_lock)
+            {
+                return _customers.ToList();
+            }
+        }
+        public Customer GetSingleCustomer(int id)
+        {
+            lock (_lock)
+            {
+                return _customers.FirstOrDefault(c => c.Id == id);
+            }
+        }
         public async Task<int> AddCustomerAsync(Customer newCustomer)
         {
-            newCustomer.Id = _customers.Any() ? _customers.Max(c => c.Id) + 1 : 1;
-            _customers.Add(newCustomer);
-            await SaveDataAsync();
+            lock (_lock)
+            {
+                newCustomer.Id = _customers.Any() ? _customers.Max(c => c.Id) + 1 : 1;
+                _customers.Add(newCustomer);
+            }
 
+            await SaveDataAsync();
             return newCustomer.Id;
         }
         public async Task<int> DeleteCustomerAsync(int id)
         {
-            var customer = _customers.FirstOrDefault(c => c.Id == id);
+            Customer customer;
 
-            _customers.Remove(customer);
+            lock (_lock)
+            {
+                customer = _customers.FirstOrDefault(c => c.Id == id);
+                if (customer == null)
+                    return -1;
+
+                _customers.Remove(customer);
+            }
+
             await SaveDataAsync();
-
             return customer.Id;
         }
         public async Task<int> UpdateCustomerAsync(Customer customer)
         {
-            var index = _customers.FindIndex(c => c.Id == customer.Id);
+            bool updated = false;
 
-            if (index >= 0)
+            lock (_lock)
             {
-                _customers[index] = customer;
-                await SaveDataAsync();
+                var index = _customers.FindIndex(c => c.Id == customer.Id);
+                if (index >= 0)
+                {
+                    _customers[index] = customer;
+                    updated = true;
+                }
             }
+
+            if (updated)
+                await SaveDataAsync();
 
             return customer.Id;
         }
-
 
         #region HELPERS
 
@@ -123,25 +153,36 @@ namespace MiniBank.Repository
         //ჩაწერა
         private async Task SaveDataAsync()
         {
-            //FileStream წერს მონაცემებს buffer - ებად, ანუ ნაწილ-ნაწილ
-            using var fs = new FileStream(
-                _filePath,
-                FileMode.Create,
-                FileAccess.Write,
-                FileShare.None,
-                bufferSize: 4096, //4096 (4 KB) buffer - ის default ზომა
-                useAsync: true);
+            await _semaphore.WaitAsync();
+            try
+            {
+                using var fs = new FileStream(
+                    _filePath,
+                    FileMode.Create,
+                    FileAccess.Write,
+                    FileShare.None,
+                    bufferSize: 4096,
+                    useAsync: true);
 
-            using var writer = new StreamWriter(fs, Encoding.UTF8);
+                using var writer = new StreamWriter(fs, Encoding.UTF8);
 
-            // header
-            await writer.WriteLineAsync("Id,Name,IdentityNumber,PhoneNumber,Email,CustomerType");
+                await writer.WriteLineAsync("Id,Name,IdentityNumber,PhoneNumber,Email,CustomerType");
 
-            // write rows
-            foreach (var customer in _customers)
-                await writer.WriteLineAsync(ToCsv(customer));
+                List<Customer> snapshot;
+                lock (_lock)
+                {
+                    snapshot = _customers.ToList(); // snapshot to avoid long lock
+                }
 
-            await writer.FlushAsync(); //„მეხსიერების ბუფერებში ამჟამად შენახული ნებისმიერი მონაცემის იძულებით ჩაწერა ძირითად მოწყობილობაზე (დისკზე).“
+                foreach (var customer in snapshot)
+                    await writer.WriteLineAsync(ToCsv(customer));
+
+                await writer.FlushAsync();
+            }
+            finally
+            {
+                _semaphore.Release();
+            }
         }
         private static string ToCsv(Customer customer) => $"{customer.Id},{customer.Name},{customer.IdentityNumber},{customer.PhoneNumber},{customer.Email},{customer.CustomerType}";
         #endregion
