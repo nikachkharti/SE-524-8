@@ -28,19 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
+            listBox1 = new ListBox();
             SuspendLayout();
+            // 
+            // listBox1
+            // 
+            listBox1.FormattingEnabled = true;
+            listBox1.Location = new Point(12, 12);
+            listBox1.Name = "listBox1";
+            listBox1.Size = new Size(1168, 404);
+            listBox1.TabIndex = 0;
+            listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1192, 746);
+            Controls.Add(listBox1);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
+            Load += Form1_Load;
             ResumeLayout(false);
         }
 
         #endregion
+
+        private ListBox listBox1;
     }
 }

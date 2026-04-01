@@ -5,8 +5,6 @@ using System.Text;
 
 namespace MiniBank.Repository
 {
-    //private const string _filePath = @"../../../../MiniBank.Data/Customers.csv";
-
     public class CustomerRepository : ICustomerRepository
     {
         private readonly string _filePath;
