@@ -39,6 +39,10 @@
             emailValue = new TextBox();
             customerTypeLabel = new Label();
             customerTypeCombo = new ComboBox();
+            newCustomerBtn = new Button();
+            deleteCustomerBtn = new Button();
+            updateCustomerBtn = new Button();
+            clearFormBtn = new Button();
             SuspendLayout();
             // 
             // listBox1
@@ -133,11 +137,57 @@
             customerTypeCombo.Size = new Size(262, 33);
             customerTypeCombo.TabIndex = 3;
             // 
+            // newCustomerBtn
+            // 
+            newCustomerBtn.BackColor = Color.Lime;
+            newCustomerBtn.Location = new Point(326, 371);
+            newCustomerBtn.Name = "newCustomerBtn";
+            newCustomerBtn.Size = new Size(139, 34);
+            newCustomerBtn.TabIndex = 4;
+            newCustomerBtn.Text = "New Customer";
+            newCustomerBtn.UseVisualStyleBackColor = false;
+            // 
+            // deleteCustomerBtn
+            // 
+            deleteCustomerBtn.BackColor = Color.Red;
+            deleteCustomerBtn.ForeColor = SystemColors.Control;
+            deleteCustomerBtn.Location = new Point(326, 411);
+            deleteCustomerBtn.Name = "deleteCustomerBtn";
+            deleteCustomerBtn.Size = new Size(163, 34);
+            deleteCustomerBtn.TabIndex = 4;
+            deleteCustomerBtn.Text = "Delete Customer";
+            deleteCustomerBtn.UseVisualStyleBackColor = false;
+            // 
+            // updateCustomerBtn
+            // 
+            updateCustomerBtn.BackColor = Color.FromArgb(255, 255, 128);
+            updateCustomerBtn.Location = new Point(326, 451);
+            updateCustomerBtn.Name = "updateCustomerBtn";
+            updateCustomerBtn.Size = new Size(181, 34);
+            updateCustomerBtn.TabIndex = 4;
+            updateCustomerBtn.Text = "Update Customer";
+            updateCustomerBtn.UseVisualStyleBackColor = false;
+            // 
+            // clearFormBtn
+            // 
+            clearFormBtn.BackColor = Color.FromArgb(0, 192, 192);
+            clearFormBtn.ForeColor = Color.Black;
+            clearFormBtn.Location = new Point(512, 4);
+            clearFormBtn.Name = "clearFormBtn";
+            clearFormBtn.Size = new Size(76, 34);
+            clearFormBtn.TabIndex = 4;
+            clearFormBtn.Text = "Clear";
+            clearFormBtn.UseVisualStyleBackColor = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1192, 746);
+            Controls.Add(clearFormBtn);
+            Controls.Add(deleteCustomerBtn);
+            Controls.Add(updateCustomerBtn);
+            Controls.Add(newCustomerBtn);
             Controls.Add(customerTypeCombo);
             Controls.Add(customerTypeLabel);
             Controls.Add(emailValue);
@@ -170,5 +220,9 @@
         private TextBox emailValue;
         private Label customerTypeLabel;
         private ComboBox customerTypeCombo;
+        private Button newCustomerBtn;
+        private Button deleteCustomerBtn;
+        private Button updateCustomerBtn;
+        private Button clearFormBtn;
     }
 }

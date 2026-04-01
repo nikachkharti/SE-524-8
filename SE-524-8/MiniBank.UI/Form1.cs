@@ -1,3 +1,4 @@
+using MiniBank.Repository.Models.Enums;
 using MiniBank.Service.Interfaces;
 
 namespace MiniBank.UI
@@ -23,8 +24,13 @@ namespace MiniBank.UI
         private async void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedCustomer = listBox1.SelectedItem as Service.Dtos.Customer.GetCustomerDto;
-
-            //MessageBox.Show($"Selected Customer: {selectedCustomer.Name}\nIdentity Number: {selectedCustomer.IdentityNumber}\nPhone: {selectedCustomer.PhoneNumber}\nEmail: {selectedCustomer.Email}\nCustomer Type: {selectedCustomer.CustomerType}");
+            if (selectedCustomer != null)
+            {
+                nameValue.Text = selectedCustomer.Name;
+                idValue.Text = selectedCustomer.IdentityNumber;
+                phoneNumberValue.Text = selectedCustomer.PhoneNumber;
+                emailValue.Text = selectedCustomer.Email;
+            }
         }
     }
 }
