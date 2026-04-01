@@ -1,4 +1,5 @@
-﻿using MiniBank.Service.Dtos.Customer;
+﻿using MiniBank.Repository.Models.Enums;
+using MiniBank.Service.Dtos.Customer;
 
 namespace MiniBank.Service.Interfaces
 {

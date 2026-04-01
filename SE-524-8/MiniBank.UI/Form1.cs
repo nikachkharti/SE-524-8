@@ -22,10 +22,9 @@ namespace MiniBank.UI
 
         private async void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //listbox _ ის ცვლილებაზე მინდა რომ აირჩიოთ შესაბამისი ტიპი და შემდეგ მისი დეტალები გამოიტანოს MessageBox-ით
+            var selectedCustomer = listBox1.SelectedItem as Service.Dtos.Customer.GetCustomerDto;
 
-            MessageBox.Show($"AQ GAMOITANET ARCHEULI USER IS INFO GAMOIYENET CHATGPT !!!");
-
+            //MessageBox.Show($"Selected Customer: {selectedCustomer.Name}\nIdentity Number: {selectedCustomer.IdentityNumber}\nPhone: {selectedCustomer.PhoneNumber}\nEmail: {selectedCustomer.Email}\nCustomer Type: {selectedCustomer.CustomerType}");
         }
     }
 }
