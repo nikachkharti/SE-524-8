@@ -89,6 +89,7 @@ namespace MiniBank.UI
 
         }
 
+
         private async Task LoadCustomersAsync()
         {
             var customers = await _customerService.GetAllCustomersAsync();
