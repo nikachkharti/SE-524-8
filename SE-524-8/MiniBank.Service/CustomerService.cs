@@ -29,7 +29,8 @@ namespace MiniBank.Service
                 Name = c.Name,
                 IdentityNumber = c.IdentityNumber,
                 PhoneNumber = c.PhoneNumber,
-                Email = c.Email
+                Email = c.Email,
+                CustomerType = c.CustomerType
             }).ToList();
         }
 
