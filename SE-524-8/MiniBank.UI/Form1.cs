@@ -8,10 +8,10 @@ namespace MiniBank.UI
     {
         private readonly ICustomerService _customerService;
 
-        public Form1()
+        public Form1(ICustomerService customerService)
         {
             InitializeComponent();
-            _customerService = new Service.CustomerService();
+            _customerService = customerService;
         }
 
 

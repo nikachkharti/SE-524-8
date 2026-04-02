@@ -1,5 +1,5 @@
-﻿using MiniBank.Repository;
-using MiniBank.Repository.Interfaces;
+﻿using MiniBank.Repository.Interfaces;
+using MiniBank.Repository.Models;
 using MiniBank.Service.Dtos.Customer;
 using MiniBank.Service.Interfaces;
 
@@ -7,32 +7,17 @@ namespace MiniBank.Service
 {
     public class CustomerService : ICustomerService
     {
-        private const string _filePath = @"../../../../MiniBank.Data/Customers.csv";
+        private readonly ICustomerRepository _repository;
 
-        public async Task<int> AddCustomerAsync(CreateCustomerDto model)
+        public CustomerService(ICustomerRepository repository)
         {
-            var repository = await CustomerRepository.CreateAsync(_filePath);
-            var newCustomer = new Repository.Models.Customer
-            {
-                Name = model.Name,
-                IdentityNumber = model.IdentityNumber,
-                PhoneNumber = model.PhoneNumber,
-                Email = model.Email,
-                CustomerType = model.CustomerType
-            };
-            return await repository.AddCustomerAsync(newCustomer);
-        }
-
-        public async Task<int> DeleteCustomerAsync(int id)
-        {
-            var repository = await CustomerRepository.CreateAsync(_filePath);
-            return await repository.DeleteCustomerAsync(id);
+            _repository = repository;
         }
 
         public async Task<List<GetCustomerDto>> GetAllCustomersAsync()
         {
-            var repository = await CustomerRepository.CreateAsync(_filePath);
-            var customers = repository.GetCustomers();
+            var customers = _repository.GetCustomers();
+
             return customers.Select(c => new GetCustomerDto
             {
                 Id = c.Id,
@@ -43,16 +28,22 @@ namespace MiniBank.Service
                 CustomerType = c.CustomerType
             }).ToList();
         }
-
-        public Task<GetCustomerDto> GetSingleCustomerAsync(int id)
+        public async Task<int> AddCustomerAsync(CreateCustomerDto model)
         {
-            throw new NotImplementedException();
-        }
+            var newCustomer = new Customer
+            {
+                Name = model.Name,
+                IdentityNumber = model.IdentityNumber,
+                PhoneNumber = model.PhoneNumber,
+                Email = model.Email,
+                CustomerType = model.CustomerType
+            };
 
+            return await _repository.AddCustomerAsync(newCustomer);
+        }
         public async Task<int> UpdateCustomerAsync(UpdateCustomerDto model)
         {
-            var repository = await CustomerRepository.CreateAsync(_filePath);
-            var updatedCustomer = new Repository.Models.Customer
+            var customer = new Customer
             {
                 Id = model.Id,
                 Name = model.Name,
@@ -61,7 +52,12 @@ namespace MiniBank.Service
                 Email = model.Email,
                 CustomerType = model.CustomerType
             };
-            return await repository.UpdateCustomerAsync(updatedCustomer);
+
+            return await _repository.UpdateCustomerAsync(customer);
+        }
+        public async Task<int> DeleteCustomerAsync(int id)
+        {
+            return await _repository.DeleteCustomerAsync(id);
         }
     }
 }
