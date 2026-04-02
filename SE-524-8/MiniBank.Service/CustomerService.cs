@@ -9,14 +9,24 @@ namespace MiniBank.Service
     {
         private const string _filePath = @"../../../../MiniBank.Data/Customers.csv";
 
-        public Task<int> AddCustomerAsync(CreateCustomerDto model)
+        public async Task<int> AddCustomerAsync(CreateCustomerDto model)
         {
-            throw new NotImplementedException();
+            var repository = await CustomerRepository.CreateAsync(_filePath);
+            var newCustomer = new Repository.Models.Customer
+            {
+                Name = model.Name,
+                IdentityNumber = model.IdentityNumber,
+                PhoneNumber = model.PhoneNumber,
+                Email = model.Email,
+                CustomerType = model.CustomerType
+            };
+            return await repository.AddCustomerAsync(newCustomer);
         }
 
-        public Task<int> DeleteCustomerAsync(int id)
+        public async Task<int> DeleteCustomerAsync(int id)
         {
-            throw new NotImplementedException();
+            var repository = await CustomerRepository.CreateAsync(_filePath);
+            return await repository.DeleteCustomerAsync(id);
         }
 
         public async Task<List<GetCustomerDto>> GetAllCustomersAsync()
@@ -39,9 +49,19 @@ namespace MiniBank.Service
             throw new NotImplementedException();
         }
 
-        public Task<int> UpdateCustomerAsync(UpdateCustomerDto model)
+        public async Task<int> UpdateCustomerAsync(UpdateCustomerDto model)
         {
-            throw new NotImplementedException();
+            var repository = await CustomerRepository.CreateAsync(_filePath);
+            var updatedCustomer = new Repository.Models.Customer
+            {
+                Id = model.Id,
+                Name = model.Name,
+                IdentityNumber = model.IdentityNumber,
+                PhoneNumber = model.PhoneNumber,
+                Email = model.Email,
+                CustomerType = model.CustomerType
+            };
+            return await repository.UpdateCustomerAsync(updatedCustomer);
         }
     }
 }
