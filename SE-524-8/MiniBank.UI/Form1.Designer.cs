@@ -158,6 +158,7 @@
             deleteCustomerBtn.TabIndex = 4;
             deleteCustomerBtn.Text = "Delete Customer";
             deleteCustomerBtn.UseVisualStyleBackColor = false;
+            deleteCustomerBtn.Click += deleteCustomerBtn_Click_1;
             // 
             // updateCustomerBtn
             // 
@@ -168,6 +169,7 @@
             updateCustomerBtn.TabIndex = 4;
             updateCustomerBtn.Text = "Update Customer";
             updateCustomerBtn.UseVisualStyleBackColor = false;
+            updateCustomerBtn.Click += updateCustomerBtn_Click_1;
             // 
             // clearFormBtn
             // 
@@ -179,6 +181,7 @@
             clearFormBtn.TabIndex = 4;
             clearFormBtn.Text = "Clear";
             clearFormBtn.UseVisualStyleBackColor = false;
+            clearFormBtn.Click += clearFormBtn_Click_1;
             // 
             // Form1
             // 
