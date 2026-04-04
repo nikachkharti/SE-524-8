@@ -146,6 +146,7 @@
             newCustomerBtn.TabIndex = 4;
             newCustomerBtn.Text = "New Customer";
             newCustomerBtn.UseVisualStyleBackColor = false;
+            newCustomerBtn.Click += newCustomerBtn_Click;
             // 
             // deleteCustomerBtn
             // 

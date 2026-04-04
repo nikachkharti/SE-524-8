@@ -5,7 +5,6 @@ using System.Text.Json;
 
 namespace MiniBank.Repository
 {
-    //private const string _filePath = @"../../../../MiniBank.Data/Accounts.json";
     public class AccountRepository : IAccountRepository
     {
         private readonly string _filePath;

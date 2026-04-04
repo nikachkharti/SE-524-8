@@ -8,33 +8,35 @@ namespace MiniBank.UI
 {
     internal static class Program
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
+        public static IServiceProvider ServiceProvider { get; private set; }
+
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
             var services = new ServiceCollection();
-
             ConfigureServices(services);
-
             ServiceProvider = services.BuildServiceProvider();
 
+            // უკვე რეგისტრირებული ფორმის მიღება DI კონტეინერიდან
             var mainForm = ServiceProvider.GetRequiredService<Form1>();
+
             Application.Run(mainForm);
         }
 
 
+
+        //კოდი სადაც უშუალოდ მოხდევა სერვისების რეგისტრაცია და ინიციალიზაცია.
         private static void ConfigureServices(IServiceCollection services)
         {
-            string customerFilePath = @"../../../../MiniBank.Data/Customers.csv";
+            #region რეპოზიტორის რეგისტრაცია
 
-            // Repository (Singleton because of in-memory state)
-            services.AddSingleton<ICustomerRepository>(provider =>
+            const string customerFilePath = @"../../../../MiniBank.Data/Customers.csv";
+            const string accountFilePath = @"../../../../MiniBank.Data/Accounts.json";
+
+
+            services.AddSingleton<ICustomerRepository>(options =>
             {
                 return CustomerRepository
                     .CreateAsync(customerFilePath)
@@ -42,11 +44,28 @@ namespace MiniBank.UI
                     .GetResult();
             });
 
-            // Service
-            services.AddTransient<ICustomerService, CustomerService>();
+            services.AddSingleton<IAccountRepository>(options =>
+            {
+                return AccountRepository
+                    .CreateAsync(accountFilePath)
+                    .GetAwaiter()
+                    .GetResult();
+            });
 
-            // Forms
+
+
+            #endregion
+
+
+            #region სერვისების რეგისტრაცია
+
+            services.AddTransient<ICustomerService, CustomerService>();
+            services.AddTransient<IAccountService, AccountService>();
+
             services.AddTransient<Form1>();
+            services.AddTransient<Form2>();
+
+            #endregion
         }
 
 

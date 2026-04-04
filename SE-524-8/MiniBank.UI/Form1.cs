@@ -1,4 +1,6 @@
+using MiniBank.Repository;
 using MiniBank.Repository.Models.Enums;
+using MiniBank.Service.Dtos.Customer;
 using MiniBank.Service.Interfaces;
 
 namespace MiniBank.UI
@@ -6,11 +8,13 @@ namespace MiniBank.UI
     public partial class Form1 : Form
     {
         private readonly ICustomerService _customerService;
+        private readonly IAccountService _accountService;
 
-        public Form1(ICustomerService customerService)
+        public Form1(ICustomerService customerService, IAccountService accountService)
         {
             InitializeComponent();
             _customerService = customerService;
+            _accountService = accountService;
         }
 
 
@@ -19,6 +23,8 @@ namespace MiniBank.UI
             var customers = await _customerService.GetAllCustomersAsync();
             listBox1.DataSource = customers;
             listBox1.DisplayMember = "Name";
+
+            _accountService.Test();
         }
 
         private async void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -33,21 +39,6 @@ namespace MiniBank.UI
                 customerTypeCombo.DataSource = Enum.GetValues(typeof(CustomerType));
                 customerTypeCombo.SelectedItem = selectedCustomer.CustomerType;
             }
-        }
-
-        private async void newCustomerBtn_Click(object sender, EventArgs e)
-        {
-            var createCustomerDto = new CreateCustomerDto()
-            {
-                Name = nameValue.Text,
-                IdentityNumber = idValue.Text,
-                PhoneNumber = phoneNumberValue.Text,
-                Email = emailValue.Text,
-                CustomerType = (CustomerType)customerTypeCombo.SelectedItem
-            };
-
-            await _customerService.AddCustomerAsync(createCustomerDto);
-            await LoadCustomersAsync();
         }
 
         private async void deleteCustomerBtn_Click(object sender, EventArgs e)
@@ -95,6 +86,22 @@ namespace MiniBank.UI
             var customers = await _customerService.GetAllCustomersAsync();
             listBox1.DataSource = customers;
             listBox1.DisplayMember = "Name";
+        }
+
+
+        private async void newCustomerBtn_Click(object sender, EventArgs e)
+        {
+            var createCustomerDto = new CreateCustomerDto()
+            {
+                Name = nameValue.Text,
+                IdentityNumber = idValue.Text,
+                PhoneNumber = phoneNumberValue.Text,
+                Email = emailValue.Text,
+                CustomerType = (CustomerType)customerTypeCombo.SelectedItem
+            };
+
+            await _customerService.AddCustomerAsync(createCustomerDto);
+            await LoadCustomersAsync();
         }
     }
 }
