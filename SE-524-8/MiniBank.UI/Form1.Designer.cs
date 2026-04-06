@@ -43,6 +43,7 @@
             deleteCustomerBtn = new Button();
             updateCustomerBtn = new Button();
             clearFormBtn = new Button();
+            accountListBox = new ListBox();
             SuspendLayout();
             // 
             // listBox1
@@ -183,11 +184,21 @@
             clearFormBtn.UseVisualStyleBackColor = false;
             clearFormBtn.Click += clearFormBtn_Click_1;
             // 
+            // accountListBox
+            // 
+            accountListBox.Dock = DockStyle.Bottom;
+            accountListBox.FormattingEnabled = true;
+            accountListBox.Location = new Point(320, 567);
+            accountListBox.Name = "accountListBox";
+            accountListBox.Size = new Size(872, 179);
+            accountListBox.TabIndex = 5;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1192, 746);
+            Controls.Add(accountListBox);
             Controls.Add(clearFormBtn);
             Controls.Add(deleteCustomerBtn);
             Controls.Add(updateCustomerBtn);
@@ -228,5 +239,6 @@
         private Button deleteCustomerBtn;
         private Button updateCustomerBtn;
         private Button clearFormBtn;
+        private ListBox accountListBox;
     }
 }

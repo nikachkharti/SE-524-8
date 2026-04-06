@@ -63,7 +63,6 @@ namespace MiniBank.UI
             services.AddTransient<IAccountService, AccountService>();
 
             services.AddTransient<Form1>();
-            services.AddTransient<Form2>();
 
             #endregion
         }

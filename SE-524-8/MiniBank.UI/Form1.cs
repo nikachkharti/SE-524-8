@@ -98,5 +98,6 @@ namespace MiniBank.UI
             emailValue.Text = string.Empty;
             customerTypeCombo.SelectedIndex = 0;
         }
+
     }
 }
