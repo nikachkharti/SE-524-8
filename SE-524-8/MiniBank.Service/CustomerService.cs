@@ -14,11 +14,6 @@ namespace MiniBank.Service
             _repository = repository;
         }
 
-
-        public Task<int> DeleteCustomerAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
         public async Task<List<GetCustomerDto>> GetAllCustomersAsync()
         {
             var customers = _repository.GetCustomers();
@@ -46,9 +41,23 @@ namespace MiniBank.Service
 
             return await _repository.AddCustomerAsync(newCustomer);
         }
-        public Task<int> UpdateCustomerAsync(UpdateCustomerDto model)
+        public async Task<int> UpdateCustomerAsync(UpdateCustomerDto model)
         {
-            throw new NotImplementedException();
+            var customer = new Customer
+            {
+                Id = model.Id,
+                Name = model.Name,
+                IdentityNumber = model.IdentityNumber,
+                PhoneNumber = model.PhoneNumber,
+                Email = model.Email,
+                CustomerType = model.CustomerType
+            };
+
+            return await _repository.UpdateCustomerAsync(customer);
+        }
+        public async Task<int> DeleteCustomerAsync(int id)
+        {
+            return await _repository.DeleteCustomerAsync(id);
         }
     }
 }
