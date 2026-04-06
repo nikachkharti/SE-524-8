@@ -1,7 +1,9 @@
-﻿namespace MiniBank.Service.Interfaces
+﻿using MiniBank.Service.Dtos.Account;
+
+namespace MiniBank.Service.Interfaces
 {
     public interface IAccountService
     {
-        void Test();
+        List<GetAccountDto> GetAccountsOfCustomer(int customerId);
     }
 }

@@ -48,6 +48,7 @@
             // 
             // listBox1
             // 
+            listBox1.Cursor = Cursors.Hand;
             listBox1.Dock = DockStyle.Left;
             listBox1.FormattingEnabled = true;
             listBox1.Location = new Point(0, 0);
@@ -186,6 +187,7 @@
             // 
             // accountListBox
             // 
+            accountListBox.Cursor = Cursors.Hand;
             accountListBox.Dock = DockStyle.Bottom;
             accountListBox.FormattingEnabled = true;
             accountListBox.Location = new Point(320, 567);

@@ -1,5 +1,5 @@
-using MiniBank.Repository;
 using MiniBank.Repository.Models.Enums;
+using MiniBank.Service.Dtos.Account;
 using MiniBank.Service.Dtos.Customer;
 using MiniBank.Service.Interfaces;
 
@@ -8,24 +8,24 @@ namespace MiniBank.UI
     public partial class Form1 : Form
     {
         private readonly ICustomerService _customerService;
+        private readonly IAccountService _accountService;
 
-        public Form1(ICustomerService customerService)
+        public Form1(ICustomerService customerService, IAccountService accountService)
         {
             InitializeComponent();
             _customerService = customerService;
+            _accountService = accountService;
         }
 
 
         private async void Form1_Load(object sender, EventArgs e)
         {
-            var customers = await _customerService.GetAllCustomersAsync();
-            listBox1.DataSource = customers;
-            listBox1.DisplayMember = "Name";
+            await LoadCustomersAsync();
         }
 
         private async void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var selectedCustomer = listBox1.SelectedItem as Service.Dtos.Customer.GetCustomerDto;
+            var selectedCustomer = listBox1.SelectedItem as GetCustomerDto;
             if (selectedCustomer != null)
             {
                 nameValue.Text = selectedCustomer.Name;
@@ -34,6 +34,9 @@ namespace MiniBank.UI
                 emailValue.Text = selectedCustomer.Email;
                 customerTypeCombo.DataSource = Enum.GetValues(typeof(CustomerType));
                 customerTypeCombo.SelectedItem = selectedCustomer.CustomerType;
+
+                var accounts = LoadAccountsOfCustomer(selectedCustomer.Id);
+                accountListBox.DataSource = accounts;
             }
         }
 
@@ -45,6 +48,10 @@ namespace MiniBank.UI
             listBox1.DisplayMember = "Name";
         }
 
+        private List<GetAccountDto> LoadAccountsOfCustomer(int customerId)
+        {
+            return _accountService.GetAccountsOfCustomer(customerId);
+        }
 
         private async void newCustomerBtn_Click(object sender, EventArgs e)
         {
@@ -98,6 +105,5 @@ namespace MiniBank.UI
             emailValue.Text = string.Empty;
             customerTypeCombo.SelectedIndex = 0;
         }
-
     }
 }
