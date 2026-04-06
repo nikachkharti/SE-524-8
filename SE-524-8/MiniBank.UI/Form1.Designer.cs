@@ -44,6 +44,7 @@
             updateCustomerBtn = new Button();
             clearFormBtn = new Button();
             accountListBox = new ListBox();
+            openAccountBtn = new Button();
             SuspendLayout();
             // 
             // listBox1
@@ -195,11 +196,22 @@
             accountListBox.Size = new Size(872, 179);
             accountListBox.TabIndex = 5;
             // 
+            // openAccountBtn
+            // 
+            openAccountBtn.Location = new Point(594, 4);
+            openAccountBtn.Name = "openAccountBtn";
+            openAccountBtn.Size = new Size(161, 34);
+            openAccountBtn.TabIndex = 6;
+            openAccountBtn.Text = "Open Account";
+            openAccountBtn.UseVisualStyleBackColor = true;
+            openAccountBtn.Click += openAccountBtn_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1192, 746);
+            Controls.Add(openAccountBtn);
             Controls.Add(accountListBox);
             Controls.Add(clearFormBtn);
             Controls.Add(deleteCustomerBtn);
@@ -242,5 +254,6 @@
         private Button updateCustomerBtn;
         private Button clearFormBtn;
         private ListBox accountListBox;
+        private Button openAccountBtn;
     }
 }

@@ -105,5 +105,11 @@ namespace MiniBank.UI
             emailValue.Text = string.Empty;
             customerTypeCombo.SelectedIndex = 0;
         }
+
+        private void openAccountBtn_Click(object sender, EventArgs e)
+        {
+            Form2 form2 = new Form2();
+            form2.ShowDialog();
+        }
     }
 }
