@@ -9,6 +9,7 @@ namespace MiniBank.UI
     {
         private readonly ICustomerService _customerService;
         private readonly IAccountService _accountService;
+        private int _selectedCustomerId;
 
         public Form1(ICustomerService customerService, IAccountService accountService)
         {
@@ -32,11 +33,12 @@ namespace MiniBank.UI
                 idValue.Text = selectedCustomer.IdentityNumber;
                 phoneNumberValue.Text = selectedCustomer.PhoneNumber;
                 emailValue.Text = selectedCustomer.Email;
+                _selectedCustomerId = selectedCustomer.Id;
                 customerTypeCombo.DataSource = Enum.GetValues(typeof(CustomerType));
                 customerTypeCombo.SelectedItem = selectedCustomer.CustomerType;
 
-                var accounts = LoadAccountsOfCustomer(selectedCustomer.Id);
-                accountListBox.DataSource = accounts;
+                //var accounts = LoadAccountsOfCustomer(selectedCustomer.Id);
+                //accountListBox.DataSource = accounts;
             }
         }
 
@@ -46,11 +48,6 @@ namespace MiniBank.UI
             var customers = await _customerService.GetAllCustomersAsync();
             listBox1.DataSource = customers;
             listBox1.DisplayMember = "Name";
-        }
-
-        private List<GetAccountDto> LoadAccountsOfCustomer(int customerId)
-        {
-            return _accountService.GetAccountsOfCustomer(customerId);
         }
 
         private async void newCustomerBtn_Click(object sender, EventArgs e)
@@ -108,8 +105,9 @@ namespace MiniBank.UI
 
         private void openAccountBtn_Click(object sender, EventArgs e)
         {
-            Form2 form2 = new Form2();
-            form2.ShowDialog();
+            AccountsUC accountsUC = new AccountsUC(_accountService, _selectedCustomerId);
+            accountsUCPanel.Controls.Clear();
+            accountsUCPanel.Controls.Add(accountsUC);
         }
     }
 }

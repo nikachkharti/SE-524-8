@@ -43,8 +43,8 @@
             deleteCustomerBtn = new Button();
             updateCustomerBtn = new Button();
             clearFormBtn = new Button();
-            accountListBox = new ListBox();
             openAccountBtn = new Button();
+            accountsUCPanel = new Panel();
             SuspendLayout();
             // 
             // listBox1
@@ -186,16 +186,6 @@
             clearFormBtn.UseVisualStyleBackColor = false;
             clearFormBtn.Click += clearFormBtn_Click_1;
             // 
-            // accountListBox
-            // 
-            accountListBox.Cursor = Cursors.Hand;
-            accountListBox.Dock = DockStyle.Bottom;
-            accountListBox.FormattingEnabled = true;
-            accountListBox.Location = new Point(320, 567);
-            accountListBox.Name = "accountListBox";
-            accountListBox.Size = new Size(872, 179);
-            accountListBox.TabIndex = 5;
-            // 
             // openAccountBtn
             // 
             openAccountBtn.Location = new Point(594, 4);
@@ -206,13 +196,20 @@
             openAccountBtn.UseVisualStyleBackColor = true;
             openAccountBtn.Click += openAccountBtn_Click;
             // 
+            // accountsUCPanel
+            // 
+            accountsUCPanel.Location = new Point(594, 49);
+            accountsUCPanel.Name = "accountsUCPanel";
+            accountsUCPanel.Size = new Size(586, 685);
+            accountsUCPanel.TabIndex = 7;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1192, 746);
+            Controls.Add(accountsUCPanel);
             Controls.Add(openAccountBtn);
-            Controls.Add(accountListBox);
             Controls.Add(clearFormBtn);
             Controls.Add(deleteCustomerBtn);
             Controls.Add(updateCustomerBtn);
@@ -253,7 +250,7 @@
         private Button deleteCustomerBtn;
         private Button updateCustomerBtn;
         private Button clearFormBtn;
-        private ListBox accountListBox;
         private Button openAccountBtn;
+        private Panel accountsUCPanel;
     }
 }
