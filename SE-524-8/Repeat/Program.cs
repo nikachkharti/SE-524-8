@@ -3,6 +3,10 @@ namespace Repeat
 {
     public static class Program
     {
+        private static int _counter = 0;
+        //private static object _counterLocker = new();
+        private static SemaphoreSlim _counterSemaphore = new(1, 1);
+
         static async Task Main(string[] args)
         {
             Stopwatch sw = Stopwatch.StartNew();
@@ -52,6 +56,8 @@ namespace Repeat
 
             string[] results = await Task.WhenAll(task1, task2, task3);
 
+            Console.WriteLine($"Counter: {_counter}");
+
             sw.Stop();
 
             foreach (var result in results)
@@ -64,6 +70,34 @@ namespace Repeat
         static async Task<string> GetDataAsync(string apiName)
         {
             await Task.Delay(2000); // Simulate an slow operation
+
+            for (int i = 0; i < 100000; i++)
+            {
+                #region LOCK
+                //lock (_counterLocker)
+                //{
+                //_counter++;
+                //} 
+                #endregion
+
+
+                #region SEMAPHORE
+
+                await _counterSemaphore.WaitAsync();
+
+                try
+                {
+                    _counter++;
+                }
+                finally
+                {
+                    _counterSemaphore.Release();
+                }
+
+                #endregion
+
+            }
+
             return $"[200] OK Response from service: {apiName}";
         }
 
