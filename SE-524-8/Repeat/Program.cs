@@ -1,14 +1,75 @@
-﻿namespace Repeat
+﻿using System.Diagnostics;
+namespace Repeat
 {
-    internal class Program
+    public static class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            var x = RomanToInt("IX");
+            Stopwatch sw = Stopwatch.StartNew();
+
+            #region AWAIT VS CONTINUEWITH
+            //var result1 = await GetDataAsync("API 1");
+            //var result2 = await GetDataAsync("API 2");
+            //var result3 = await GetDataAsync("API 3");
+
+            //GetDataAsync("API 1")
+            //    .ContinueWith(t1 =>
+            //    {
+            //        var result1 = t1.Result;
+
+            //        return GetDataAsync("API 2")
+            //            .ContinueWith(t2 =>
+            //            {
+            //                var result2 = t2.Result;
+
+            //                return GetDataAsync("API 3")
+            //                    .ContinueWith(t3 =>
+            //                    {
+            //                        var result3 = t3.Result;
+
+            //                        // Use results here
+            //                        Console.WriteLine(result1);
+            //                        Console.WriteLine(result2);
+            //                        Console.WriteLine(result3);
+            //                    });
+            //            }).Unwrap();
+            //    }).Unwrap(); 
+            #endregion
+
+
+            #region TASK WHENALL
+            //Task<string> task1 = GetDataAsync("API 1");
+            //Task<string> task2 = GetDataAsync("API 2");
+            //Task<string> task3 = GetDataAsync("API 3");
+
+            //string[] results = await Task.WhenAll(task1, task2, task3); 
+            #endregion
+
+
+            Task<string> task1 = GetDataAsync("API 1");
+            Task<string> task2 = GetDataAsync("API 2");
+            Task<string> task3 = GetDataAsync("API 3");
+
+            string[] results = await Task.WhenAll(task1, task2, task3);
+
+            sw.Stop();
+
+            foreach (var result in results)
+                Console.WriteLine(result);
+
+            Console.WriteLine($"Total time: {sw.ElapsedMilliseconds} ms");
+        }
+
+
+        static async Task<string> GetDataAsync(string apiName)
+        {
+            await Task.Delay(2000); // Simulate an slow operation
+            return $"[200] OK Response from service: {apiName}";
         }
 
 
 
+        #region გამეორება 1
         public static int RomanToInt(string s)
         {
             var romanPairs = new Dictionary<char, int>
@@ -41,8 +102,7 @@
             }
 
             return result;
-            }
-
+        }
         public static int FirstUniqueCharacter(string text)  //O(n) time complexity
         {
             Dictionary<char, int> frequency = new(); //'H' 0
@@ -65,7 +125,6 @@
 
             return -1;
         }
-
 
         //public static char FirstUniqueCharacter(string text)  O(n^2) time complexity
         //{
@@ -104,5 +163,6 @@
             number = 0; // Must assign a value before using an out parameter
             number += 1;
         }
+        #endregion
     }
 }
