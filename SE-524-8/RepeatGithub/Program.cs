@@ -2,10 +2,15 @@
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello, World");
-            Console.WriteLine("Hello, World!!!!!");
+            Console.WriteLine("=== Student Management System ===");
+
+            var service = new StudentService();
+
+            await service.SeedDataAsync();
+
+            service.ListStudents();
         }
     }
 }
