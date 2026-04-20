@@ -5,7 +5,7 @@
         public int Id { get; set; }
         public string Name { get; set; }
         public int Age { get; set; }
-        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
     }
 
     public class StudentService
@@ -15,17 +15,16 @@
 
         public async Task SeedDataAsync()
         {
-            await Task.Delay(100);
-            _students.Add(new Student { Id = _idCounter++, Name = "Alice", Age = 20, Email = "alice@test.com" });
+            await Task.Delay(50);
+            _students.Add(new Student { Id = _idCounter++, Name = "Alice", Age = 20, PhoneNumber = "123456" });
         }
 
         public void ListStudents()
         {
-            foreach (var s in _students)
+            foreach (var student in _students.OrderBy(x => x.Name))
             {
-                Console.WriteLine($"{s.Id} | {s.Name} | {s.Age} | {s.Email}");
+                Console.WriteLine($"{student.Id} - {student.Name} - {student.Age} - {student.PhoneNumber}");
             }
-
         }
     }
 }
