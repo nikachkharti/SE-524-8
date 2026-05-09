@@ -1,4 +1,5 @@
 ﻿using ITStepClass.Models;
+using ITStepClass.Services;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
@@ -17,10 +18,24 @@ namespace ITStepClass
             //    FirstName = "Nika",
             //    LastName = "Gogoladze"
             //});
+
+
+          //  DatabaseService databaseService = new DatabaseService(_connectionString);
+
+
+          //await databaseService.ExecuteAsync("AddNewStudent", new SqlParameter("FirstName", "Nika"), new SqlParameter("LastName", "Gogoladze"));
+
+
+          //var rame = await databaseService.QueryAsync("GetStudents", reader => new Student()
+          //  {
+          //      Id = reader.GetInt32("Id"),
+          //      FirstName = reader.GetString("FirstName"),
+          //      LastName = reader.GetString("LastName")
+          //  });
         }
 
 
-
+        //COMMAND
         private async static Task<int> AddNewStudentAsync(CreateStudentDto model)
         {
             using SqlConnection connection = new SqlConnection(_connectionString);
@@ -37,6 +52,8 @@ namespace ITStepClass
 
             return await command.ExecuteNonQueryAsync(); //გაშვება, ჩაწერა
         }
+
+        //QUERY
         private async static Task<Student> GetSingleStudentAsync(int id)
         {
             using SqlConnection connection = new SqlConnection(_connectionString);
