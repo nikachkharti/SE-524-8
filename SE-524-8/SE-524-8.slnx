@@ -28,4 +28,5 @@
   <Project Path="Lecture9/Lecture9.csproj" Id="89067804-5390-4d78-933d-be42f48c9b6a" />
   <Project Path="Repeat/Repeat.csproj" Id="e9ebdf91-1b0c-4f75-a280-5f08504378b8" />
   <Project Path="RepeatGithub/RepeatGithub.csproj" Id="9a97e4d9-4cee-4a6e-8e41-156ab09bbfe6" />
+  <Project Path="SportLeague/SportLeague.csproj" Id="e0683e53-e7c4-4dfc-9900-f2c145af966d" />
 </Solution>
