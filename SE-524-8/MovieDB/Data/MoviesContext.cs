@@ -5,6 +5,7 @@ namespace MovieDB.Data
 {
     public class MoviesContext : DbContext
     {
+        private const string _connectionString = @"Server=DESKTOP-SCSHELD\SQLEXPRESS;Database=Movies;Trusted_Connection=True;TrustServerCertificate=True";
         public DbSet<Actor> Actors { get; set; }
         public DbSet<Director> Directors { get; set; }
         public DbSet<Film> Films { get; set; }
@@ -22,7 +23,7 @@ namespace MovieDB.Data
         // -----------------------------------------------------------------------
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlServer("");
+            options.UseSqlServer(_connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
