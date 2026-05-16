@@ -15,6 +15,8 @@ namespace MovieDB.Data
         public DbSet<Certificate> Certificates { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Studio> Studios { get; set; }
+        public DbSet<FilmBenchmark> FilmsBenchmark { get; set; }
+
 
 
         // -----------------------------------------------------------------------
