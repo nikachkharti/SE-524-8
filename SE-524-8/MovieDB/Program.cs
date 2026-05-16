@@ -1,10 +1,13 @@
-﻿namespace MovieDB
+﻿using Microsoft.EntityFrameworkCore;
+using MovieDB.Data;
+
+namespace MovieDB
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-
+            using var db = new MoviesContext();
         }
     }
 }

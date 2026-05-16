@@ -3,7 +3,7 @@
     public class Role
     {
         public int RoleId { get; set; }           // RoleID PK
-        public string RoleName { get; set; } = null!;  // "Role" column (renamed to avoid conflict)
+        public string? RoleName { get; set; }
         public int FilmId { get; set; }
         public int ActorId { get; set; }
 
