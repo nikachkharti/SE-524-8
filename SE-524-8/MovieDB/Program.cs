@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using MovieDB.Data;
 using MovieDB.Entities;
@@ -10,13 +11,45 @@ namespace MovieDB
     {
         static async Task Main(string[] args)
         {
-            var cache = new MemoryCache(new MemoryCacheOptions());
-            using var db = new MoviesContext();
+            #region ქეშირება
+            //var cache = new MemoryCache(new MemoryCacheOptions());
+            //using var db = new MoviesContext();
 
-            await GetSingleFilm_NoCache(db);
-            await GetSingleFilm_WithCache(db, cache);
+            //await GetSingleFilm_NoCache(db);
+            //await GetSingleFilm_WithCache(db, cache); 
+            #endregion
+
+            #region პროცედურის გამოძახება EF Core _ ით
+            //using var db = new MoviesContext();
+
+            //const string sqlQuery = "EXEC dbo.sp_GetPagedFilms @PageNumber, @PageSize";
+            //var pageNumberParameter = new SqlParameter("@PageNumber", 2);
+            //var pageSizeParameter = new SqlParameter("@PageSize", 10);
+
+
+            //var filteredMovieBenchmarks = await db.FilmsBenchmark
+            //    .FromSqlRaw(sqlQuery, pageNumberParameter, pageSizeParameter)
+            //    .ToListAsync(); 
+            #endregion
+
+
 
         }
+
+        //შექმენით რეპოზიოტრის კლასი უნდა შემეძლოს paging
+
+        //1. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა მსახიობს EF CORE CODE FIRST + LINQ
+        //2. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა რეჟისორს EF CORE CODE FIRST + LINQ
+        //3. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა სერთიფიკატს EF CORE CODE FIRST + LINQ
+        //4. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა ქვეყანას EF CORE CODE FIRST + LINQ
+        //5. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა ჟანრს EF CORE CODE FIRST + LINQ
+        //6. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა ენას EF CORE CODE FIRST + LINQ
+        //7. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა როლს EF CORE CODE FIRST + LINQ
+        //8. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა ფილმს EF CORE CODE FIRST + LINQ
+        //8. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა სტუდიას EF CORE CODE FIRST + LINQ
+        //9. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა სტუდიას EF CORE CODE FIRST + LINQ
+
+
 
         static async Task GetSingleFilm_NoCache(MoviesContext db)
         {
