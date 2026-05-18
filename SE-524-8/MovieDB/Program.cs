@@ -1,8 +1,10 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Identity.Client;
 using MovieDB.Data;
 using MovieDB.Entities;
+using MovieDB.Repositories;
 using System.Diagnostics;
 
 namespace MovieDB
@@ -34,6 +36,11 @@ namespace MovieDB
 
 
 
+            using var db = new MoviesContext();
+
+            GeneralRepository<Country> repository = new GeneralRepository<Country>(db);
+
+            var countries = await repository.GetAllAsync(10, 2);
         }
 
         //შექმენით რეპოზიოტრის კლასი უნდა შემეძლოს paging
@@ -48,6 +55,7 @@ namespace MovieDB
         //8. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა ფილმს EF CORE CODE FIRST + LINQ
         //8. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა სტუდიას EF CORE CODE FIRST + LINQ
         //9. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა სტუდიას EF CORE CODE FIRST + LINQ
+
 
 
 

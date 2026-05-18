@@ -4,24 +4,21 @@ using MovieDB.Entities;
 
 namespace MovieDB.Repositories
 {
-    public class ActorRepository 
+    public class CountryRepository
     {
         private readonly MoviesContext _context;
-        public ActorRepository(MoviesContext context)
+
+        public CountryRepository(MoviesContext context)
         {
             _context = context;
         }
 
-
-        public async Task<List<Actor>> GetAllActorsAsync(int pageSize, int pageNumber)
+        public async Task<List<Country>> GetAllCountriesAsync(int pageSize, int pageNumber)
         {
-            return await _context.Actors
+            return await _context.Countries
                 .Skip((pageNumber - 1) * pageSize) // OFFSET
                 .Take(pageSize) //FETCH NEXT
                 .ToListAsync();
         }
-
-        
     }
-   
 }

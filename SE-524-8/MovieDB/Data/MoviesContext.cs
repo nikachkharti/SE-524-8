@@ -36,8 +36,8 @@ namespace MovieDB.Data
                 entity.ToTable("Actor");
                 entity.HasKey(e => e.ActorId);
                 entity.Property(e => e.ActorId).HasColumnName("ActorID").ValueGeneratedNever();
-                entity.Property(e => e.FirstName).HasColumnType("nvarchar(4000)").IsRequired();
-                entity.Property(e => e.FamilyName).HasColumnType("nvarchar(4000)").IsRequired();
+                entity.Property(e => e.FirstName).HasColumnType("nvarchar(4000)");
+                entity.Property(e => e.FamilyName).HasColumnType("nvarchar(4000)");
                 entity.Property(e => e.DoB).HasColumnName("DoB");
                 entity.Property(e => e.DoD).HasColumnName("DoD");
                 entity.Property(e => e.Gender).HasColumnType("nvarchar(4000)");
