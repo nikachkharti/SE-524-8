@@ -40,31 +40,47 @@ namespace MovieDB
 
             GeneralRepository<Film> repository = new(db);
 
-            var result = await repository.GetAllAsync(
-                pageNumber: 1,
-                pageSize: 5,
-                ascending: false,
-                orderBy: x => x.ReleaseDate,
-                filter: x => x.ReleaseDate != null,
-                tracking: false,
-                includes: [x => x.Director, x => x.Studio, x => x.Country, x => x.Language, x => x.Genre, x => x.Certificate]
-            );
+            //var multipleResults = await repository.GetAllAsync(
+            //    pageNumber: 1,
+            //    pageSize: 5,
+            //    ascending: false,
+            //    orderBy: x => x.ReleaseDate,
+            //    filter: x => x.ReleaseDate != null,
+            //    tracking: false,
+            //    includes: [x => x.Director, x => x.Studio, x => x.Country, x => x.Language, x => x.Genre, x => x.Certificate]
+            //);
+
+
+            //var singleResult = await repository.GetAsync(
+            //    filter: x => x.FilmId == 1676,
+            //    tracking: false,
+            //    includes: [x => x.Director, x => x.Studio, x => x.Country, x => x.Language, x => x.Genre, x => x.Certificate]
+            //);
+
+
+            var lastFilm = await repository.GetAllAsync(ascending: false, orderBy: x => x.FilmId, pageSize: 1, pageNumber: 1);
+
+            await repository.AddAsync(new Film
+            {
+                FilmId = 1679,
+                Title = "New Film",
+                ReleaseDate = DateTime.Now,
+                DirectorId = 1,
+                StudioId = 1,
+                CountryId = 1,
+                LanguageId = 1,
+                GenreId = 1,
+                CertificateId = 1,
+                RunTimeMinutes = 120,
+                BudgetDollars = 100000000,
+                BoxOfficeDollars = 500000000,
+                OscarNominations = 5,
+                OscarWins = 2
+            });
 
 
         }
 
-        //შექმენით რეპოზიოტრის კლასი უნდა შემეძლოს paging
-
-        //1. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა მსახიობს EF CORE CODE FIRST + LINQ
-        //2. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა რეჟისორს EF CORE CODE FIRST + LINQ
-        //3. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა სერთიფიკატს EF CORE CODE FIRST + LINQ
-        //4. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა ქვეყანას EF CORE CODE FIRST + LINQ
-        //5. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა ჟანრს EF CORE CODE FIRST + LINQ
-        //6. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა ენას EF CORE CODE FIRST + LINQ
-        //7. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა როლს EF CORE CODE FIRST + LINQ
-        //8. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა ფილმს EF CORE CODE FIRST + LINQ
-        //8. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა სტუდიას EF CORE CODE FIRST + LINQ
-        //9. დაწერეთ მეთოდი რომელიც წამოიღებს ყველა სტუდიას EF CORE CODE FIRST + LINQ
 
 
 
