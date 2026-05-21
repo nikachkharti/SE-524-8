@@ -46,6 +46,7 @@ namespace MovieDB
                 ascending: false,
                 orderBy: x => x.ReleaseDate,
                 filter: x => x.ReleaseDate != null,
+                tracking: false,
                 includes: [x => x.Director, x => x.Studio, x => x.Country, x => x.Language, x => x.Genre, x => x.Certificate]
             );
 

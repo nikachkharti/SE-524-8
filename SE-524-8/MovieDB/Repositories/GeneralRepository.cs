@@ -1,12 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieDB.Data;
-using MovieDB.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieDB.Repositories
 {
@@ -24,10 +18,13 @@ namespace MovieDB.Repositories
             bool ascending = true,
             Expression<Func<T, object>> orderBy = null,
             Expression<Func<T, bool>> filter = null,
-            params Expression<Func<T, object>>[] includes
-            )
+            bool tracking = true,
+            params Expression<Func<T, object>>[] includes)
         {
             IQueryable<T> query = _context.Set<T>();
+
+            if (!tracking)
+                query = query.AsNoTracking();
 
             if (filter != null)
                 query = query.Where(filter);
@@ -50,16 +47,6 @@ namespace MovieDB.Repositories
                 .Take(pageSize)
                 .ToListAsync();
         }
-
-
-        //public async Task<List<T>> GetAllAsync(int pageSize, int pageNumber)
-        //{
-        //    return await _context.Set<T>()
-        //        .Skip((pageNumber - 1) * pageSize) // OFFSET
-        //        .Take(pageSize) //FETCH NEXT
-        //        .ToListAsync();
-        //}
-
 
     }
 }
