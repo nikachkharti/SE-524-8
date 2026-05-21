@@ -38,9 +38,18 @@ namespace MovieDB
 
             using var db = new MoviesContext();
 
-            GeneralRepository<Country> repository = new GeneralRepository<Country>(db);
+            GeneralRepository<Film> repository = new(db);
 
-            var countries = await repository.GetAllAsync(10, 2);
+            var result = await repository.GetAllAsync(
+                pageNumber: 1,
+                pageSize: 5,
+                ascending: false,
+                orderBy: x => x.ReleaseDate,
+                filter: x => x.ReleaseDate != null,
+                includes: [x => x.Director, x => x.Studio, x => x.Country, x => x.Language, x => x.Genre, x => x.Certificate]
+            );
+
+
         }
 
         //შექმენით რეპოზიოტრის კლასი უნდა შემეძლოს paging
