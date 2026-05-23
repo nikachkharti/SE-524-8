@@ -5,6 +5,7 @@
     <Project Path="MiniBank.Service/MiniBank.Service.csproj" Id="8f5b8de2-4a17-454d-8480-6c1fbc838aad" />
     <Project Path="MiniBank.UI/MiniBank.UI.csproj" Id="f1425eaf-bf54-403f-8349-356225201ed6" />
   </Folder>
+  <Project Path="EFCoreFinal/EFCoreFinal.csproj" Id="d40caacc-776a-44b1-8fc3-173032215079" />
   <Project Path="FirstProject/FirstProject.csproj" />
   <Project Path="ITStepClass/ITStepClass.csproj" Id="672e3446-000d-46cb-a8ba-760a579599b3" />
   <Project Path="Lecture11/Lecture11.csproj" Id="5152dd94-d01c-4c74-a599-9ef85a66dc6b" />
