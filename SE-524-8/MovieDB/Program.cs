@@ -6,6 +6,7 @@ using MovieDB.Data;
 using MovieDB.Entities;
 using MovieDB.Repositories;
 using System.Diagnostics;
+using System.Text.Json;
 
 namespace MovieDB
 {
@@ -40,15 +41,28 @@ namespace MovieDB
 
             GeneralRepository<Film> repository = new(db);
 
-            //var multipleResults = await repository.GetAllAsync(
-            //    pageNumber: 1,
-            //    pageSize: 5,
-            //    ascending: false,
-            //    orderBy: x => x.ReleaseDate,
-            //    filter: x => x.ReleaseDate != null,
-            //    tracking: false,
-            //    includes: [x => x.Director, x => x.Studio, x => x.Country, x => x.Language, x => x.Genre, x => x.Certificate]
-            //);
+            var multipleResults = await repository.GetAllAsync(
+                pageNumber: 1,
+                pageSize: 5,
+                ascending: false,
+                orderBy: x => x.ReleaseDate,
+                filter: x => x.ReleaseDate != null,
+                tracking: false,
+                includes: [x => x.Director, x => x.Studio, x => x.Country, x => x.Language, x => x.Genre, x => x.Certificate]
+            );
+
+
+            string multipleResultsJson = 
+                JsonSerializer
+                .Serialize(multipleResults, new JsonSerializerOptions { WriteIndented = true });
+
+            
+
+
+
+
+
+
 
 
             //var singleResult = await repository.GetAsync(
@@ -58,25 +72,25 @@ namespace MovieDB
             //);
 
 
-            var lastFilm = await repository.GetAllAsync(ascending: false, orderBy: x => x.FilmId, pageSize: 1, pageNumber: 1);
+            //var lastFilm = await repository.GetAllAsync(ascending: false, orderBy: x => x.FilmId, pageSize: 1, pageNumber: 1);
 
-            await repository.AddAsync(new Film
-            {
-                FilmId = 1679,
-                Title = "New Film",
-                ReleaseDate = DateTime.Now,
-                DirectorId = 1,
-                StudioId = 1,
-                CountryId = 1,
-                LanguageId = 1,
-                GenreId = 1,
-                CertificateId = 1,
-                RunTimeMinutes = 120,
-                BudgetDollars = 100000000,
-                BoxOfficeDollars = 500000000,
-                OscarNominations = 5,
-                OscarWins = 2
-            });
+            //await repository.AddAsync(new Film
+            //{
+            //    FilmId = 1679,
+            //    Title = "New Film",
+            //    ReleaseDate = DateTime.Now,
+            //    DirectorId = 1,
+            //    StudioId = 1,
+            //    CountryId = 1,
+            //    LanguageId = 1,
+            //    GenreId = 1,
+            //    CertificateId = 1,
+            //    RunTimeMinutes = 120,
+            //    BudgetDollars = 100000000,
+            //    BoxOfficeDollars = 500000000,
+            //    OscarNominations = 5,
+            //    OscarWins = 2
+            //});
 
 
         }
