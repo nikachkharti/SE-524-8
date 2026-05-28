@@ -31,4 +31,5 @@
     <Project Path="MiniBank.Service/MiniBank.Service.csproj" Id="8f5b8de2-4a17-454d-8480-6c1fbc838aad" />
     <Project Path="MiniBank.UI/MiniBank.UI.csproj" Id="f1425eaf-bf54-403f-8349-356225201ed6" />
   </Folder>
+  <Project Path="Company524.API/Company524.API.csproj" Id="29046e10-c9c2-4e72-962e-c6d05984d1f0" />
 </Solution>
