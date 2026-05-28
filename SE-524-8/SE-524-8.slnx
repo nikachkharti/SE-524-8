@@ -1,32 +1,34 @@
 <Solution>
-  <Folder Name="/MiniBank/">
+  <Folder Name="/BeforeWEB/">
+    <Project Path="FirstProject/FirstProject.csproj" />
+    <Project Path="ITStepClass/ITStepClass.csproj" Id="672e3446-000d-46cb-a8ba-760a579599b3" />
+    <Project Path="Lecture11/Lecture11.csproj" Id="5152dd94-d01c-4c74-a599-9ef85a66dc6b" />
+    <Project Path="Lecture13/Lecture13.csproj" Id="446e878c-f124-470c-814e-0c3ecb348360" />
+    <Project Path="Lecture14/Lecture14.csproj" Id="35c5d638-ea77-4b2e-883a-1e73aa96b216" />
+    <Project Path="Lecture16/Lecture16.csproj" Id="26c7e24a-07d7-4569-a06a-d20546dc87d1" />
+    <Project Path="Lecture18/Lecture18.csproj" Id="217daafd-27a6-4221-92fe-c9455e688f26" />
+    <Project Path="Lecture22/Lecture22.csproj" Id="242593c6-6e0f-4e9f-bb1d-dfc42778c39a" />
+    <Project Path="Lecture25/Lecture25.csproj" Id="a3a45191-6dc9-43ff-9bd1-9f34a8747120" />
+    <Project Path="Lecture27/Lecture27.csproj" Id="838fe03d-9fa1-4a39-9ee1-621adb988091" />
+    <Project Path="Lecture28/Lecture28.csproj" Id="0bd8b8de-c21f-4552-a808-4627798d2ef8" />
+    <Project Path="Lecture29/Lecture29.csproj" Id="613878ae-261d-4e78-ab80-dd891891a17d" />
+    <Project Path="Lecture30/Lecture30.csproj" Id="ad568868-6b55-4b71-9966-2ee1cf1e4ee9" />
+    <Project Path="Lecture32/Lecture32.csproj" Id="e80ed5d1-fc57-4d8f-84dc-5fdec43ea665" />
+    <Project Path="Lecture33/Lecture33.csproj" Id="863f5c06-c5ef-4f70-ba0a-b6e56e41c291" />
+    <Project Path="Lecture33Console/Lecture33Console.csproj" Id="8017eac6-15e2-470b-b1cf-5e463cbdc130" />
+    <Project Path="Lecture4/Lecture4.csproj" Id="d8b1d0ce-3e79-4611-a815-1f925cc55370" />
+    <Project Path="Lecture6/Lecture6.csproj" Id="84769670-f8bf-40b2-803f-08d8dd141d22" />
+    <Project Path="Lecture7/Lecture7.csproj" Id="7136c8cb-d903-455e-a65f-ce46e9bff4f0" />
+    <Project Path="Lecture8/Lecture8.csproj" Id="3cc85955-e346-4b4b-a271-9961fad07bf6" />
+    <Project Path="Lecture9/Lecture9.csproj" Id="89067804-5390-4d78-933d-be42f48c9b6a" />
+    <Project Path="Repeat/Repeat.csproj" Id="e9ebdf91-1b0c-4f75-a280-5f08504378b8" />
+    <Project Path="RepeatGithub/RepeatGithub.csproj" Id="9a97e4d9-4cee-4a6e-8e41-156ab09bbfe6" />
+    <Project Path="SportLeague/SportLeague.csproj" Id="e0683e53-e7c4-4dfc-9900-f2c145af966d" />
+  </Folder>
+  <Folder Name="/BeforeWEB/MiniBank/">
     <Project Path="MiniBank.Data/MiniBank.Data.csproj" Id="9dfa82cc-1ae4-47cd-aa53-f26f62c739b9" />
     <Project Path="MiniBank.Repository/MiniBank.Repository.csproj" Id="db07cb01-ab40-4cd5-80c0-6ff0afa8d17f" />
     <Project Path="MiniBank.Service/MiniBank.Service.csproj" Id="8f5b8de2-4a17-454d-8480-6c1fbc838aad" />
     <Project Path="MiniBank.UI/MiniBank.UI.csproj" Id="f1425eaf-bf54-403f-8349-356225201ed6" />
   </Folder>
-  <Project Path="FirstProject/FirstProject.csproj" />
-  <Project Path="ITStepClass/ITStepClass.csproj" Id="672e3446-000d-46cb-a8ba-760a579599b3" />
-  <Project Path="Lecture11/Lecture11.csproj" Id="5152dd94-d01c-4c74-a599-9ef85a66dc6b" />
-  <Project Path="Lecture13/Lecture13.csproj" Id="446e878c-f124-470c-814e-0c3ecb348360" />
-  <Project Path="Lecture14/Lecture14.csproj" Id="35c5d638-ea77-4b2e-883a-1e73aa96b216" />
-  <Project Path="Lecture16/Lecture16.csproj" Id="26c7e24a-07d7-4569-a06a-d20546dc87d1" />
-  <Project Path="Lecture18/Lecture18.csproj" Id="217daafd-27a6-4221-92fe-c9455e688f26" />
-  <Project Path="Lecture22/Lecture22.csproj" Id="242593c6-6e0f-4e9f-bb1d-dfc42778c39a" />
-  <Project Path="Lecture25/Lecture25.csproj" Id="a3a45191-6dc9-43ff-9bd1-9f34a8747120" />
-  <Project Path="Lecture27/Lecture27.csproj" Id="838fe03d-9fa1-4a39-9ee1-621adb988091" />
-  <Project Path="Lecture28/Lecture28.csproj" Id="0bd8b8de-c21f-4552-a808-4627798d2ef8" />
-  <Project Path="Lecture29/Lecture29.csproj" Id="613878ae-261d-4e78-ab80-dd891891a17d" />
-  <Project Path="Lecture30/Lecture30.csproj" Id="ad568868-6b55-4b71-9966-2ee1cf1e4ee9" />
-  <Project Path="Lecture32/Lecture32.csproj" Id="e80ed5d1-fc57-4d8f-84dc-5fdec43ea665" />
-  <Project Path="Lecture33/Lecture33.csproj" Id="863f5c06-c5ef-4f70-ba0a-b6e56e41c291" />
-  <Project Path="Lecture33Console/Lecture33Console.csproj" Id="8017eac6-15e2-470b-b1cf-5e463cbdc130" />
-  <Project Path="Lecture4/Lecture4.csproj" Id="d8b1d0ce-3e79-4611-a815-1f925cc55370" />
-  <Project Path="Lecture6/Lecture6.csproj" Id="84769670-f8bf-40b2-803f-08d8dd141d22" />
-  <Project Path="Lecture7/Lecture7.csproj" Id="7136c8cb-d903-455e-a65f-ce46e9bff4f0" />
-  <Project Path="Lecture8/Lecture8.csproj" Id="3cc85955-e346-4b4b-a271-9961fad07bf6" />
-  <Project Path="Lecture9/Lecture9.csproj" Id="89067804-5390-4d78-933d-be42f48c9b6a" />
-  <Project Path="Repeat/Repeat.csproj" Id="e9ebdf91-1b0c-4f75-a280-5f08504378b8" />
-  <Project Path="RepeatGithub/RepeatGithub.csproj" Id="9a97e4d9-4cee-4a6e-8e41-156ab09bbfe6" />
-  <Project Path="SportLeague/SportLeague.csproj" Id="e0683e53-e7c4-4dfc-9900-f2c145af966d" />
 </Solution>
