@@ -6,9 +6,6 @@ namespace Company524.API
         {
             //CONTAINER
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddDbContext<ApplicationDbContext>(
-                options => options.UseSqlServer("CONNECTION STRING")
-            );
 
             builder.Services.AddControllers();
 
