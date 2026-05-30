@@ -7,6 +7,11 @@ namespace Company524.API.Controllers
     [Route("api/categories")]
     public class CategoriesController : ControllerBase
     {
+
+        public CategoriesController()
+        {
+        }
+
         private static List<string> _categories = new List<string>()
         {
             "Electronics",

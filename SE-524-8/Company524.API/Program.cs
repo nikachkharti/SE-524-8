@@ -8,11 +8,12 @@ namespace Company524.API
     {
         public static void Main(string[] args)
         {
-            //CONTAINER
             var builder = WebApplication.CreateBuilder(args);
 
+            //CONTROLLERS
             builder.Services.AddControllers();
 
+            //SWAGGER
             builder.Services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
@@ -29,11 +30,12 @@ namespace Company524.API
                 options.IncludeXmlComments(xmlPath);
                 #endregion
 
-
             });
+
+
+
             var app = builder.Build();
 
-            //PIPELINE
             app.UseSwagger();
             app.UseSwaggerUI();
             app.UseHttpsRedirection();
