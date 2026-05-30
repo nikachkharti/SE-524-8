@@ -16,6 +16,9 @@ namespace Company524.API.Controllers
             "Sports & Outdoors"
         };
 
+        /// <summary>
+        /// ახალი კატეგორიის დამატება
+        /// </summary>
         [HttpPost]
         public IActionResult AddCategory([FromBody] string category)
         {
@@ -24,13 +27,18 @@ namespace Company524.API.Controllers
         }
 
 
+        /// <summary>
+        /// ყველა კატეგორიის მიღება
+        /// </summary>
         [HttpGet]
         public IActionResult GetAllCategories()
         {
             return Ok(_categories); //200
         }
 
-
+        /// <summary>
+        /// კონკრეტული კატეგორიის მიღება
+        /// </summary>
         [HttpGet("single/{categoryName}")]
         public IActionResult GetSingleCategory([FromRoute] string categoryName)
         {
@@ -46,7 +54,9 @@ namespace Company524.API.Controllers
             return Ok(category);
         }
 
-
+        /// <summary>
+        /// კონკრეტული კატეგორიის განახლება
+        /// </summary>
         [HttpPut("{categoryName}")]
         public IActionResult UpdateCategory([FromRoute] string categoryName, [FromBody] string newCategoryName)
         {
@@ -60,6 +70,9 @@ namespace Company524.API.Controllers
         }
 
 
+        /// <summary>
+        /// კონკრეტული კატეგორიის წაშლა
+        /// </summary>
         [HttpDelete("{categoryName}")]
         public IActionResult DeleteCategory([FromRoute] string categoryName)
         {
