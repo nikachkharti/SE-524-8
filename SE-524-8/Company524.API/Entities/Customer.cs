@@ -18,18 +18,19 @@ namespace Company524.API.Entities
         [Column(TypeName = "varchar(50)")]
         public string City { get; set; }
 
-
         [MaxLength(100)]
+        [EmailAddress]
         [Column(TypeName = "varchar(100)")]
         public string Email { get; set; }
 
-
         [MaxLength(20)]
+        [Phone]
         [Column(TypeName = "varchar(20)")]
         public string PhoneNumber { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime LastLoginDate { get; set; }
+        public DateTime LastLoginDate { get; set; } = DateTime.Now.Date;
 
+        public ICollection<Order> Orders { get; set; }
     }
 }

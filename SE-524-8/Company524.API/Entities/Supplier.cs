@@ -13,5 +13,7 @@ namespace Company524.API.Entities
         [MaxLength(100)]
         [Column(TypeName = "varchar(100)")]
         public string SupplierName { get; set; }
+
+        public ICollection<Product> Products { get; set; }
     }
 }

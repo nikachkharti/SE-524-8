@@ -13,5 +13,7 @@ namespace Company524.API.Entities
         [MaxLength(50)]
         [Column(TypeName = "varchar(50)")]
         public string CategoryName { get; set; }
+
+        public ICollection<Product> Products { get; set; }
     }
 }

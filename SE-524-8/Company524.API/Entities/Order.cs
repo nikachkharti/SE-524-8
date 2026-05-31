@@ -19,6 +19,11 @@ namespace Company524.API.Entities
         [Column(TypeName = "varchar(50)")]
         public string Status { get; set; }
 
-        // Foreign key to Customer
+        public decimal Discount { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(Customer))]
+        public Guid CustomerId { get; set; }
+        public Customer Customer { get; set; }
     }
 }

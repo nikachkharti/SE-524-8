@@ -11,9 +11,17 @@ namespace Company524.API.Entities
         public Guid Id { get; set; }
 
         public int Quantity { get; set; }
+
         public decimal PricePerUnit { get; set; }
 
-        // Foreign key to Order
-        // Foreign key to Product
+        [Required]
+        [ForeignKey(nameof(Order))]
+        public Guid OrderId { get; set; }
+        public Order Order { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(Product))]
+        public Guid ProductId { get; set; }
+        public Product Product { get; set; }
     }
 }
