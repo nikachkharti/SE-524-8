@@ -1,5 +1,6 @@
+using Company524.API.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
-using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
 
 namespace Company524.API
@@ -9,6 +10,7 @@ namespace Company524.API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
 
             //CONTROLLERS
             builder.Services.AddControllers();
@@ -32,6 +34,14 @@ namespace Company524.API
 
             });
 
+
+            //DATABASE
+
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            //var connectionString = builder.Configuration.GetValue<string>("ConnectionStrings:DefaultConnection");
+            //var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
 
             var app = builder.Build();
