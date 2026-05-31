@@ -1,4 +1,6 @@
 using Company524.API.Data;
+using Company524.API.Repository;
+using Company524.API.Repository.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using System.Reflection;
@@ -36,12 +38,15 @@ namespace Company524.API
 
 
             //DATABASE
-
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             //var connectionString = builder.Configuration.GetValue<string>("ConnectionStrings:DefaultConnection");
             //var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
 
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+
+
+            //REPOSITORIES
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 
             var app = builder.Build();
