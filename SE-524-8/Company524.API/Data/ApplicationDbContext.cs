@@ -9,6 +9,10 @@ namespace Company524.API.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.SeedData();
+        }
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Customer> Customers { get; set; }

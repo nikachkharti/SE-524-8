@@ -46,6 +46,12 @@ namespace Company524.API
 
             var app = builder.Build();
 
+            //DB AUTO UPDATE
+            using var scope = app.Services.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            dbContext.Database.Migrate();
+
+
             app.UseSwagger();
             app.UseSwaggerUI();
             app.UseHttpsRedirection();
