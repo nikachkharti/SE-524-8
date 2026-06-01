@@ -4,7 +4,7 @@ using Company524.API.Repository.Base;
 
 namespace Company524.API.Repository.Contracts
 {
-    public interface ICategoryRepository : IRepositoryBase<Category, ApplicationDbContext>
+    public interface IOrderItemRepository : IRepositoryBase<OrderItem, ApplicationDbContext>
     {
     }
 }

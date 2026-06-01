@@ -18,8 +18,8 @@ namespace Company524.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCategories()
         {
-            var result = await _categoryRepository.GetAllCategoriesAsync();
-            return Ok(result);
+            var result = await _categoryRepository.GetAllAsync();
+            return Ok(result.Items);
         }
     }
 }

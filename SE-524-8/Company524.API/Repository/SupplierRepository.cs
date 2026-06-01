@@ -5,9 +5,9 @@ using Company524.API.Repository.Contracts;
 
 namespace Company524.API.Repository
 {
-    public class CategoryRepository : RepositoryBase<Category, ApplicationDbContext>, ICategoryRepository
+    public class SupplierRepository : RepositoryBase<Supplier, ApplicationDbContext>, ISupplierRepository
     {
-        public CategoryRepository(ApplicationDbContext context) : base(context)
+        public SupplierRepository(ApplicationDbContext context) : base(context)
         {
         }
     }
