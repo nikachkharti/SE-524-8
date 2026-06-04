@@ -1,8 +1,11 @@
 using Company524.API.Data;
+using Company524.API.Mapping;
 using Company524.API.Repository;
 using Company524.API.Repository.Contracts;
 using Company524.API.Service;
 using Company524.API.Service.Contracts;
+using Mapster;
+using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.Filters;
@@ -47,11 +50,7 @@ namespace Company524.API
 
 
             //DATABASE
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            //var connectionString = builder.Configuration.GetValue<string>("ConnectionStrings:DefaultConnection");
-            //var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
-
-            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
             //REPOSITORIES
@@ -65,6 +64,16 @@ namespace Company524.API
 
             //SERVICES
             builder.Services.AddScoped<IProductService, ProductService>();
+
+
+            //MAPSTER
+            var config = TypeAdapterConfig.GlobalSettings;
+            config.Scan(typeof(MappingConfig).Assembly);
+
+            builder.Services.AddSingleton(config);
+            builder.Services.AddScoped<IMapper, ServiceMapper>();
+
+
 
 
             var app = builder.Build();
