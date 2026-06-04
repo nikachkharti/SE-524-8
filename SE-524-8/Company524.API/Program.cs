@@ -1,6 +1,8 @@
 using Company524.API.Data;
 using Company524.API.Repository;
 using Company524.API.Repository.Contracts;
+using Company524.API.Service;
+using Company524.API.Service.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.Filters;
@@ -59,6 +61,10 @@ namespace Company524.API
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
+
+
+            //SERVICES
+            builder.Services.AddScoped<IProductService, ProductService>();
 
 
             var app = builder.Build();
