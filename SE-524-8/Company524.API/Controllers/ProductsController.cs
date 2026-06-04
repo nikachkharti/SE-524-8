@@ -1,6 +1,4 @@
-﻿using Company524.API.Entities;
-using Company524.API.Models.Product;
-using Company524.API.Repository.Contracts;
+﻿using Company524.API.Models.Product;
 using Company524.API.Service.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
@@ -17,6 +15,33 @@ namespace Company524.API.Controllers
         {
             await productService.CreateNewProductAsync(request);
             return Created();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllProducts()
+        {
+            var products = await productService.GetAllProductsAsync();
+            return Ok(products);
+        }
+
+        [HttpDelete("{productId}")]
+        public async Task<IActionResult> DeleteProduct([FromRoute] Guid productId)
+        {
+            var result = await productService.DeleteProductAsync(productId);
+            if (result == 0)
+                return NotFound();
+            return Ok();
+        }
+
+
+        [HttpPut]
+        [SwaggerRequestExample(typeof(ProductForUpdatingDto), typeof(ProductForUpdatingDtoExample))]
+        public async Task<IActionResult> UpdateProduct([FromBody] ProductForUpdatingDto request)
+        {
+            var result = await productService.UpdateProductAsync(request);
+            if (result == 0)
+                return NotFound();
+            return Ok();
         }
     }
 }
