@@ -3,6 +3,7 @@ using Company524.API.Repository;
 using Company524.API.Repository.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
+using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
 
 namespace Company524.API
@@ -34,7 +35,13 @@ namespace Company524.API
                 options.IncludeXmlComments(xmlPath);
                 #endregion
 
+
+                #region Examples
+                options.ExampleFilters();
+                #endregion
             });
+
+            builder.Services.AddSwaggerExamplesFromAssemblyOf<Program>();
 
 
             //DATABASE
