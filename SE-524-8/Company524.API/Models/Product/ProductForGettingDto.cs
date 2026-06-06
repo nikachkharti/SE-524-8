@@ -1,4 +1,5 @@
 ﻿using Company524.API.Models.Category;
+using Company524.API.Models.Supplier;
 
 namespace Company524.API.Models.Product
 {
@@ -8,5 +9,6 @@ namespace Company524.API.Models.Product
         public string ProductName { get; set; }
         public decimal Price { get; set; }
         public CategoryForGettingDto Category { get; set; }
+        public SupplierForGettingDto Supplier { get; set; }
     }
 }

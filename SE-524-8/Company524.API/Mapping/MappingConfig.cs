@@ -1,6 +1,7 @@
 ﻿using Company524.API.Entities;
 using Company524.API.Models.Category;
 using Company524.API.Models.Product;
+using Company524.API.Models.Supplier;
 using Mapster;
 
 namespace Company524.API.Mapping
@@ -13,6 +14,10 @@ namespace Company524.API.Mapping
                 .Map(dest => dest.Id, src => src.Id)
                 .Map(dest => dest.CategoryName, src => src.CategoryName);
 
+            config.NewConfig<Supplier, SupplierForGettingDto>()
+                .Map(dest => dest.Id, src => src.Id)
+                .Map(dest => dest.SupplierName, src => src.SupplierName);
+
             config.NewConfig<ProductForCreatingDto, Product>()
                 .Map(dest => dest.ProductName, src => src.ProductName)
                 .Map(dest => dest.Price, src => src.Price)
@@ -22,10 +27,16 @@ namespace Company524.API.Mapping
 
 
             config.NewConfig<Product, ProductForGettingDto>()
-            .Map(dest => dest.Id, src => src.Id)
-            .Map(dest => dest.ProductName, src => src.ProductName)
-            .Map(dest => dest.Price, src => src.Price)
-            .Map(dest => dest.Category, src => src.Category);
+                .Map(dest => dest.Id, src => src.Id)
+                .Map(dest => dest.ProductName, src => src.ProductName)
+                .Map(dest => dest.Price, src => src.Price)
+                .Map(dest => dest.Category, src => src.Category);
+
+
+            config.NewConfig<Product, ProductListForGettingDto>()
+                .Map(dest => dest.Id, src => src.Id)
+                .Map(dest => dest.ProductName, src => src.ProductName)
+                .Map(dest => dest.Price, src => src.Price);
 
 
             config.NewConfig<ProductForUpdatingDto, Product>()

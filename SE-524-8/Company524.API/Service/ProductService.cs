@@ -4,6 +4,7 @@ using Company524.API.Models.Product;
 using Company524.API.Repository.Contracts;
 using Company524.API.Service.Contracts;
 using MapsterMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace Company524.API.Service
 {
@@ -28,15 +29,25 @@ namespace Company524.API.Service
             return await productRepository.SaveAsync();
         }
 
-        public async Task<IEnumerable<ProductForGettingDto>> GetAllProductsAsync()
+        public async Task<IEnumerable<ProductListForGettingDto>> GetAllProductsAsync()
         {
-            //TODO Optimize...
-            var products = (await productRepository.GetAllAsync(
-                    includes: p => p.Category)
-                ).Items;
+            var products = await productRepository.GetAllAsync();
 
-            var result = mapper.Map<IEnumerable<ProductForGettingDto>>(products);
+            var result = mapper.Map<IEnumerable<ProductListForGettingDto>>(products.Items);
             return result;
+        }
+
+        public async Task<ProductForGettingDto> GetProductAsync(Guid productId)
+        {
+            var product = await productRepository.GetAsync(
+                    filter: p => p.Id == productId,
+                    include: p => p
+                            .Include(p => p.Category)
+                            .Include(p => p.Supplier)
+            );
+
+
+            return mapper.Map<ProductForGettingDto>(product);
         }
 
         public async Task<int> UpdateProductAsync(ProductForUpdatingDto request)
@@ -45,12 +56,7 @@ namespace Company524.API.Service
             if (product is null)
                 return 0;
 
-            product.ProductName = request.ProductName;
-            product.Price = request.Price;
-            product.Quantity = request.Quantity;
-            product.CategoryId = request.CategoryId;
-            product.SupplierId = request.SupplierId;
-
+            mapper.Map(request, product);
             productRepository.Update(product);
             return await productRepository.SaveAsync();
         }
