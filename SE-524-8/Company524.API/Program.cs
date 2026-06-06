@@ -75,8 +75,8 @@ namespace Company524.API
 
 
 
-
             var app = builder.Build();
+
 
             //DB AUTO UPDATE
             using var scope = app.Services.CreateScope();

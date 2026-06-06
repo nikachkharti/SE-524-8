@@ -22,10 +22,10 @@ namespace Company524.API.Mapping
 
 
             config.NewConfig<Product, ProductForGettingDto>()
-                .Map(dest => dest.Id, src => src.Id)
-                .Map(dest => dest.ProductName, src => src.ProductName)
-                .Map(dest => dest.Price, src => src.Price)
-                .Map(dest => dest.Category, src => src.Category.CategoryName);
+            .Map(dest => dest.Id, src => src.Id)
+            .Map(dest => dest.ProductName, src => src.ProductName)
+            .Map(dest => dest.Price, src => src.Price)
+            .Map(dest => dest.Category, src => src.Category);
 
 
             config.NewConfig<ProductForUpdatingDto, Product>()
