@@ -1,5 +1,6 @@
 using Company524.API.Data;
 using Company524.API.Mapping;
+using Company524.API.Middleware;
 using Company524.API.Repository;
 using Company524.API.Repository.Contracts;
 using Company524.API.Service;
@@ -83,7 +84,7 @@ namespace Company524.API
             var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             dbContext.Database.Migrate();
 
-
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseSwagger();
             app.UseSwaggerUI();
             app.UseHttpsRedirection();

@@ -2,6 +2,7 @@
 using Company524.API.Service.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
+using System.Net;
 
 namespace Company524.API.Controllers
 {
@@ -16,8 +17,10 @@ namespace Company524.API.Controllers
         [SwaggerRequestExample(typeof(ProductForCreatingDto), typeof(ProductForCreatingDtoExample))]
         public async Task<IActionResult> CreateProduct([FromBody] ProductForCreatingDto request)
         {
-            await productService.CreateNewProductAsync(request);
-            return Created();
+            var result = await productService.CreateNewProductAsync(request);
+            var response = new CommonResponse(CommonResponseMessage.SuccessMessage, result, true, Convert.ToInt32(HttpStatusCode.Created));
+
+            return StatusCode(response.HttpStatusCode, response);
         }
 
         /// <summary>
@@ -26,8 +29,10 @@ namespace Company524.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllProducts()
         {
-            var products = await productService.GetAllProductsAsync();
-            return Ok(products);
+            var result = await productService.GetAllProductsAsync();
+            var response = new CommonResponse(CommonResponseMessage.SuccessMessage, result, true, Convert.ToInt32(HttpStatusCode.OK));
+
+            return StatusCode(response.HttpStatusCode, response);
         }
 
         /// <summary>
@@ -36,8 +41,10 @@ namespace Company524.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProduct([FromRoute] Guid id)
         {
-            var product = await productService.GetProductAsync(id);
-            return Ok(product);
+            var result = await productService.GetProductAsync(id);
+            var response = new CommonResponse(CommonResponseMessage.SuccessMessage, result, true, Convert.ToInt32(HttpStatusCode.OK));
+
+            return StatusCode(response.HttpStatusCode, response);
         }
 
         /// <summary>
@@ -47,9 +54,9 @@ namespace Company524.API.Controllers
         public async Task<IActionResult> DeleteProduct([FromRoute] Guid productId)
         {
             var result = await productService.DeleteProductAsync(productId);
-            if (result == 0)
-                return NotFound();
-            return Ok();
+            var response = new CommonResponse(CommonResponseMessage.SuccessMessage, result, true, Convert.ToInt32(HttpStatusCode.NoContent));
+
+            return StatusCode(response.HttpStatusCode, response);
         }
 
         /// <summary>
@@ -60,9 +67,9 @@ namespace Company524.API.Controllers
         public async Task<IActionResult> UpdateProduct([FromBody] ProductForUpdatingDto request)
         {
             var result = await productService.UpdateProductAsync(request);
-            if (result == 0)
-                return NotFound();
-            return Ok();
+            var response = new CommonResponse(CommonResponseMessage.SuccessMessage, result, true, Convert.ToInt32(HttpStatusCode.OK));
+
+            return StatusCode(response.HttpStatusCode, response);
         }
     }
 }
