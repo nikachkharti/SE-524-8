@@ -31,7 +31,12 @@ namespace Company524.API.Controllers
         public async Task<IActionResult> GetAllProducts([FromQuery] PagedRequestDto parameters)
         {
             var result = await productService.GetAllProductsAsync(parameters);
-            var response = new CommonResponse(CommonResponseMessage.SuccessMessage, result, true, Convert.ToInt32(HttpStatusCode.OK));
+            var response = new CommonResponse(
+                CommonResponseMessage.SuccessMessage,
+                result,
+                true,
+                Convert.ToInt32(HttpStatusCode.OK)
+            );
 
             return StatusCode(response.HttpStatusCode, response);
         }
