@@ -29,9 +29,9 @@ namespace Company524.API
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "SCAA API",
+                    Title = "Company524",
                     Version = "v1",
-                    Description = "API for SCAA final project"
+                    Description = "API for education"
                 });
 
 
@@ -65,6 +65,8 @@ namespace Company524.API
 
             //SERVICES
             builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<ISupplierService, SupplierService>();
 
 
             //MAPSTER

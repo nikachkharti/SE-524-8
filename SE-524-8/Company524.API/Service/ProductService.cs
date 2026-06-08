@@ -78,7 +78,7 @@ namespace Company524.API.Service
                 pageSize: parameters.PageSize
             );
 
-            if (products.Items.Count() == 0)
+            if (!products.Items.Any())
                 return new PagedResponseDto<ProductListForGettingDto>
                 {
                     Items = Enumerable.Empty<ProductListForGettingDto>(),

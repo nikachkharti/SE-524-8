@@ -1,5 +1,5 @@
-﻿using Company524.API.Models.Category;
-using Company524.API.Models.Common;
+﻿using Company524.API.Models.Common;
+using Company524.API.Models.Supplier;
 using Company524.API.Service.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
@@ -7,23 +7,24 @@ using System.Net;
 
 namespace Company524.API.Controllers
 {
-    [Route("api/categories")]
+    [Route("api/suppliers")]
     [ApiController]
-    public class CategoriesController(IProductService productService, ICategoryService categoryService) : ControllerBase
+    public class SuppliersController(IProductService productService, ISupplierService supplierService) : ControllerBase
     {
-        [HttpGet("{categoryId}/products")]
-        public async Task<IActionResult> GetCategoryProducts([FromRoute] Guid categoryId, [FromQuery] PagedRequestDto parameters)
+        [HttpGet("{supplierId}/products")]
+        public async Task<IActionResult> GetSupplierProducts([FromRoute] Guid supplierId, [FromQuery] PagedRequestDto parameters)
         {
             throw new NotImplementedException();
         }
 
+
         /// <summary>
-        /// List All Categories
+        /// List All Suppliers
         /// </summary>
         [HttpGet]
-        public async Task<IActionResult> GetCategories([FromQuery] PagedRequestDto parameters)
+        public async Task<IActionResult> GetSuppliers([FromQuery] PagedRequestDto parameters)
         {
-            var result = await categoryService.GetAllCategoriesAsync(parameters);
+            var result = await supplierService.GetAllSuppliersAsync(parameters);
 
             var response = new CommonResponse()
             {
@@ -38,12 +39,12 @@ namespace Company524.API.Controllers
 
 
         /// <summary>
-        /// Get Category with Id
+        /// Get Supplier with Id
         /// </summary>
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCategory(Guid id)
+        public async Task<IActionResult> GetSupplier(Guid id)
         {
-            var result = await categoryService.GetCategoryByIdAsync(id);
+            var result = await supplierService.GetSupplierByIdAsync(id);
 
             var response = new CommonResponse()
             {
@@ -57,15 +58,14 @@ namespace Company524.API.Controllers
         }
 
 
-
         /// <summary>
-        /// Create a new Category
+        /// Create a new Supplier
         /// </summary>
         [HttpPost]
-        [SwaggerRequestExample(typeof(CategoryForCreatingDto), typeof(CategoryForCreatingDtoExample))]
-        public async Task<IActionResult> CreateCategory([FromBody] CategoryForCreatingDto model)
+        [SwaggerRequestExample(typeof(SupplierForCreatingDto), typeof(SupplierForCreatingDtoExample))]
+        public async Task<IActionResult> CreateSupplier([FromBody] SupplierForCreatingDto model)
         {
-            var result = await categoryService.CreateCategoryAsync(model);
+            var result = await supplierService.CreateSupplierAsync(model);
             var response = new CommonResponse()
             {
                 Message = CommonResponseMessage.SuccessMessage,
@@ -77,14 +77,13 @@ namespace Company524.API.Controllers
         }
 
 
-
         /// <summary>
-        /// Delete a Category
+        /// Delete a Supplier
         /// </summary>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCategory(Guid id)
+        public async Task<IActionResult> DeleteSupplier(Guid id)
         {
-            await categoryService.DeleteCategoryAsync(id);
+            await supplierService.DeleteSupplierAsync(id);
 
             var response = new CommonResponse()
             {
@@ -97,13 +96,13 @@ namespace Company524.API.Controllers
 
 
         /// <summary>
-        /// Update a Category
+        /// Update a Supplier
         /// </summary>
         [HttpPut]
-        [SwaggerRequestExample(typeof(CategoryForUpdatingDto), typeof(CategoryForUpdatingDtoExample))]
-        public async Task<IActionResult> UpdateCategory([FromBody] CategoryForUpdatingDto model)
+        [SwaggerRequestExample(typeof(SupplierForUpdatingDto), typeof(SupplierForUpdatingDtoExample))]
+        public async Task<IActionResult> UpdateSupplier([FromBody] SupplierForUpdatingDto model)
         {
-            var result = await categoryService.UpdateCategoryAsync(model);
+            var result = await supplierService.UpdateSupplierAsync(model);
 
             var response = new CommonResponse()
             {

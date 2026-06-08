@@ -13,10 +13,15 @@ namespace Company524.API.Mapping
             config.NewConfig<Category, CategoryForGettingDto>()
                 .Map(dest => dest.Id, src => src.Id)
                 .Map(dest => dest.CategoryName, src => src.CategoryName);
+            config.NewConfig<CategoryForCreatingDto, Category>();
+            config.NewConfig<CategoryForUpdatingDto, Category>();
+
 
             config.NewConfig<Supplier, SupplierForGettingDto>()
                 .Map(dest => dest.Id, src => src.Id)
                 .Map(dest => dest.SupplierName, src => src.SupplierName);
+            config.NewConfig<SupplierForCreatingDto, Supplier>();
+            config.NewConfig<SupplierForUpdatingDto, Supplier>();
 
             config.NewConfig<ProductForCreatingDto, Product>()
                 .Map(dest => dest.ProductName, src => src.ProductName)
