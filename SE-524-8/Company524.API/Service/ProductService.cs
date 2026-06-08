@@ -1,10 +1,12 @@
 ﻿using Company524.API.Entities;
 using Company524.API.Exceptions;
+using Company524.API.Models.Common;
 using Company524.API.Models.Product;
 using Company524.API.Repository.Contracts;
 using Company524.API.Service.Contracts;
 using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Company524.API.Service
 {
@@ -60,16 +62,39 @@ namespace Company524.API.Service
         }
 
 
-        //TODO : Add Pagination
-        public async Task<IEnumerable<ProductListForGettingDto>> GetAllProductsAsync()
+        public async Task<PagedResponseDto<ProductListForGettingDto>> GetAllProductsAsync(PagedRequestDto parameters)
         {
-            var products = await productRepository.GetAllAsync();
+            Expression<Func<Product, object>> orderBy = parameters.SortBy?.ToLower() switch
+            {
+                "productname" => p => p.ProductName,
+                "price" => p => p.Price,
+                _ => p => p.Id
+            };
+
+            var products = await productRepository.GetAllAsync(
+                orderBy: orderBy,
+                ascending: parameters.Ascending,
+                pageNumber: parameters.PageNumber,
+                pageSize: parameters.PageSize
+            );
 
             if (products.Items.Count() == 0)
-                return Enumerable.Empty<ProductListForGettingDto>();
+                return new PagedResponseDto<ProductListForGettingDto>
+                {
+                    Items = Enumerable.Empty<ProductListForGettingDto>(),
+                    TotalCount = 0,
+                    PageNumber = parameters.PageNumber,
+                    PageSize = parameters.PageSize
+                };
 
             var result = mapper.Map<IEnumerable<ProductListForGettingDto>>(products.Items);
-            return result;
+            return new PagedResponseDto<ProductListForGettingDto>
+            {
+                Items = result,
+                TotalCount = products.TotalCount,
+                PageNumber = parameters.PageNumber,
+                PageSize = parameters.PageSize
+            };
         }
 
         public async Task<ProductForGettingDto> GetProductAsync(Guid productId)

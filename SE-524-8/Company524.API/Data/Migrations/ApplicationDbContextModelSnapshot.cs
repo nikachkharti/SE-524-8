@@ -100,7 +100,7 @@ namespace Company524.API.Data.Migrations
                             City = "New York",
                             CustomerName = "John Smith",
                             Email = "john.smith@email.com",
-                            LastLoginDate = new DateTime(2026, 6, 1, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastLoginDate = new DateTime(2026, 6, 3, 0, 0, 0, 0, DateTimeKind.Local),
                             PhoneNumber = "+1-555-0101"
                         },
                         new
@@ -109,7 +109,7 @@ namespace Company524.API.Data.Migrations
                             City = "Los Angeles",
                             CustomerName = "Sarah Johnson",
                             Email = "sarah.johnson@email.com",
-                            LastLoginDate = new DateTime(2026, 6, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastLoginDate = new DateTime(2026, 6, 6, 0, 0, 0, 0, DateTimeKind.Local),
                             PhoneNumber = "+1-555-0102"
                         },
                         new
@@ -118,7 +118,7 @@ namespace Company524.API.Data.Migrations
                             City = "Chicago",
                             CustomerName = "Michael Brown",
                             Email = "michael.brown@email.com",
-                            LastLoginDate = new DateTime(2026, 6, 6, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastLoginDate = new DateTime(2026, 6, 8, 0, 0, 0, 0, DateTimeKind.Local),
                             PhoneNumber = "+1-555-0103"
                         },
                         new
@@ -127,7 +127,7 @@ namespace Company524.API.Data.Migrations
                             City = "Houston",
                             CustomerName = "Emily Davis",
                             Email = "emily.davis@email.com",
-                            LastLoginDate = new DateTime(2026, 5, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastLoginDate = new DateTime(2026, 5, 29, 0, 0, 0, 0, DateTimeKind.Local),
                             PhoneNumber = "+1-555-0104"
                         },
                         new
@@ -136,7 +136,7 @@ namespace Company524.API.Data.Migrations
                             City = "Phoenix",
                             CustomerName = "David Wilson",
                             Email = "david.wilson@email.com",
-                            LastLoginDate = new DateTime(2026, 6, 3, 0, 0, 0, 0, DateTimeKind.Local),
+                            LastLoginDate = new DateTime(2026, 6, 5, 0, 0, 0, 0, DateTimeKind.Local),
                             PhoneNumber = "+1-555-0105"
                         });
                 });
@@ -176,7 +176,7 @@ namespace Company524.API.Data.Migrations
                             CustomerId = new Guid("44444444-0000-0000-0000-000000000001"),
                             Discount = 10m,
                             OrderAmount = 199.97m,
-                            OrderDate = new DateTime(2026, 6, 2, 0, 0, 0, 0, DateTimeKind.Local),
+                            OrderDate = new DateTime(2026, 6, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             Status = "Delivered"
                         },
                         new
@@ -185,7 +185,7 @@ namespace Company524.API.Data.Migrations
                             CustomerId = new Guid("44444444-0000-0000-0000-000000000002"),
                             Discount = 15m,
                             OrderAmount = 369.96m,
-                            OrderDate = new DateTime(2026, 6, 5, 0, 0, 0, 0, DateTimeKind.Local),
+                            OrderDate = new DateTime(2026, 6, 7, 0, 0, 0, 0, DateTimeKind.Local),
                             Status = "Processing"
                         },
                         new
@@ -194,7 +194,7 @@ namespace Company524.API.Data.Migrations
                             CustomerId = new Guid("44444444-0000-0000-0000-000000000003"),
                             Discount = 5m,
                             OrderAmount = 249.97m,
-                            OrderDate = new DateTime(2026, 6, 6, 0, 0, 0, 0, DateTimeKind.Local),
+                            OrderDate = new DateTime(2026, 6, 8, 0, 0, 0, 0, DateTimeKind.Local),
                             Status = "Pending"
                         },
                         new
@@ -203,7 +203,7 @@ namespace Company524.API.Data.Migrations
                             CustomerId = new Guid("44444444-0000-0000-0000-000000000001"),
                             Discount = 0m,
                             OrderAmount = 129.98m,
-                            OrderDate = new DateTime(2026, 6, 3, 0, 0, 0, 0, DateTimeKind.Local),
+                            OrderDate = new DateTime(2026, 6, 5, 0, 0, 0, 0, DateTimeKind.Local),
                             Status = "Delivered"
                         },
                         new
@@ -212,7 +212,7 @@ namespace Company524.API.Data.Migrations
                             CustomerId = new Guid("44444444-0000-0000-0000-000000000004"),
                             Discount = 20m,
                             OrderAmount = 389.97m,
-                            OrderDate = new DateTime(2026, 6, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            OrderDate = new DateTime(2026, 6, 6, 0, 0, 0, 0, DateTimeKind.Local),
                             Status = "Shipped"
                         },
                         new
@@ -221,7 +221,7 @@ namespace Company524.API.Data.Migrations
                             CustomerId = new Guid("44444444-0000-0000-0000-000000000005"),
                             Discount = 8m,
                             OrderAmount = 149.98m,
-                            OrderDate = new DateTime(2026, 5, 31, 0, 0, 0, 0, DateTimeKind.Local),
+                            OrderDate = new DateTime(2026, 6, 2, 0, 0, 0, 0, DateTimeKind.Local),
                             Status = "Delivered"
                         });
                 });

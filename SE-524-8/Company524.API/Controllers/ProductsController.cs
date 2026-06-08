@@ -1,4 +1,5 @@
-﻿using Company524.API.Models.Product;
+﻿using Company524.API.Models.Common;
+using Company524.API.Models.Product;
 using Company524.API.Service.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
@@ -27,9 +28,9 @@ namespace Company524.API.Controllers
         /// ყველა პროდუქტის აღება
         /// </summary>
         [HttpGet]
-        public async Task<IActionResult> GetAllProducts()
+        public async Task<IActionResult> GetAllProducts([FromQuery] PagedRequestDto parameters)
         {
-            var result = await productService.GetAllProductsAsync();
+            var result = await productService.GetAllProductsAsync(parameters);
             var response = new CommonResponse(CommonResponseMessage.SuccessMessage, result, true, Convert.ToInt32(HttpStatusCode.OK));
 
             return StatusCode(response.HttpStatusCode, response);

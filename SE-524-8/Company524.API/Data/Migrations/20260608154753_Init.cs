@@ -147,11 +147,11 @@ namespace Company524.API.Data.Migrations
                 columns: new[] { "Id", "City", "CustomerName", "Email", "LastLoginDate", "PhoneNumber" },
                 values: new object[,]
                 {
-                    { new Guid("44444444-0000-0000-0000-000000000001"), "New York", "John Smith", "john.smith@email.com", new DateTime(2026, 6, 1, 0, 0, 0, 0, DateTimeKind.Local), "+1-555-0101" },
-                    { new Guid("44444444-0000-0000-0000-000000000002"), "Los Angeles", "Sarah Johnson", "sarah.johnson@email.com", new DateTime(2026, 6, 4, 0, 0, 0, 0, DateTimeKind.Local), "+1-555-0102" },
-                    { new Guid("44444444-0000-0000-0000-000000000003"), "Chicago", "Michael Brown", "michael.brown@email.com", new DateTime(2026, 6, 6, 0, 0, 0, 0, DateTimeKind.Local), "+1-555-0103" },
-                    { new Guid("44444444-0000-0000-0000-000000000004"), "Houston", "Emily Davis", "emily.davis@email.com", new DateTime(2026, 5, 27, 0, 0, 0, 0, DateTimeKind.Local), "+1-555-0104" },
-                    { new Guid("44444444-0000-0000-0000-000000000005"), "Phoenix", "David Wilson", "david.wilson@email.com", new DateTime(2026, 6, 3, 0, 0, 0, 0, DateTimeKind.Local), "+1-555-0105" }
+                    { new Guid("44444444-0000-0000-0000-000000000001"), "New York", "John Smith", "john.smith@email.com", new DateTime(2026, 6, 3, 0, 0, 0, 0, DateTimeKind.Local), "+1-555-0101" },
+                    { new Guid("44444444-0000-0000-0000-000000000002"), "Los Angeles", "Sarah Johnson", "sarah.johnson@email.com", new DateTime(2026, 6, 6, 0, 0, 0, 0, DateTimeKind.Local), "+1-555-0102" },
+                    { new Guid("44444444-0000-0000-0000-000000000003"), "Chicago", "Michael Brown", "michael.brown@email.com", new DateTime(2026, 6, 8, 0, 0, 0, 0, DateTimeKind.Local), "+1-555-0103" },
+                    { new Guid("44444444-0000-0000-0000-000000000004"), "Houston", "Emily Davis", "emily.davis@email.com", new DateTime(2026, 5, 29, 0, 0, 0, 0, DateTimeKind.Local), "+1-555-0104" },
+                    { new Guid("44444444-0000-0000-0000-000000000005"), "Phoenix", "David Wilson", "david.wilson@email.com", new DateTime(2026, 6, 5, 0, 0, 0, 0, DateTimeKind.Local), "+1-555-0105" }
                 });
 
             migrationBuilder.InsertData(
@@ -171,12 +171,12 @@ namespace Company524.API.Data.Migrations
                 columns: new[] { "Id", "CustomerId", "Discount", "OrderAmount", "OrderDate", "Status" },
                 values: new object[,]
                 {
-                    { new Guid("55555555-0000-0000-0000-000000000001"), new Guid("44444444-0000-0000-0000-000000000001"), 10m, 199.97m, new DateTime(2026, 6, 2, 0, 0, 0, 0, DateTimeKind.Local), "Delivered" },
-                    { new Guid("55555555-0000-0000-0000-000000000002"), new Guid("44444444-0000-0000-0000-000000000002"), 15m, 369.96m, new DateTime(2026, 6, 5, 0, 0, 0, 0, DateTimeKind.Local), "Processing" },
-                    { new Guid("55555555-0000-0000-0000-000000000003"), new Guid("44444444-0000-0000-0000-000000000003"), 5m, 249.97m, new DateTime(2026, 6, 6, 0, 0, 0, 0, DateTimeKind.Local), "Pending" },
-                    { new Guid("55555555-0000-0000-0000-000000000004"), new Guid("44444444-0000-0000-0000-000000000001"), 0m, 129.98m, new DateTime(2026, 6, 3, 0, 0, 0, 0, DateTimeKind.Local), "Delivered" },
-                    { new Guid("55555555-0000-0000-0000-000000000005"), new Guid("44444444-0000-0000-0000-000000000004"), 20m, 389.97m, new DateTime(2026, 6, 4, 0, 0, 0, 0, DateTimeKind.Local), "Shipped" },
-                    { new Guid("55555555-0000-0000-0000-000000000006"), new Guid("44444444-0000-0000-0000-000000000005"), 8m, 149.98m, new DateTime(2026, 5, 31, 0, 0, 0, 0, DateTimeKind.Local), "Delivered" }
+                    { new Guid("55555555-0000-0000-0000-000000000001"), new Guid("44444444-0000-0000-0000-000000000001"), 10m, 199.97m, new DateTime(2026, 6, 4, 0, 0, 0, 0, DateTimeKind.Local), "Delivered" },
+                    { new Guid("55555555-0000-0000-0000-000000000002"), new Guid("44444444-0000-0000-0000-000000000002"), 15m, 369.96m, new DateTime(2026, 6, 7, 0, 0, 0, 0, DateTimeKind.Local), "Processing" },
+                    { new Guid("55555555-0000-0000-0000-000000000003"), new Guid("44444444-0000-0000-0000-000000000003"), 5m, 249.97m, new DateTime(2026, 6, 8, 0, 0, 0, 0, DateTimeKind.Local), "Pending" },
+                    { new Guid("55555555-0000-0000-0000-000000000004"), new Guid("44444444-0000-0000-0000-000000000001"), 0m, 129.98m, new DateTime(2026, 6, 5, 0, 0, 0, 0, DateTimeKind.Local), "Delivered" },
+                    { new Guid("55555555-0000-0000-0000-000000000005"), new Guid("44444444-0000-0000-0000-000000000004"), 20m, 389.97m, new DateTime(2026, 6, 6, 0, 0, 0, 0, DateTimeKind.Local), "Shipped" },
+                    { new Guid("55555555-0000-0000-0000-000000000006"), new Guid("44444444-0000-0000-0000-000000000005"), 8m, 149.98m, new DateTime(2026, 6, 2, 0, 0, 0, 0, DateTimeKind.Local), "Delivered" }
                 });
 
             migrationBuilder.InsertData(
