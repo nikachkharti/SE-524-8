@@ -69,6 +69,8 @@ namespace Company524.API
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<ISupplierService, SupplierService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
 
             //MAPSTER

@@ -24,5 +24,6 @@ namespace Company524.API.Data
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Company524.API.Entities;
+using Company524.API.Models.Authentication;
 using Company524.API.Models.Category;
 using Company524.API.Models.Product;
 using Company524.API.Models.Supplier;
@@ -50,6 +51,12 @@ namespace Company524.API.Mapping
                 .Map(dest => dest.Quantity, src => src.Quantity)
                 .Map(dest => dest.CategoryId, src => src.CategoryId)
                 .Map(dest => dest.SupplierId, src => src.SupplierId);
+
+            config.NewConfig<RegistrationRequestDto, ApplicationUser>()
+                .Map(dest => dest.UserName, src => src.Email)
+                .Map(dest => dest.NormalizedUserName, src => src.Email.ToUpper())
+                .Map(dest => dest.Email, src => src.Email)
+                .Map(dest => dest.NormalizedEmail, src => src.Email.ToUpper());
         }
     }
 }
