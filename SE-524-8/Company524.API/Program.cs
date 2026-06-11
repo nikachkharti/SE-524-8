@@ -1,12 +1,14 @@
 using Company524.API.Data;
 using Company524.API.Mapping;
 using Company524.API.Middleware;
+using Company524.API.Models.Authentication;
 using Company524.API.Repository;
 using Company524.API.Repository.Contracts;
 using Company524.API.Service;
 using Company524.API.Service.Contracts;
 using Mapster;
 using MapsterMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.Filters;
@@ -76,6 +78,20 @@ namespace Company524.API
             builder.Services.AddSingleton(config);
             builder.Services.AddScoped<IMapper, ServiceMapper>();
 
+
+            //IDENTITY
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 9;
+
+                options.User.RequireUniqueEmail = true;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
 
 
             var app = builder.Build();

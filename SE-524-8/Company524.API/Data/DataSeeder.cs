@@ -1,9 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Company524.API.Models.Authentication;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Company524.API.Data
 {
     public static class DataSeeder
     {
+        public static void NormalizeIdentityTableNames(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ApplicationUser>(entity => entity.ToTable(name: "Users"));
+            modelBuilder.Entity<IdentityRole>(entity => entity.ToTable(name: "Roles"));
+            modelBuilder.Entity<IdentityUserRole<string>>(entity => entity.ToTable(name: "UserRoles"));
+            modelBuilder.Entity<IdentityUserClaim<string>>(entity => entity.ToTable(name: "UserClaims"));
+            modelBuilder.Entity<IdentityUserLogin<string>>(entity => entity.ToTable(name: "UserLogins"));
+            modelBuilder.Entity<IdentityRoleClaim<string>>(entity => entity.ToTable(name: "RoleClaims"));
+            modelBuilder.Entity<IdentityUserToken<string>>(entity => entity.ToTable(name: "UserTokens"));
+        }
+
         public static void SeedData(this ModelBuilder modelBuilder)
         {
             SeedCategories(modelBuilder);

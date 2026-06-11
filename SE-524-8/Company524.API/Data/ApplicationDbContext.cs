@@ -1,17 +1,21 @@
 ﻿using Company524.API.Entities;
+using Company524.API.Models.Authentication;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Company524.API.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            modelBuilder.SeedData();
+            base.OnModelCreating(builder);
+            builder.SeedData();
+            builder.NormalizeIdentityTableNames();
         }
 
         public DbSet<Category> Categories { get; set; }
