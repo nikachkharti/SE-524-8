@@ -1,6 +1,7 @@
 ﻿using Company524.API.Models.Common;
 using Company524.API.Models.Product;
 using Company524.API.Service.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
 using System.Net;
@@ -15,6 +16,7 @@ namespace Company524.API.Controllers
         /// ახალი პროდუქტის დამატება
         /// </summary>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [SwaggerRequestExample(typeof(ProductForCreatingDto), typeof(ProductForCreatingDtoExample))]
         public async Task<IActionResult> CreateProduct([FromBody] ProductForCreatingDto request)
         {
@@ -57,6 +59,7 @@ namespace Company524.API.Controllers
         /// პროდუქტის წაშლა
         /// </summary>
         [HttpDelete("{productId}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteProduct([FromRoute] Guid productId)
         {
             var result = await productService.DeleteProductAsync(productId);
@@ -69,6 +72,7 @@ namespace Company524.API.Controllers
         /// პროდუქტის განახლება
         /// </summary>
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         [SwaggerRequestExample(typeof(ProductForUpdatingDto), typeof(ProductForUpdatingDtoExample))]
         public async Task<IActionResult> UpdateProduct([FromBody] ProductForUpdatingDto request)
         {

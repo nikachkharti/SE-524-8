@@ -1,6 +1,7 @@
 ﻿using Company524.API.Models.Category;
 using Company524.API.Models.Common;
 using Company524.API.Service.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
 using System.Net;
@@ -62,6 +63,7 @@ namespace Company524.API.Controllers
         /// Create a new Category
         /// </summary>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [SwaggerRequestExample(typeof(CategoryForCreatingDto), typeof(CategoryForCreatingDtoExample))]
         public async Task<IActionResult> CreateCategory([FromBody] CategoryForCreatingDto model)
         {
@@ -82,6 +84,7 @@ namespace Company524.API.Controllers
         /// Delete a Category
         /// </summary>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCategory(Guid id)
         {
             await categoryService.DeleteCategoryAsync(id);
@@ -100,6 +103,7 @@ namespace Company524.API.Controllers
         /// Update a Category
         /// </summary>
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         [SwaggerRequestExample(typeof(CategoryForUpdatingDto), typeof(CategoryForUpdatingDtoExample))]
         public async Task<IActionResult> UpdateCategory([FromBody] CategoryForUpdatingDto model)
         {

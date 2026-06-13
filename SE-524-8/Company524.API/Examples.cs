@@ -1,4 +1,5 @@
-﻿using Company524.API.Models.Category;
+﻿using Company524.API.Models.Authentication;
+using Company524.API.Models.Category;
 using Company524.API.Models.Product;
 using Company524.API.Models.Supplier;
 using Swashbuckle.AspNetCore.Filters;
@@ -59,4 +60,16 @@ public sealed record CategoryForUpdatingDtoExample : IExamplesProvider<CategoryF
 {
     public CategoryForUpdatingDto GetExamples() =>
         new CategoryForUpdatingDto() { Id = Guid.Parse("11111111-0000-0000-0000-000000000001"), CategoryName = "Updated Test Category" };
+}
+
+public sealed record RegistrationRequestDtoExample : IExamplesProvider<RegistrationRequestDto>
+{
+    public RegistrationRequestDto GetExamples() =>
+        new RegistrationRequestDto() { Email = "admin@gmail.com", Password = "Admin123456789!" };
+}
+
+public sealed record LoginRequestDtoExample : IExamplesProvider<LoginRequestDto>
+{
+    public LoginRequestDto GetExamples() =>
+        new LoginRequestDto() { UserName = "admin@gmail.com", Password = "Admin123456789!" };
 }

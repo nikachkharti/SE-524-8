@@ -8,11 +8,14 @@ using Company524.API.Service;
 using Company524.API.Service.Contracts;
 using Mapster;
 using MapsterMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Company524.API
 {
@@ -35,6 +38,24 @@ namespace Company524.API
                     Version = "v1",
                     Description = "API for education"
                 });
+
+
+                #region Security Header
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    Description = "Just paste your token below (without the 'Bearer ' prefix)"
+                });
+
+                options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+                {
+                    [new OpenApiSecuritySchemeReference("Bearer", document)] = []
+                });
+                #endregion
 
 
                 #region XML Documentation
@@ -96,6 +117,32 @@ namespace Company524.API
             .AddDefaultTokenProviders();
 
 
+            //AUTHENTICATION
+            var secret = builder.Configuration.GetValue<string>("JWT:Secret");
+            var issuer = builder.Configuration.GetValue<string>("JWT:Issuer");
+            var audience = builder.Configuration.GetValue<string>("JWT:Audience");
+            var key = Encoding.ASCII.GetBytes(secret);
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidIssuer = issuer,
+                    ValidAudience = audience
+                };
+            });
+
+
+
             var app = builder.Build();
 
 
@@ -108,6 +155,7 @@ namespace Company524.API
             app.UseSwagger();
             app.UseSwaggerUI();
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
             app.Run();
