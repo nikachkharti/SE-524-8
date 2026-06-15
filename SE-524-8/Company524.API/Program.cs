@@ -92,6 +92,8 @@ namespace Company524.API
             builder.Services.AddScoped<ISupplierService, SupplierService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+            builder.Services.AddSingleton<ISmtpClient, SmtpClientWrapper>();
+            builder.Services.AddSingleton<IEmailService, EmailService>();
 
 
             //MAPSTER

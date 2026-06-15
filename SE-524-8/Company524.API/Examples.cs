@@ -1,5 +1,6 @@
 ﻿using Company524.API.Models.Authentication;
 using Company524.API.Models.Category;
+using Company524.API.Models.Notification;
 using Company524.API.Models.Product;
 using Company524.API.Models.Supplier;
 using Swashbuckle.AspNetCore.Filters;
@@ -72,4 +73,11 @@ public sealed record LoginRequestDtoExample : IExamplesProvider<LoginRequestDto>
 {
     public LoginRequestDto GetExamples() =>
         new LoginRequestDto() { UserName = "admin@gmail.com", Password = "Admin123456789!" };
+}
+
+
+public sealed record SendEmailRequestDtoExample : IExamplesProvider<SendEmailRequest>
+{
+    public SendEmailRequest GetExamples()
+        => new SendEmailRequest(to: "nika.chkhartishvili7@gmail.com", subject: "Test Subject", body: "<h3>Test Body</h3>");
 }
