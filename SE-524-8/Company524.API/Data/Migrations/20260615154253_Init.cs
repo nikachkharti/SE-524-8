@@ -42,6 +42,20 @@ namespace Company524.API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Roles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Suppliers",
                 columns: table => new
                 {
@@ -51,6 +65,31 @@ namespace Company524.API.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Suppliers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -71,6 +110,27 @@ namespace Company524.API.Data.Migrations
                         name: "FK_Orders_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RoleClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RoleClaims_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -99,6 +159,91 @@ namespace Company524.API.Data.Migrations
                         name: "FK_Products_Suppliers_SupplierId",
                         column: x => x.SupplierId,
                         principalTable: "Suppliers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserClaims_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_UserLogins_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_UserRoles_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserRoles_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_UserTokens_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -147,11 +292,11 @@ namespace Company524.API.Data.Migrations
                 columns: new[] { "Id", "City", "CustomerName", "Email", "LastLoginDate", "PhoneNumber" },
                 values: new object[,]
                 {
-                    { new Guid("44444444-0000-0000-0000-000000000001"), "New York", "John Smith", "john.smith@email.com", new DateTime(2026, 6, 3, 0, 0, 0, 0, DateTimeKind.Local), "+1-555-0101" },
-                    { new Guid("44444444-0000-0000-0000-000000000002"), "Los Angeles", "Sarah Johnson", "sarah.johnson@email.com", new DateTime(2026, 6, 6, 0, 0, 0, 0, DateTimeKind.Local), "+1-555-0102" },
-                    { new Guid("44444444-0000-0000-0000-000000000003"), "Chicago", "Michael Brown", "michael.brown@email.com", new DateTime(2026, 6, 8, 0, 0, 0, 0, DateTimeKind.Local), "+1-555-0103" },
-                    { new Guid("44444444-0000-0000-0000-000000000004"), "Houston", "Emily Davis", "emily.davis@email.com", new DateTime(2026, 5, 29, 0, 0, 0, 0, DateTimeKind.Local), "+1-555-0104" },
-                    { new Guid("44444444-0000-0000-0000-000000000005"), "Phoenix", "David Wilson", "david.wilson@email.com", new DateTime(2026, 6, 5, 0, 0, 0, 0, DateTimeKind.Local), "+1-555-0105" }
+                    { new Guid("44444444-0000-0000-0000-000000000001"), "New York", "John Smith", "john.smith@email.com", new DateTime(2026, 6, 10, 0, 0, 0, 0, DateTimeKind.Local), "+1-555-0101" },
+                    { new Guid("44444444-0000-0000-0000-000000000002"), "Los Angeles", "Sarah Johnson", "sarah.johnson@email.com", new DateTime(2026, 6, 13, 0, 0, 0, 0, DateTimeKind.Local), "+1-555-0102" },
+                    { new Guid("44444444-0000-0000-0000-000000000003"), "Chicago", "Michael Brown", "michael.brown@email.com", new DateTime(2026, 6, 15, 0, 0, 0, 0, DateTimeKind.Local), "+1-555-0103" },
+                    { new Guid("44444444-0000-0000-0000-000000000004"), "Houston", "Emily Davis", "emily.davis@email.com", new DateTime(2026, 6, 5, 0, 0, 0, 0, DateTimeKind.Local), "+1-555-0104" },
+                    { new Guid("44444444-0000-0000-0000-000000000005"), "Phoenix", "David Wilson", "david.wilson@email.com", new DateTime(2026, 6, 12, 0, 0, 0, 0, DateTimeKind.Local), "+1-555-0105" }
                 });
 
             migrationBuilder.InsertData(
@@ -171,12 +316,12 @@ namespace Company524.API.Data.Migrations
                 columns: new[] { "Id", "CustomerId", "Discount", "OrderAmount", "OrderDate", "Status" },
                 values: new object[,]
                 {
-                    { new Guid("55555555-0000-0000-0000-000000000001"), new Guid("44444444-0000-0000-0000-000000000001"), 10m, 199.97m, new DateTime(2026, 6, 4, 0, 0, 0, 0, DateTimeKind.Local), "Delivered" },
-                    { new Guid("55555555-0000-0000-0000-000000000002"), new Guid("44444444-0000-0000-0000-000000000002"), 15m, 369.96m, new DateTime(2026, 6, 7, 0, 0, 0, 0, DateTimeKind.Local), "Processing" },
-                    { new Guid("55555555-0000-0000-0000-000000000003"), new Guid("44444444-0000-0000-0000-000000000003"), 5m, 249.97m, new DateTime(2026, 6, 8, 0, 0, 0, 0, DateTimeKind.Local), "Pending" },
-                    { new Guid("55555555-0000-0000-0000-000000000004"), new Guid("44444444-0000-0000-0000-000000000001"), 0m, 129.98m, new DateTime(2026, 6, 5, 0, 0, 0, 0, DateTimeKind.Local), "Delivered" },
-                    { new Guid("55555555-0000-0000-0000-000000000005"), new Guid("44444444-0000-0000-0000-000000000004"), 20m, 389.97m, new DateTime(2026, 6, 6, 0, 0, 0, 0, DateTimeKind.Local), "Shipped" },
-                    { new Guid("55555555-0000-0000-0000-000000000006"), new Guid("44444444-0000-0000-0000-000000000005"), 8m, 149.98m, new DateTime(2026, 6, 2, 0, 0, 0, 0, DateTimeKind.Local), "Delivered" }
+                    { new Guid("55555555-0000-0000-0000-000000000001"), new Guid("44444444-0000-0000-0000-000000000001"), 10m, 199.97m, new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Local), "Delivered" },
+                    { new Guid("55555555-0000-0000-0000-000000000002"), new Guid("44444444-0000-0000-0000-000000000002"), 15m, 369.96m, new DateTime(2026, 6, 14, 0, 0, 0, 0, DateTimeKind.Local), "Processing" },
+                    { new Guid("55555555-0000-0000-0000-000000000003"), new Guid("44444444-0000-0000-0000-000000000003"), 5m, 249.97m, new DateTime(2026, 6, 15, 0, 0, 0, 0, DateTimeKind.Local), "Pending" },
+                    { new Guid("55555555-0000-0000-0000-000000000004"), new Guid("44444444-0000-0000-0000-000000000001"), 0m, 129.98m, new DateTime(2026, 6, 12, 0, 0, 0, 0, DateTimeKind.Local), "Delivered" },
+                    { new Guid("55555555-0000-0000-0000-000000000005"), new Guid("44444444-0000-0000-0000-000000000004"), 20m, 389.97m, new DateTime(2026, 6, 13, 0, 0, 0, 0, DateTimeKind.Local), "Shipped" },
+                    { new Guid("55555555-0000-0000-0000-000000000006"), new Guid("44444444-0000-0000-0000-000000000005"), 8m, 149.98m, new DateTime(2026, 6, 9, 0, 0, 0, 0, DateTimeKind.Local), "Delivered" }
                 });
 
             migrationBuilder.InsertData(
@@ -244,6 +389,45 @@ namespace Company524.API.Data.Migrations
                 name: "IX_Products_SupplierId",
                 table: "Products",
                 column: "SupplierId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RoleClaims_RoleId",
+                table: "RoleClaims",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "Roles",
+                column: "NormalizedName",
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserClaims_UserId",
+                table: "UserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserLogins_UserId",
+                table: "UserLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRoles_RoleId",
+                table: "UserRoles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "Users",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "Users",
+                column: "NormalizedUserName",
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
         }
 
         /// <inheritdoc />
@@ -253,10 +437,31 @@ namespace Company524.API.Data.Migrations
                 name: "OrderItems");
 
             migrationBuilder.DropTable(
+                name: "RoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "UserClaims");
+
+            migrationBuilder.DropTable(
+                name: "UserLogins");
+
+            migrationBuilder.DropTable(
+                name: "UserRoles");
+
+            migrationBuilder.DropTable(
+                name: "UserTokens");
+
+            migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Customers");

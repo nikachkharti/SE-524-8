@@ -147,9 +147,17 @@ namespace Company524.API
 
 
             //DB AUTO UPDATE
-            using var scope = app.Services.CreateScope();
-            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            dbContext.Database.Migrate();
+            try
+            {
+                using var scope = app.Services.CreateScope();
+                var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                if (context.Database.GetPendingMigrations().Any())
+                    context.Database.Migrate();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Migration failed: {ex.Message}", ex);
+            }
 
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseSwagger();
