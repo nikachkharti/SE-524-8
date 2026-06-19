@@ -4,7 +4,9 @@ namespace Company524.API.Service.Contracts
 {
     public interface IAuthService
     {
-        Task<string> RegisterAdminAsync(RegistrationRequestDto registrationRequestDto);
+        Task<string> RegisterAdminAsync(RegistrationRequestDto registrationRequestDto, string accountConfirmationUrl = null);
         Task<LoginResponseDto> LoginAsync(LoginRequestDto loginRequestDto);
+
+        Task ConfirmEmailAsync(string userId, string token);
     }
 }

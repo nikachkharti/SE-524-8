@@ -66,13 +66,13 @@ public sealed record CategoryForUpdatingDtoExample : IExamplesProvider<CategoryF
 public sealed record RegistrationRequestDtoExample : IExamplesProvider<RegistrationRequestDto>
 {
     public RegistrationRequestDto GetExamples() =>
-        new RegistrationRequestDto() { Email = "admin@gmail.com", Password = "Admin123456789!" };
+        new RegistrationRequestDto() { Email = "nika.chkhartishvili7@gmail.com", Password = "Admin123456789!" };
 }
 
 public sealed record LoginRequestDtoExample : IExamplesProvider<LoginRequestDto>
 {
     public LoginRequestDto GetExamples() =>
-        new LoginRequestDto() { UserName = "admin@gmail.com", Password = "Admin123456789!" };
+        new LoginRequestDto() { UserName = "nika.chkhartishvili7@gmail.com", Password = "Admin123456789!" };
 }
 
 

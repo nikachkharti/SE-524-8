@@ -14,7 +14,8 @@ namespace Company524.API.Controllers
         [SwaggerRequestExample(typeof(RegistrationRequestDto), typeof(RegistrationRequestDtoExample))]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegistrationRequestDto model)
         {
-            var result = await authService.RegisterAdminAsync(model);
+            var confirmationBaseUrl = BuildConfirmationBaseUrl(Request);
+            var result = await authService.RegisterAdminAsync(model, confirmationBaseUrl);
 
             var response = new CommonResponse()
             {
@@ -43,6 +44,29 @@ namespace Company524.API.Controllers
             };
 
             return StatusCode(response.HttpStatusCode, response);
+        }
+
+
+        [HttpGet("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail([FromQuery] string userId, [FromQuery] string token)
+        {
+            await authService.ConfirmEmailAsync(userId, token);
+
+            var response = new CommonResponse()
+            {
+                Message = "Email confirmed successfully",
+                IsSuccess = true,
+                HttpStatusCode = Convert.ToInt32(HttpStatusCode.OK)
+            };
+
+            return StatusCode(response.HttpStatusCode, response);
+        }
+
+
+        /// ?????
+        private static string BuildConfirmationBaseUrl(HttpRequest request)
+        {
+            return $"{request.Scheme}://{request.Host}/api/auth/confirm-email";
         }
     }
 }

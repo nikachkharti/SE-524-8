@@ -57,6 +57,7 @@ namespace Company524.API.Mapping
                 .Map(dest => dest.NormalizedUserName, src => src.Email.ToUpper())
                 .Map(dest => dest.Email, src => src.Email)
                 .Map(dest => dest.NormalizedEmail, src => src.Email.ToUpper());
+
         }
     }
 }
