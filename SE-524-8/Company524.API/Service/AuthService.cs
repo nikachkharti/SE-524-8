@@ -1,4 +1,5 @@
 ﻿using Company524.API.Data;
+using Company524.API.Entities;
 using Company524.API.Exceptions;
 using Company524.API.Models.Authentication;
 using Company524.API.Service.Contracts;
@@ -16,6 +17,7 @@ namespace Company524.API.Service
         private readonly IMapper _mapper;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly IEmailService _emailService;
+        private readonly IConfiguration _configuration;
         private const string _adminRole = "Admin";
         private const string _confirmEmailTitle = "Email Confirm";
 
@@ -25,7 +27,8 @@ namespace Company524.API.Service
             RoleManager<IdentityRole> roleManager,
             IMapper mapper,
             IEmailService emailService,
-            IJwtTokenGenerator jwtTokenGenerator)
+            IJwtTokenGenerator jwtTokenGenerator,
+            IConfiguration configuration)
         {
             _context = context;
             _userManager = userManager;
@@ -33,6 +36,7 @@ namespace Company524.API.Service
             _mapper = mapper;
             _jwtTokenGenerator = jwtTokenGenerator;
             _emailService = emailService;
+            _configuration = configuration;
         }
 
         public async Task<LoginResponseDto> LoginAsync(LoginRequestDto loginRequestDto)
@@ -46,7 +50,9 @@ namespace Company524.API.Service
                 throw new BadRequestException("User with provided credentials not found");
 
             if (!user.EmailConfirmed)
-                throw new UnauthorizedException("Unable to sign in with locked account. Visit your email address and activate first");
+                throw new UnauthorizedException(
+                    "Unable to sign in with locked account. Visit your email address and activate first"
+                );
 
             bool isValid = await _userManager.CheckPasswordAsync(user, loginRequestDto.Password);
 
@@ -54,9 +60,49 @@ namespace Company524.API.Service
                 throw new BadRequestException("Username or Password is incorrect");
 
             var roles = await _userManager.GetRolesAsync(user);
-            var token = _jwtTokenGenerator.GenerateToken(user, roles);
 
-            return new LoginResponseDto() { AccessToken = token };
+            return await GenerateTokenPairAsync(user, roles);
+        }
+
+        public async Task<LoginResponseDto> RefreshTokenAsync(string refreshToken)
+        {
+            // Load token with its user in one query
+            var existing = await _context.RefreshTokens
+                .Include(x => x.User)
+                .FirstOrDefaultAsync(x => x.Token == refreshToken);
+
+            if (existing == null)
+                throw new BadRequestException("Invalid refresh token");
+
+            if (!existing.IsActive)
+                throw new UnauthorizedException(
+                    existing.IsExpired ? "Refresh token has expired" : "Refresh token has been revoked");
+
+            // Revoke the old token (rotate)
+            existing.RevokedAt = DateTimeOffset.Now;
+
+            var roles = await _userManager.GetRolesAsync(existing.User);
+            var response = await GenerateTokenPairAsync(existing.User, roles);
+
+            // Persist the revocation + new token atomically
+            await _context.SaveChangesAsync();
+
+            return response;
+        }
+
+        public async Task RevokeRefreshTokenAsync(string refreshToken)
+        {
+            var existing = await _context.RefreshTokens
+                .FirstOrDefaultAsync(x => x.Token == refreshToken);
+
+            if (existing == null)
+                throw new BadRequestException("Invalid refresh token");
+
+            if (!existing.IsActive)
+                throw new BadRequestException("Token is already inactive");
+
+            existing.RevokedAt = DateTimeOffset.Now;
+            await _context.SaveChangesAsync();
         }
 
         public async Task<string> RegisterAdminAsync(
@@ -64,11 +110,13 @@ namespace Company524.API.Service
             string accountConfirmationUrl = null)
         {
             ApplicationUser user = _mapper.Map<ApplicationUser>(registrationRequestDto);
+
             user.EmailConfirmed = false;
             user.LockoutEnabled = false;
             user.LockoutEnd = null;
 
-            IdentityResult result = await _userManager.CreateAsync(user, registrationRequestDto.Password);
+            IdentityResult result = await _userManager.CreateAsync(
+                user, registrationRequestDto.Password);
 
             if (!result.Succeeded)
                 throw new BadRequestException(result.Errors.First().Description);
@@ -106,15 +154,13 @@ namespace Company524.API.Service
         public async Task ConfirmEmailAsync(string userId, string token)
         {
             if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
-                throw new BadRequestException("User id and token are required parameters for email confirmation");
+                throw new BadRequestException(
+                    "User id and token are required parameters for email confirmation");
 
             var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
                 throw new BadRequestException("User not found");
-
-            if (user.LockoutEnd != null && user.EmailConfirmed)
-                throw new NotAllowedException($"User account with id: {userId} is already active");
 
             var result = await _userManager.ConfirmEmailAsync(user, token);
 
@@ -126,6 +172,31 @@ namespace Company524.API.Service
             await _userManager.ResetAccessFailedCountAsync(user);
         }
 
+
+
+
+        // ----------Private helpers----------
+        private async Task<LoginResponseDto> GenerateTokenPairAsync(ApplicationUser user, IList<string> roles)
+        {
+            var accessToken = _jwtTokenGenerator.GenerateToken(user, roles);
+
+            var refreshToken = new RefreshToken()
+            {
+                Token = _jwtTokenGenerator.GenerateRefreshToken(),
+                UserId = user.Id,
+                CreatedAt = DateTimeOffset.Now,
+                ExpiresAt = DateTimeOffset.Now.AddDays(int.Parse(_configuration["Jwt:RefreshTokenExpiryDays"]))
+            };
+
+            _context.RefreshTokens.Add(refreshToken);
+            await _context.SaveChangesAsync();
+
+            return new LoginResponseDto()
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken.Token
+            };
+        }
         private static string BuildAccountConfirmationUrl(
             string accountConfirmationUrl,
             ApplicationUser userToReturn,
@@ -135,7 +206,6 @@ namespace Company524.API.Service
                    $"?userId={Uri.EscapeDataString(userToReturn.Id)}" +
                    $"&token={Uri.EscapeDataString(token)}";
         }
-
         private static string EmailConfirmationBody(string confirmationUrl)
         {
             return $@"

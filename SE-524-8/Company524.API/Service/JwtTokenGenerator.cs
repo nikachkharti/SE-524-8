@@ -1,50 +1,44 @@
 ﻿using Company524.API.Models.Authentication;
 using Company524.API.Service.Contracts;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Company524.API.Service
 {
-    public class JwtTokenGenerator : IJwtTokenGenerator
+    public class JwtTokenGenerator(IConfiguration configuration) : IJwtTokenGenerator
     {
-        private readonly string _secret;
-        private readonly string _issuer;
-        private readonly string _audience;
-
-        public JwtTokenGenerator(IConfiguration configuration)
+        public string GenerateToken(ApplicationUser user, IEnumerable<string> roles)
         {
-            _secret = configuration.GetValue<string>("JWT:Secret");
-            _issuer = configuration.GetValue<string>("JWT:Issuer");
-            _audience = configuration.GetValue<string>("JWT:Audience");
-        }
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Secret"]));
 
-        public string GenerateToken(ApplicationUser applicationUser, IEnumerable<string> roles)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_secret);
-
-            var claimList = new List<Claim>()
+            var claims = new List<Claim>()
             {
-                new Claim(JwtRegisteredClaimNames.Name,applicationUser.UserName),
-                new Claim(JwtRegisteredClaimNames.Email,applicationUser.Email),
-                new Claim(JwtRegisteredClaimNames.Sub,applicationUser.Id),
-            };
-            claimList.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
-
-            var tokenDescriptor = new SecurityTokenDescriptor()
-            {
-                Audience = _audience,
-                Issuer = _issuer,
-                Subject = new ClaimsIdentity(claimList),
-                Expires = DateTime.Now.AddHours(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
+                new(JwtRegisteredClaimNames.Sub, user.Id),
+                new(JwtRegisteredClaimNames.Email, user.Email),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
-        }
+            claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
 
+            var token = new JwtSecurityToken(
+                issuer: configuration["Jwt:Issuer"],
+                audience: configuration["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(int.Parse(configuration["Jwt:AccessTokenExpiryMinutes"])),
+                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature));
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+        public string GenerateRefreshToken()
+        {
+            var bytes = new byte[64];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(bytes);
+            return Convert.ToBase64String(bytes);
+        }
     }
 }
