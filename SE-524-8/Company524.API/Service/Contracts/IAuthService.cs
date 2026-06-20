@@ -6,7 +6,8 @@ namespace Company524.API.Service.Contracts
     {
         Task<string> RegisterAdminAsync(RegistrationRequestDto registrationRequestDto, string accountConfirmationUrl = null);
         Task<LoginResponseDto> LoginAsync(LoginRequestDto loginRequestDto);
-
+        Task RevokeRefreshTokenAsync(string refreshToken);
+        Task<LoginResponseDto> RefreshTokenAsync(string refreshToken);
         Task ConfirmEmailAsync(string userId, string token);
     }
 }

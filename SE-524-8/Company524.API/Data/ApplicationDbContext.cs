@@ -16,6 +16,7 @@ namespace Company524.API.Data
             base.OnModelCreating(builder);
             builder.SeedData();
             builder.NormalizeIdentityTableNames();
+            builder.EnsureRefreshTokenIsUnique();
         }
 
         public DbSet<Category> Categories { get; set; }
@@ -25,5 +26,6 @@ namespace Company524.API.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }

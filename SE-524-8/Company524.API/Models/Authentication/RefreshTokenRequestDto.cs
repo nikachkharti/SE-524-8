@@ -1,8 +1,7 @@
 ﻿namespace Company524.API.Models.Authentication
 {
-    public record LoginResponseDto
+    public record RefreshTokenRequestDto
     {
-        public string AccessToken { get; set; }
         public string RefreshToken { get; set; }
     }
 }

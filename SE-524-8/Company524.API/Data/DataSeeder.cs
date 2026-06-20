@@ -1,4 +1,5 @@
-﻿using Company524.API.Models.Authentication;
+﻿using Company524.API.Entities;
+using Company524.API.Models.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,6 +7,11 @@ namespace Company524.API.Data
 {
     public static class DataSeeder
     {
+        public static void EnsureRefreshTokenIsUnique(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<RefreshToken>(entitiy => entitiy.HasIndex(x => x.Token).IsUnique());
+        }
+
         public static void NormalizeIdentityTableNames(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ApplicationUser>(entity => entity.ToTable(name: "Users"));
