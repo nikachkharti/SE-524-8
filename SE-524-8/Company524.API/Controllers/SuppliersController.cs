@@ -19,7 +19,7 @@ namespace Company524.API.Controllers
 
 
         /// <summary>
-        /// List All Suppliers
+        /// ყველა Supplier
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetSuppliers([FromQuery] PagedRequestDto parameters)
@@ -39,7 +39,7 @@ namespace Company524.API.Controllers
 
 
         /// <summary>
-        /// Get Supplier with Id
+        /// კონკრეტული Supplier
         /// </summary>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSupplier(Guid id)
@@ -59,7 +59,7 @@ namespace Company524.API.Controllers
 
 
         /// <summary>
-        /// Create a new Supplier
+        /// ახალი Supplier
         /// </summary>
         [HttpPost]
         [SwaggerRequestExample(typeof(SupplierForCreatingDto), typeof(SupplierForCreatingDtoExample))]
@@ -78,7 +78,7 @@ namespace Company524.API.Controllers
 
 
         /// <summary>
-        /// Delete a Supplier
+        /// Supplier - ის წაშლა
         /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSupplier(Guid id)
@@ -96,7 +96,7 @@ namespace Company524.API.Controllers
 
 
         /// <summary>
-        /// Update a Supplier
+        /// Supplier - ის განახლება
         /// </summary>
         [HttpPut]
         [SwaggerRequestExample(typeof(SupplierForUpdatingDto), typeof(SupplierForUpdatingDtoExample))]
