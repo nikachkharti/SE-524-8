@@ -113,12 +113,14 @@ namespace Company524.API.Service
             if (user == null)
                 throw new BadRequestException("User not found");
 
+            if (user.LockoutEnd != null && user.EmailConfirmed)
+                throw new NotAllowedException($"User account with id: {userId} is already active");
+
             var result = await _userManager.ConfirmEmailAsync(user, token);
 
             if (!result.Succeeded)
                 throw new BadRequestException(result.Errors.First().Description);
 
-            // Unlock the account and enable lockout tracking going forward
             await _userManager.SetLockoutEnabledAsync(user, true);
             await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.Now);
             await _userManager.ResetAccessFailedCountAsync(user);

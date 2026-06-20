@@ -63,7 +63,6 @@ namespace Company524.API.Controllers
         }
 
 
-        /// ?????
         private static string BuildConfirmationBaseUrl(HttpRequest request)
         {
             return $"{request.Scheme}://{request.Host}/api/auth/confirm-email";
