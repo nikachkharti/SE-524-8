@@ -49,8 +49,8 @@ namespace Company524.API.Service
             if (user == null)
                 throw new BadRequestException("User with provided credentials not found");
 
-            if (user.LockoutEnd != null && user.LockoutEnd > DateTimeOffset.Now)
-                throw new UnauthorizedException("Unable to sign in with locked account");
+            if (!user.EmailConfirmed)
+                throw new UnauthorizedException("Unable to sign in with locked account. Check your email and activate account first");
 
             bool isValid = await _userManager.CheckPasswordAsync(user, loginRequestDto.Password);
 
