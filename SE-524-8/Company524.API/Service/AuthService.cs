@@ -19,6 +19,7 @@ namespace Company524.API.Service
         private readonly IEmailService _emailService;
         private readonly IConfiguration _configuration;
         private const string _adminRole = "Admin";
+        private const string _supplierRole = "Supplier";
         private const string _confirmEmailTitle = "Email Confirm";
 
         public AuthService(
@@ -61,7 +62,6 @@ namespace Company524.API.Service
 
             return await GenerateTokenPairAsync(user, roles);
         }
-
         public async Task<LoginResponseDto> RefreshTokenAsync(string refreshToken)
         {
             // Load token with its user in one query
@@ -87,7 +87,6 @@ namespace Company524.API.Service
 
             return response;
         }
-
         public async Task RevokeRefreshTokenAsync(string refreshToken)
         {
             var existing = await _context.RefreshTokens
@@ -102,53 +101,6 @@ namespace Company524.API.Service
             existing.RevokedAt = DateTimeOffset.Now;
             await _context.SaveChangesAsync();
         }
-
-        public async Task<string> RegisterAdminAsync(
-            RegistrationRequestDto registrationRequestDto,
-            string accountConfirmationUrl = null)
-        {
-            ApplicationUser user = _mapper.Map<ApplicationUser>(registrationRequestDto);
-
-            user.EmailConfirmed = false;
-            user.LockoutEnabled = false;
-            user.LockoutEnd = null;
-
-            IdentityResult result = await _userManager.CreateAsync(
-                user, registrationRequestDto.Password);
-
-            if (!result.Succeeded)
-                throw new BadRequestException(result.Errors.First().Description);
-
-            var userToReturn = await _context.ApplicationUsers
-                .FirstOrDefaultAsync(x =>
-                    x.Email.ToLower() == registrationRequestDto.Email.ToLower());
-
-            if (userToReturn == null)
-                throw new InternalServerException("User was created but could not be retrieved");
-
-            if (!await _roleManager.RoleExistsAsync(_adminRole))
-                await _roleManager.CreateAsync(new IdentityRole(_adminRole));
-
-            await _userManager.AddToRoleAsync(userToReturn, _adminRole);
-
-            var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(userToReturn);
-
-            string confirmationUrl = BuildAccountConfirmationUrl(
-                accountConfirmationUrl,
-                userToReturn,
-                confirmationToken);
-
-            var sentEmailResponse = await _emailService.Send(
-                userToReturn.Email,
-                _confirmEmailTitle,
-                EmailConfirmationBody(confirmationUrl));
-
-            if (!sentEmailResponse.success)
-                throw new InternalServerException(sentEmailResponse.error.Message);
-
-            return userToReturn.Id;
-        }
-
         public async Task ConfirmEmailAsync(string userId, string token)
         {
             if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
@@ -169,10 +121,29 @@ namespace Company524.API.Service
             await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.Now);
             await _userManager.ResetAccessFailedCountAsync(user);
         }
+        public Task<string> RegisterSupplierAsync(
+            RegistrationRequestDto registrationRequestDto,
+            string accountConfirmationUrl = null)
+        {
+            return RegisterUserAsync(
+                registrationRequestDto,
+                _supplierRole,
+                accountConfirmationUrl);
+        }
+        public Task<string> RegisterAdminAsync(
+            RegistrationRequestDto registrationRequestDto,
+            string accountConfirmationUrl = null)
+        {
+            return RegisterUserAsync(
+                registrationRequestDto,
+                _adminRole,
+                accountConfirmationUrl);
+        }
 
 
 
-        // Private helpers
+
+        //-----Private helpers-----
         private async Task<LoginResponseDto> GenerateTokenPairAsync(ApplicationUser user, IList<string> roles)
         {
             var accessToken = _jwtTokenGenerator.GenerateToken(user, roles);
@@ -194,14 +165,12 @@ namespace Company524.API.Service
                 RefreshToken = refreshToken.Token
             };
         }
-
         private static string BuildAccountConfirmationUrl(string accountConfirmationUrl, ApplicationUser userToReturn, string token)
         {
             return $"{accountConfirmationUrl}" +
                    $"?userId={Uri.EscapeDataString(userToReturn.Id)}" +
                    $"&token={Uri.EscapeDataString(token)}";
         }
-
         private static string EmailConfirmationBody(string confirmationUrl)
         {
             return $@"
@@ -213,6 +182,51 @@ namespace Company524.API.Service
                         Activate Account
                     </a>
                 </p>";
+        }
+        private async Task EnsureRoleExistsAsync(string role)
+        {
+            if (!await _roleManager.RoleExistsAsync(role))
+                await _roleManager.CreateAsync(new IdentityRole(role));
+        }
+        private async Task<string> RegisterUserAsync(
+            RegistrationRequestDto registrationRequestDto,
+            string role,
+            string accountConfirmationUrl = null)
+        {
+            var user = _mapper.Map<ApplicationUser>(registrationRequestDto);
+
+            user.EmailConfirmed = false;
+            user.LockoutEnabled = false;
+            user.LockoutEnd = null;
+
+            var result = await _userManager.CreateAsync(
+                user,
+                registrationRequestDto.Password);
+
+            if (!result.Succeeded)
+                throw new BadRequestException(result.Errors.First().Description);
+
+            await EnsureRoleExistsAsync(role);
+
+            await _userManager.AddToRoleAsync(user, role);
+
+            var confirmationToken =
+                await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            var confirmationUrl = BuildAccountConfirmationUrl(
+                accountConfirmationUrl,
+                user,
+                confirmationToken);
+
+            var emailResponse = await _emailService.Send(
+                user.Email,
+                _confirmEmailTitle,
+                EmailConfirmationBody(confirmationUrl));
+
+            if (!emailResponse.success)
+                throw new InternalServerException(emailResponse.error.Message);
+
+            return user.Id;
         }
     }
 }

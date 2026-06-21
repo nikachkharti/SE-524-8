@@ -1,9 +1,12 @@
-﻿using Company524.API.Models.Common;
+﻿using Company524.API.Exceptions;
+using Company524.API.Models.Common;
 using Company524.API.Models.Supplier;
 using Company524.API.Service.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
 using System.Net;
+using System.Security.Claims;
 
 namespace Company524.API.Controllers
 {
@@ -11,10 +14,26 @@ namespace Company524.API.Controllers
     [ApiController]
     public class SuppliersController(IProductService productService, ISupplierService supplierService) : ControllerBase
     {
+        /// <summary>
+        /// პროდუქტები ავტორიზებული Supplier - ის მიხედვით
+        /// </summary>
         [HttpGet("{supplierId}/products")]
-        public async Task<IActionResult> GetSupplierProducts([FromRoute] Guid supplierId, [FromQuery] PagedRequestDto parameters)
+        [Authorize(Roles = "Supplier")]
+        public async Task<IActionResult> GetSupplierProducts([FromQuery] PagedRequestDto parameters)
         {
-            throw new NotImplementedException();
+            var supplierId = GetAuthenticatedUserId(User);
+
+            var result = await productService.GetAllProductsOfSupplierAsync(supplierId, parameters);
+
+            var response = new CommonResponse()
+            {
+                Message = CommonResponseMessage.SuccessMessage,
+                IsSuccess = true,
+                HttpStatusCode = Convert.ToInt32(HttpStatusCode.OK),
+                Result = result
+            };
+
+            return StatusCode(response.HttpStatusCode, response);
         }
 
 
@@ -22,6 +41,7 @@ namespace Company524.API.Controllers
         /// ყველა Supplier
         /// </summary>
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetSuppliers([FromQuery] PagedRequestDto parameters)
         {
             var result = await supplierService.GetAllSuppliersAsync(parameters);
@@ -42,6 +62,7 @@ namespace Company524.API.Controllers
         /// კონკრეტული Supplier
         /// </summary>
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetSupplier(Guid id)
         {
             var result = await supplierService.GetSupplierByIdAsync(id);
@@ -62,6 +83,7 @@ namespace Company524.API.Controllers
         /// ახალი Supplier
         /// </summary>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [SwaggerRequestExample(typeof(SupplierForCreatingDto), typeof(SupplierForCreatingDtoExample))]
         public async Task<IActionResult> CreateSupplier([FromBody] SupplierForCreatingDto model)
         {
@@ -81,6 +103,7 @@ namespace Company524.API.Controllers
         /// Supplier - ის წაშლა
         /// </summary>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteSupplier(Guid id)
         {
             await supplierService.DeleteSupplierAsync(id);
@@ -99,6 +122,7 @@ namespace Company524.API.Controllers
         /// Supplier - ის განახლება
         /// </summary>
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         [SwaggerRequestExample(typeof(SupplierForUpdatingDto), typeof(SupplierForUpdatingDtoExample))]
         public async Task<IActionResult> UpdateSupplier([FromBody] SupplierForUpdatingDto model)
         {
@@ -114,5 +138,16 @@ namespace Company524.API.Controllers
             return StatusCode(response.HttpStatusCode, response);
         }
 
+
+
+        private static Guid GetAuthenticatedUserId(ClaimsPrincipal user)
+        {
+            var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+                throw new UnauthorizedException("User is not authorized in system");
+
+            return Guid.Parse(userId);
+        }
     }
 }

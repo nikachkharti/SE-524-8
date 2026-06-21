@@ -26,7 +26,7 @@ namespace Company524.API.Data
         public static void SeedData(this ModelBuilder modelBuilder)
         {
             SeedCategories(modelBuilder);
-            SeedSuppliers(modelBuilder);
+            //SeedSuppliers(modelBuilder);
             SeedProducts(modelBuilder);
             SeedCustomers(modelBuilder);
             SeedOrders(modelBuilder);

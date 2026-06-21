@@ -14,7 +14,7 @@ namespace Company524.API.Controllers
         /// <summary>
         /// სისტემაში რეგისტრაცია ადმინისტრატორის როლით
         /// </summary>
-        [HttpPost("registeradmin")]
+        [HttpPost("register-admin")]
         [SwaggerRequestExample(typeof(RegistrationRequestDto), typeof(RegistrationRequestDtoExample))]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegistrationRequestDto model)
         {
@@ -24,6 +24,27 @@ namespace Company524.API.Controllers
             var response = new CommonResponse()
             {
                 Message = "Admin registered successfully",
+                IsSuccess = true,
+                HttpStatusCode = Convert.ToInt32(HttpStatusCode.Created),
+                Result = result
+            };
+
+            return StatusCode(response.HttpStatusCode, response);
+        }
+
+        /// <summary>
+        /// სისტემაში რეგისტრაცია Supplier როლით
+        /// </summary>
+        [HttpPost("register-supplier")]
+        [SwaggerRequestExample(typeof(RegistrationRequestDto), typeof(RegistrationRequestDtoExample))]
+        public async Task<IActionResult> RegisterSupplier([FromBody] RegistrationRequestDto model)
+        {
+            var confirmationBaseUrl = BuildConfirmationBaseUrl(Request);
+            var result = await authService.RegisterSupplierAsync(model, confirmationBaseUrl);
+
+            var response = new CommonResponse()
+            {
+                Message = "Supplier registered successfully",
                 IsSuccess = true,
                 HttpStatusCode = Convert.ToInt32(HttpStatusCode.Created),
                 Result = result
@@ -87,7 +108,6 @@ namespace Company524.API.Controllers
             });
         }
 
-
         /// <summary>
         /// ტოკენის გაუქმება (გასვლა სისტემიდან)
         /// </summary>
@@ -124,8 +144,8 @@ namespace Company524.API.Controllers
         /// მხოლოდ სესიის მფლობელმა ან ადმინისტრატორმა შეძლოს გაუქმება.
         /// </remarks>
         /// <param name="model">გასაუქმებელი განახლების ტოკენი</param>
-        [HttpPost("revoke-token")]
         [Authorize]
+        [HttpPost("revoke-token")]
         public async Task<IActionResult> RevokeToken([FromBody] RefreshTokenRequestDto model)
         {
             await authService.RevokeRefreshTokenAsync(model.RefreshToken);

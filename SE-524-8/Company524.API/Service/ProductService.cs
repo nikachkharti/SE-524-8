@@ -46,7 +46,6 @@ namespace Company524.API.Service
             await productRepository.AddAsync(newProduct);
             return await productRepository.SaveAsync();
         }
-
         public async Task<int> DeleteProductAsync(Guid productId)
         {
             if (productId == Guid.Empty)
@@ -60,43 +59,6 @@ namespace Company524.API.Service
             productRepository.Remove(product);
             return await productRepository.SaveAsync();
         }
-
-
-        public async Task<PagedResponseDto<ProductListForGettingDto>> GetAllProductsAsync(PagedRequestDto parameters)
-        {
-            Expression<Func<Product, object>> orderBy = parameters.SortBy?.ToLower() switch
-            {
-                "productname" => p => p.ProductName,
-                "price" => p => p.Price,
-                _ => p => p.Id
-            };
-
-            var products = await productRepository.GetAllAsync(
-                orderBy: orderBy,
-                ascending: parameters.Ascending,
-                pageNumber: parameters.PageNumber,
-                pageSize: parameters.PageSize
-            );
-
-            if (!products.Items.Any())
-                return new PagedResponseDto<ProductListForGettingDto>
-                {
-                    Items = Enumerable.Empty<ProductListForGettingDto>(),
-                    TotalCount = 0,
-                    PageNumber = parameters.PageNumber,
-                    PageSize = parameters.PageSize
-                };
-
-            var result = mapper.Map<IEnumerable<ProductListForGettingDto>>(products.Items);
-            return new PagedResponseDto<ProductListForGettingDto>
-            {
-                Items = result,
-                TotalCount = products.TotalCount,
-                PageNumber = parameters.PageNumber,
-                PageSize = parameters.PageSize
-            };
-        }
-
         public async Task<ProductForGettingDto> GetProductAsync(Guid productId)
         {
             if (productId == Guid.Empty)
@@ -114,7 +76,6 @@ namespace Company524.API.Service
 
             return mapper.Map<ProductForGettingDto>(product);
         }
-
         public async Task<int> UpdateProductAsync(ProductForUpdatingDto request)
         {
             if (request is null)
@@ -153,12 +114,83 @@ namespace Company524.API.Service
             productRepository.Update(product);
             return await productRepository.SaveAsync();
         }
+        public async Task<PagedResponseDto<ProductListForGettingDto>> GetAllProductsAsync(PagedRequestDto parameters)
+        {
+            var products = await productRepository.GetAllAsync(
+                orderBy: BuildOrderBy(parameters.SortBy),
+                ascending: parameters.Ascending,
+                pageNumber: parameters.PageNumber,
+                pageSize: parameters.PageSize
+            );
+
+            return MapToPagedResponse(products, parameters);
+        }
+        public async Task<PagedResponseDto<ProductListForGettingDto>> GetAllProductsOfCategoryAsync(
+            Guid categoryId,
+            PagedRequestDto parameters)
+        {
+            if (categoryId == Guid.Empty)
+                throw new BadRequestException("Category id is required");
+
+            var products = await productRepository.GetAllAsync(
+                filter: p => p.CategoryId == categoryId,
+                orderBy: BuildOrderBy(parameters.SortBy),
+                ascending: parameters.Ascending,
+                pageNumber: parameters.PageNumber,
+                pageSize: parameters.PageSize
+            );
+
+            return MapToPagedResponse(products, parameters);
+        }
+        public async Task<PagedResponseDto<ProductListForGettingDto>> GetAllProductsOfSupplierAsync(
+            Guid supplierId,
+            PagedRequestDto parameters)
+        {
+            if (supplierId == Guid.Empty)
+                throw new BadRequestException("Supplier id is required");
+
+            var products = await productRepository.GetAllAsync(
+                filter: p => p.SupplierId == supplierId,
+                orderBy: BuildOrderBy(parameters.SortBy),
+                ascending: parameters.Ascending,
+                pageNumber: parameters.PageNumber,
+                pageSize: parameters.PageSize
+            );
+
+            return MapToPagedResponse(products, parameters);
+        }
 
 
 
+        // -----Private helpers-----
+        private static Expression<Func<Product, object>> BuildOrderBy(string sortBy)
+        {
+            return sortBy?.ToLower() switch
+            {
+                "productname" => p => p.ProductName,
+                "price" => p => p.Price,
+                "quantity" => p => p.Quantity,
+                "categoryId" => p => p.CategoryId,
+                "supplierId" => p => p.SupplierId,
+                _ => p => p.Id
+            };
+        }
+        private PagedResponseDto<ProductListForGettingDto> MapToPagedResponse(
+            (IEnumerable<Product> Items, int TotalCount) products,
+            PagedRequestDto parameters)
+        {
+            return new PagedResponseDto<ProductListForGettingDto>
+            {
+                Items = products.Items.Any()
+                    ? mapper.Map<IEnumerable<ProductListForGettingDto>>(products.Items)
+                    : Enumerable.Empty<ProductListForGettingDto>(),
+                TotalCount = products.TotalCount,
+                PageNumber = parameters.PageNumber,
+                PageSize = parameters.PageSize
+            };
+        }
         private async Task<bool> CategoryExists(Guid categoryId)
             => await categoryRepository.ExistsAsync(c => c.Id == categoryId);
-
         private async Task<bool> SupplierExists(Guid supplierId)
             => await supplierRepository.ExistsAsync(s => s.Id == supplierId);
 

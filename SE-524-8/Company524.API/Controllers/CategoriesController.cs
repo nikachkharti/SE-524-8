@@ -12,14 +12,29 @@ namespace Company524.API.Controllers
     [ApiController]
     public class CategoriesController(IProductService productService, ICategoryService categoryService) : ControllerBase
     {
+        /// <summary>
+        /// პროდუქტები კონკრეტული კატეგორიების მიხედვით
+        /// </summary>
         [HttpGet("{categoryId}/products")]
-        public async Task<IActionResult> GetCategoryProducts([FromRoute] Guid categoryId, [FromQuery] PagedRequestDto parameters)
+        public async Task<IActionResult> GetCategoryProducts(
+            [FromRoute] Guid categoryId,
+            [FromQuery] PagedRequestDto parameters)
         {
-            throw new NotImplementedException();
+            var result = await productService.GetAllProductsOfCategoryAsync(categoryId, parameters);
+
+            var response = new CommonResponse()
+            {
+                Message = CommonResponseMessage.SuccessMessage,
+                IsSuccess = true,
+                HttpStatusCode = Convert.ToInt32(HttpStatusCode.OK),
+                Result = result
+            };
+
+            return StatusCode(response.HttpStatusCode, response);
         }
 
         /// <summary>
-        /// List All Categories
+        /// ყველა კატეგორია
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetCategories([FromQuery] PagedRequestDto parameters)
@@ -39,7 +54,7 @@ namespace Company524.API.Controllers
 
 
         /// <summary>
-        /// Get Category with Id
+        /// კონკრეტული კატეგორია, Id პარამეტრით
         /// </summary>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategory(Guid id)
@@ -58,9 +73,8 @@ namespace Company524.API.Controllers
         }
 
 
-
         /// <summary>
-        /// Create a new Category
+        /// ახალი კატეგორიის დამატება
         /// </summary>
         [HttpPost]
         [Authorize(Roles = "Admin")]
@@ -79,9 +93,8 @@ namespace Company524.API.Controllers
         }
 
 
-
         /// <summary>
-        /// Delete a Category
+        /// არსებული კატეგორიის წაშლა
         /// </summary>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
@@ -100,7 +113,7 @@ namespace Company524.API.Controllers
 
 
         /// <summary>
-        /// Update a Category
+        /// არსებული კატეგორიის განახლება
         /// </summary>
         [HttpPut]
         [Authorize(Roles = "Admin")]
