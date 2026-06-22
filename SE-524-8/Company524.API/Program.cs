@@ -16,6 +16,7 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Company524.API.Jobs;
 
 namespace Company524.API
 {
@@ -96,6 +97,10 @@ namespace Company524.API
             builder.Services.AddSingleton<IEmailService, EmailService>();
 
 
+            //BACKGROUND SERVICES (JOBS)
+            builder.Services.AddHostedService<RefreshTokenCleanupService>();
+
+
             //MAPSTER
             var config = TypeAdapterConfig.GlobalSettings;
             config.Scan(typeof(MappingConfig).Assembly);
@@ -142,6 +147,7 @@ namespace Company524.API
                     ValidAudience = audience
                 };
             });
+
 
 
 
