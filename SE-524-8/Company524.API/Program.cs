@@ -154,17 +154,22 @@ namespace Company524.API
             var app = builder.Build();
 
 
-            //DB AUTO UPDATE
-            try
+            // DB AUTO UPDATE — skip for Testing environment (integration tests use InMemory DB)
+            // GetPendingMigrations() throws when the provider is InMemory because
+            // InMemory has no migration history table.
+            if (!builder.Environment.IsEnvironment("Testing"))
             {
-                using var scope = app.Services.CreateScope();
-                var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                if (context.Database.GetPendingMigrations().Any())
-                    context.Database.Migrate();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Migration failed: {ex.Message}", ex);
+                try
+                {
+                    using var scope = app.Services.CreateScope();
+                    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                    if (context.Database.GetPendingMigrations().Any())
+                        context.Database.Migrate();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Migration failed: {ex.Message}", ex);
+                }
             }
 
             app.UseMiddleware<ErrorHandlingMiddleware>();
