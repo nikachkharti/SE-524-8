@@ -1,9 +1,9 @@
-﻿using Company524.API.Entities;
-using Company524.API.Exceptions;
-using Company524.API.Models.Common;
-using Company524.API.Models.Supplier;
-using Company524.API.Repository.Contracts;
-using Company524.API.Service;
+﻿using Company524.Domain.Entities;
+using Company524.Application.Exceptions;
+using Company524.Application.Models.Common;
+using Company524.Application.Models.Supplier;
+using Company524.Application.Contracts.Persistence;
+using Company524.Application.Service;
 using FluentAssertions;
 using MapsterMapper;
 using Moq;

@@ -1,5 +1,5 @@
-﻿using Company524.API.Exceptions;
-using Company524.API.Middleware;
+﻿using Company524.API.Middleware;
+using Company524.Application.Exceptions;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using System.Text.Json;

@@ -1,6 +1,6 @@
-﻿using Company524.API.Models.Category;
-using Company524.API.Models.Common;
-using Company524.API.Service.Contracts;
+﻿using Company524.Application.Contracts.Service;
+using Company524.Application.Models.Category;
+using Company524.Application.Models.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;

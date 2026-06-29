@@ -1,7 +1,7 @@
 ﻿using Company524.API.Controllers;
-using Company524.API.Models.Common;
-using Company524.API.Models.Supplier;
-using Company524.API.Service.Contracts;
+using Company524.Application.Models.Common;
+using Company524.Application.Models.Supplier;
+using Company524.Application.Contracts.Service;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

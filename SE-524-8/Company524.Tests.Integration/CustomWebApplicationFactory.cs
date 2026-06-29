@@ -1,7 +1,7 @@
 using Company524.API;
-using Company524.API.Data;
-using Company524.API.Models.Notification;
-using Company524.API.Service.Contracts;
+using Company524.Infrastructure.Data;
+using Company524.Application.Models.Notification;
+using Company524.Application.Contracts.Service;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;

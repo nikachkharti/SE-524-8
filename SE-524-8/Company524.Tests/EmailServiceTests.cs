@@ -1,5 +1,5 @@
-﻿using Company524.API.Service;
-using Company524.API.Service.Contracts;
+﻿using Company524.Application.Contracts.Service;
+using Company524.Application.Service;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

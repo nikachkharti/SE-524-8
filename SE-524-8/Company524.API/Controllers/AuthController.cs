@@ -1,5 +1,5 @@
-﻿using Company524.API.Models.Authentication;
-using Company524.API.Service.Contracts;
+﻿using Company524.Application.Contracts.Service;
+using Company524.Application.Models.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;

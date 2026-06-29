@@ -1,4 +1,4 @@
-﻿using Company524.API.Entities;
+﻿using Company524.Domain.Entities;
 using FluentAssertions;
 
 namespace Company524.Tests

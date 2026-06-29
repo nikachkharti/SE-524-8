@@ -1,5 +1,5 @@
-﻿using Company524.API.Data;
-using Company524.API.Models.Authentication;
+﻿using Company524.Infrastructure.Data;
+using Company524.Application.Models.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;

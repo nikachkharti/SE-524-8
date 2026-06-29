@@ -9,24 +9,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MailKit" Version="4.17.0" />
-		<PackageReference Include="Mapster" Version="10.0.7" />
-		<PackageReference Include="Mapster.DependencyInjection" Version="10.0.7" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.9" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.8" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.8" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.8">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.8" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.8">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="MimeKit" Version="4.17.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="10.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Company524.Application\Company524.Application.csproj" />
+		<ProjectReference Include="..\Company524.Domain\Company524.Domain.csproj" />
+		<ProjectReference Include="..\Company524.Infrastructure\Company524.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

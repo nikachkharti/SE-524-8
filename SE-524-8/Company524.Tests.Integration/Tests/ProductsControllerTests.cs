@@ -1,6 +1,6 @@
-﻿using Company524.API.Entities;
-using Company524.API.Models.Authentication;
-using Company524.API.Models.Product;
+﻿using Company524.Domain.Entities;
+using Company524.Application.Models.Authentication;
+using Company524.Application.Models.Product;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Headers;

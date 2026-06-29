@@ -1,4 +1,4 @@
-﻿using Company524.API.Data;
+﻿using Company524.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Company524.API.Jobs
