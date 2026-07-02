@@ -1,11 +1,11 @@
-using Company524.API.Data;
-using Company524.API.Mapping;
 using Company524.API.Middleware;
-using Company524.API.Models.Authentication;
-using Company524.API.Repository;
-using Company524.API.Repository.Contracts;
-using Company524.API.Service;
-using Company524.API.Service.Contracts;
+using Company524.Application.Contracts.Persistence;
+using Company524.Application.Contracts.Service;
+using Company524.Application.Mapping;
+using Company524.Application.Service;
+using Company524.Domain.Entities;
+using Company524.Infrastructure.Data;
+using Company524.Infrastructure.Persistence;
 using Mapster;
 using MapsterMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -85,6 +85,7 @@ namespace Company524.API
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
+            builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
 
             //SERVICES

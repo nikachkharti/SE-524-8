@@ -1,4 +1,5 @@
-﻿using Company524.Application.Contracts.Service;
+using Company524.Application.Contracts.Persistence;
+using Company524.Application.Contracts.Service;
 using Company524.Application.Exceptions;
 using Company524.Application.Models.Authentication;
 using Company524.Domain.Entities;
@@ -11,7 +12,7 @@ namespace Company524.Application.Service
 {
     public class AuthService : IAuthService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
@@ -23,7 +24,7 @@ namespace Company524.Application.Service
         private const string _confirmEmailTitle = "Email Confirm";
 
         public AuthService(
-            ApplicationDbContext context,
+            IRefreshTokenRepository refreshTokenRepository,
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
             IMapper mapper,
@@ -31,7 +32,7 @@ namespace Company524.Application.Service
             IJwtTokenGenerator jwtTokenGenerator,
             IConfiguration configuration)
         {
-            _context = context;
+            _refreshTokenRepository = refreshTokenRepository;
             _userManager = userManager;
             _roleManager = roleManager;
             _mapper = mapper;
@@ -42,10 +43,7 @@ namespace Company524.Application.Service
 
         public async Task<LoginResponseDto> LoginAsync(LoginRequestDto loginRequestDto)
         {
-            var user = await _context.ApplicationUsers
-                .FirstOrDefaultAsync(x =>
-                    x.UserName.ToLower().Trim() ==
-                    loginRequestDto.UserName.ToLower().Trim());
+            var user = await _userManager.FindByNameAsync(loginRequestDto.UserName.Trim());
 
             if (user == null)
                 throw new BadRequestException("User with provided credentials not found");
@@ -65,9 +63,9 @@ namespace Company524.Application.Service
         public async Task<LoginResponseDto> RefreshTokenAsync(string refreshToken)
         {
             // Load token with its user in one query
-            var existing = await _context.RefreshTokens
-                .Include(x => x.User)
-                .FirstOrDefaultAsync(x => x.Token == refreshToken);
+            var existing = await _refreshTokenRepository.GetAsync(
+                x => x.Token == refreshToken,
+                include: q => q.Include(x => x.User));
 
             if (existing == null)
                 throw new BadRequestException("Invalid refresh token");
@@ -83,14 +81,13 @@ namespace Company524.Application.Service
             var response = await GenerateTokenPairAsync(existing.User, roles);
 
             // Persist the revocation + new token atomically
-            await _context.SaveChangesAsync();
+            await _refreshTokenRepository.SaveAsync();
 
             return response;
         }
         public async Task RevokeRefreshTokenAsync(string refreshToken)
         {
-            var existing = await _context.RefreshTokens
-                .FirstOrDefaultAsync(x => x.Token == refreshToken);
+            var existing = await _refreshTokenRepository.GetAsync(x => x.Token == refreshToken);
 
             if (existing == null)
                 throw new BadRequestException("Invalid refresh token");
@@ -99,7 +96,7 @@ namespace Company524.Application.Service
                 throw new BadRequestException("Token is already inactive");
 
             existing.RevokedAt = DateTimeOffset.Now;
-            await _context.SaveChangesAsync();
+            await _refreshTokenRepository.SaveAsync();
         }
         public async Task ConfirmEmailAsync(string userId, string token)
         {
@@ -156,8 +153,8 @@ namespace Company524.Application.Service
                 ExpiresAt = DateTimeOffset.Now.AddDays(int.Parse(_configuration["Jwt:RefreshTokenExpiryDays"]))
             };
 
-            _context.RefreshTokens.Add(refreshToken);
-            await _context.SaveChangesAsync();
+            await _refreshTokenRepository.AddAsync(refreshToken);
+            await _refreshTokenRepository.SaveAsync();
 
             return new LoginResponseDto
             {

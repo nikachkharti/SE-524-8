@@ -1,8 +1,8 @@
-﻿using Company524.API.Models.Authentication;
-using Company524.API.Models.Category;
-using Company524.API.Models.Notification;
-using Company524.API.Models.Product;
-using Company524.API.Models.Supplier;
+﻿using Company524.Application.Models.Authentication;
+using Company524.Application.Models.Category;
+using Company524.Application.Models.Notification;
+using Company524.Application.Models.Product;
+using Company524.Application.Models.Supplier;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace Company524.API;

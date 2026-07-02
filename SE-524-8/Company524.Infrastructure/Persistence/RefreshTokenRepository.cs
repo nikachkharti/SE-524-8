@@ -4,9 +4,9 @@ using Company524.Infrastructure.Data;
 
 namespace Company524.Infrastructure.Persistence
 {
-    public class ProductRepository : RepositoryBase<Product, ApplicationDbContext>, IProductRepository
+    public class RefreshTokenRepository : RepositoryBase<RefreshToken, ApplicationDbContext>, IRefreshTokenRepository
     {
-        public ProductRepository(ApplicationDbContext context) : base(context)
+        public RefreshTokenRepository(ApplicationDbContext context) : base(context)
         {
         }
     }

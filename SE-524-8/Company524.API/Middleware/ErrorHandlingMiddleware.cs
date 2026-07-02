@@ -1,4 +1,4 @@
-﻿using Company524.API.Exceptions;
+﻿using Company524.Application.Exceptions;
 using System.Text.Json;
 
 namespace Company524.API.Middleware
