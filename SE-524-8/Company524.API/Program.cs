@@ -5,6 +5,7 @@ using Company524.Application.Mapping;
 using Company524.Application.Service;
 using Company524.Domain.Entities;
 using Company524.Infrastructure.Data;
+using Company524.Infrastructure.ExternalServices.DummyJson;
 using Company524.Infrastructure.Persistence;
 using Mapster;
 using MapsterMapper;
@@ -96,6 +97,13 @@ namespace Company524.API
             builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
             builder.Services.AddSingleton<ISmtpClient, SmtpClientWrapper>();
             builder.Services.AddSingleton<IEmailService, EmailService>();
+
+            //HTTP CLIENTS
+            builder.Services.AddHttpClient<IExternalProductCatalogService, DummyJsonProductCatalogService>(client =>
+            {
+                client.BaseAddress = new Uri(builder.Configuration["ExternalApis:DummyJson:BaseUrl"]);
+                client.Timeout = TimeSpan.FromSeconds(10);
+            });
 
 
             //BACKGROUND SERVICES (JOBS)
