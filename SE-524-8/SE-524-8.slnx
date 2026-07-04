@@ -32,9 +32,15 @@
     <Project Path="MiniBank.UI/MiniBank.UI.csproj" Id="f1425eaf-bf54-403f-8349-356225201ed6" />
   </Folder>
   <Project Path="Company524.API/Company524.API.csproj" Id="29046e10-c9c2-4e72-962e-c6d05984d1f0" />
-  <Project Path="Company524.Application/Company524.Application.csproj" Id="a9ecb516-1b4b-45d1-aa92-64676f302b6a" />
-  <Project Path="Company524.Domain/Company524.Domain.csproj" Id="42e17534-44d1-4524-a871-68a3a4dd37ab" />
-  <Project Path="Company524.Infrastructure/Company524.Infrastructure.csproj" Id="3cfec75f-de9a-49ab-a2f2-9a56e2c08903" />
+  <Project Path="Company524.Application/Company524.Application.csproj" Id="a9ecb516-1b4b-45d1-aa92-64676f302b6a">
+    <Build Solution="Debug|*" Project="false" />
+  </Project>
+  <Project Path="Company524.Domain/Company524.Domain.csproj" Id="42e17534-44d1-4524-a871-68a3a4dd37ab">
+    <Build Solution="Debug|*" Project="false" />
+  </Project>
+  <Project Path="Company524.Infrastructure/Company524.Infrastructure.csproj" Id="3cfec75f-de9a-49ab-a2f2-9a56e2c08903">
+    <Build Solution="Debug|*" Project="false" />
+  </Project>
   <Project Path="Company524.Tests.Integration/Company524.Tests.Integration.csproj" Id="3f1fa26c-03c4-46da-bd29-ded90c3a363e" />
   <Project Path="Company524.Tests/Company524.Tests.csproj" Id="bdaa38b8-8ae2-4ed1-ae9a-23786dadf5fb">
     <Build Solution="Debug|*" Project="false" />
