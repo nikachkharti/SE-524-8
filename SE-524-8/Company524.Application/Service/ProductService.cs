@@ -16,6 +16,8 @@ namespace Company524.Application.Service
         ISupplierRepository supplierRepository,
         IMapper mapper) : IProductService
     {
+
+        /// TODO: დაამატეთ ფაილის ატვირთვა Cloudinary-ზე და სურათის URL-ის შენახვა ბაზაში Product entity-ში.
         public async Task<int> CreateNewProductAsync(ProductForCreatingDto request)
         {
             if (request is null)
@@ -46,6 +48,8 @@ namespace Company524.Application.Service
             await productRepository.AddAsync(newProduct);
             return await productRepository.SaveAsync();
         }
+
+        /// TODO: დაამატეთ ფაილის წაშლა ავტომატურად Cloudinary-დან მაშინ როდესაც, პროდუქტი წაიშლება ბაზიდან, თუ პროდუქტი ვერ წაიშალა ბაზიდან, მაშინ ფაილი Cloudinary-ზე უნდა დარჩეს.
         public async Task<int> DeleteProductAsync(Guid productId)
         {
             if (productId == Guid.Empty)
@@ -59,6 +63,8 @@ namespace Company524.Application.Service
             productRepository.Remove(product);
             return await productRepository.SaveAsync();
         }
+
+        /// TODO: დაამატეთ ყველა სურათის წამოღება Cloudinary-დან, რომელიც დაკავშირებულია კონკრეტულ პროდუქტთან, და დააბრუნეთ სურათების URL-ები ProductForGettingDto-ში.
         public async Task<ProductForGettingDto> GetProductAsync(Guid productId)
         {
             if (productId == Guid.Empty)
@@ -125,6 +131,8 @@ namespace Company524.Application.Service
 
             return MapToPagedResponse(products, parameters);
         }
+
+        /// TODO: დაამატეთ მთავარი სურათის წამოღების ლოგიკა Cloudinary- დან, რომელიც დაკავშირებულია კონკრეტულ პროდუქტთან, და დააბრუნეთ სურათის URL ProductListForGettingDto-ში.
         public async Task<PagedResponseDto<ProductListForGettingDto>> GetAllProductsOfCategoryAsync(
             Guid categoryId,
             PagedRequestDto parameters)
@@ -142,6 +150,8 @@ namespace Company524.Application.Service
 
             return MapToPagedResponse(products, parameters);
         }
+
+        /// TODO: დაამატეთ მთავარი სურათის წამოღების ლოგიკა Cloudinary- დან, რომელიც დაკავშირებულია კონკრეტულ პროდუქტთან, და დააბრუნეთ სურათის URL ProductListForGettingDto-ში.
         public async Task<PagedResponseDto<ProductListForGettingDto>> GetAllProductsOfSupplierAsync(
             Guid supplierId,
             PagedRequestDto parameters)
@@ -159,6 +169,10 @@ namespace Company524.Application.Service
 
             return MapToPagedResponse(products, parameters);
         }
+
+
+        /// TODO: დაამატეთ ცალკე მეთოდი , რომელიც update - ს გაუკეთებს პროდუქტის სურათებს Cloudinary-ზე და ბაზაში შეინახავს სურათების URL-ებს Product entity-ში.
+
 
 
 

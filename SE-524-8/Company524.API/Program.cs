@@ -1,7 +1,10 @@
+using CloudinaryDotNet;
+using Company524.API.Jobs;
 using Company524.API.Middleware;
 using Company524.Application.Contracts.Persistence;
 using Company524.Application.Contracts.Service;
 using Company524.Application.Mapping;
+using Company524.Application.Models.Cloudinary;
 using Company524.Application.Service;
 using Company524.Domain.Entities;
 using Company524.Infrastructure.Data;
@@ -12,12 +15,11 @@ using MapsterMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Company524.API.Jobs;
 
 namespace Company524.API
 {
@@ -87,6 +89,7 @@ namespace Company524.API
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
             builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            builder.Services.AddScoped<IProductImageRepository, ProductImageRepository>();
 
 
             //SERVICES
@@ -157,6 +160,28 @@ namespace Company524.API
                 };
             });
 
+
+
+            //CLOUDINARY
+            builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("Cloudinary"));
+
+            var cloudinarySettings = builder.Configuration
+                .GetSection("Cloudinary")
+                .Get<CloudinarySettings>();
+
+            var account = new Account(
+                cloudinarySettings.CloudName,
+                cloudinarySettings.ApiKey,
+                cloudinarySettings.ApiSecret
+            );
+
+            var cloudinary = new Cloudinary(account)
+            {
+                Api = { Secure = true }
+            };
+
+            builder.Services.AddSingleton(cloudinary);
+            builder.Services.AddScoped<ICloudinaryImageService, CloudinaryImageService>();
 
 
 

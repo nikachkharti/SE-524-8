@@ -18,7 +18,7 @@ namespace Company524.API.Controllers
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [SwaggerRequestExample(typeof(ProductForCreatingDto), typeof(ProductForCreatingDtoExample))]
-        public async Task<IActionResult> CreateProduct([FromBody] ProductForCreatingDto request)
+        public async Task<IActionResult> CreateProduct([FromForm] ProductForCreatingDto request)
         {
             var result = await productService.CreateNewProductAsync(request);
             var response = new CommonResponse(CommonResponseMessage.SuccessMessage, result, true, Convert.ToInt32(HttpStatusCode.Created));
@@ -74,7 +74,7 @@ namespace Company524.API.Controllers
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [SwaggerRequestExample(typeof(ProductForUpdatingDto), typeof(ProductForUpdatingDtoExample))]
-        public async Task<IActionResult> UpdateProduct([FromBody] ProductForUpdatingDto request)
+        public async Task<IActionResult> UpdateProduct([FromForm] ProductForUpdatingDto request)
         {
             var result = await productService.UpdateProductAsync(request);
             var response = new CommonResponse(CommonResponseMessage.SuccessMessage, result, true, Convert.ToInt32(HttpStatusCode.OK));
