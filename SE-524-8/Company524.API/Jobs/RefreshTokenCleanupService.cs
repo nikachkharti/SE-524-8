@@ -35,6 +35,7 @@ namespace Company524.API.Jobs
                 }
 
                 await Task.Delay(TimeSpan.FromHours(jobExpireHours), stoppingToken);
+                await Task.Delay(TimeSpan.FromHours(jobExpireHours), stoppingToken);
             }
         }
     }

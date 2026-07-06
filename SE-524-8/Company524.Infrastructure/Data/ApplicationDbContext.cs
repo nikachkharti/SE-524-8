@@ -26,5 +26,6 @@ namespace Company524.Infrastructure.Data
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
     }
 }

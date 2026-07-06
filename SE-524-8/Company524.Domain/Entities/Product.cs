@@ -26,5 +26,6 @@ namespace Company524.Domain.Entities
         public Guid SupplierId { get; set; }
         public Supplier Supplier { get; set; }
 
+        public ICollection<ProductImage> Images { get; set; }
     }
 }

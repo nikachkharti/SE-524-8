@@ -107,7 +107,7 @@ namespace Company524.API
 
 
             //BACKGROUND SERVICES (JOBS)
-            builder.Services.AddHostedService<RefreshTokenCleanupService>();
+            //builder.Services.AddHostedService<RefreshTokenCleanupService>();
 
 
             //MAPSTER
