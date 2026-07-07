@@ -18,9 +18,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Company524.Application\Company524.Application.csproj" />
-		<ProjectReference Include="..\Company524.Domain\Company524.Domain.csproj" />
-		<ProjectReference Include="..\Company524.Infrastructure\Company524.Infrastructure.csproj" />
+	  <ProjectReference Include="..\Company524.Application\Company524.Application.csproj" />
+	  <ProjectReference Include="..\Company524.Domain\Company524.Domain.csproj" />
+	  <ProjectReference Include="..\Company524.Infrastructure\Company524.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>
